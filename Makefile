@@ -1,0 +1,58 @@
+NAME = minishell
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g3 
+LDFLAGS = -lreadline
+
+# Directories
+SRC_DIR = src
+OBJ_DIR = obj
+INC_DIR = includes
+LIBFT_DIR = lib/libft
+PRINTF_DIR = lib/ft_printf
+
+# Source files
+SRC = $(SRC_DIR)/main.c
+# Add more source files here as you develop:
+# SRC += $(SRC_DIR)/parsing.c
+# SRC += $(SRC_DIR)/executor.c
+# etc.
+
+# Object files
+OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+# Libraries
+LIBFT = $(LIBFT_DIR)/libft.a
+PRINTF = $(PRINTF_DIR)/libftprintf.a
+
+# Includes and library flags
+INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR)
+LIBS = -L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf
+
+all: $(NAME)
+
+$(NAME): $(LIBFT) $(PRINTF) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(LDFLAGS) -o $(NAME)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(LIBFT):
+	@make -C $(LIBFT_DIR)
+
+$(PRINTF):
+	@make -C $(PRINTF_DIR)
+
+clean:
+	rm -rf $(OBJ_DIR)
+	@make -C $(LIBFT_DIR) clean
+	@make -C $(PRINTF_DIR) clean
+
+fclean: clean
+	rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean
+	@make -C $(PRINTF_DIR) fclean
+
+re: fclean all
+
+.PHONY: all clean fclean re
