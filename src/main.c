@@ -6,12 +6,13 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/03 22:03:41 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/04 00:12:27 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "minishell.h"
+#include "token.h"
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <signal.h>
@@ -83,6 +84,7 @@ int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
 	char	*input;
+	t_token	*tokens;
 
 	(void)ac;
 	(void)av;
@@ -115,6 +117,17 @@ int	main(int ac, char **av, char **envp)
 		}
 		free(input);
 	}
+	// Test tokens
+	ft_printf("\n=== TOKEN TEST ===\n");
+	tokens = NULL;
+	add_token(&tokens, create_token(TOKEN_WORD, "echo"));
+	add_token(&tokens, create_token(TOKEN_WORD, "hello"));
+	add_token(&tokens, create_token(TOKEN_PIPE, "|"));
+	add_token(&tokens, create_token(TOKEN_WORD, "cat"));
+	ft_printf("Created %d tokens\n", token_list_size(tokens));
+	free_token_list(tokens);
+	ft_printf("Tokens freed!\n");
+	ft_printf("==================\n");
 	free_env_list(&shell.env);
 	return (shell.exit_status);
 }
