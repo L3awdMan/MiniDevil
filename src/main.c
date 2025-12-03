@@ -6,10 +6,11 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/02 21:11:47 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/03 22:03:41 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
 #include "minishell.h"
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -80,11 +81,22 @@ void	handle_sigint(int sig)
 //
 int	main(int ac, char **av, char **envp)
 {
+	t_shell	shell;
 	char	*input;
 
 	(void)ac;
 	(void)av;
-	(void)envp;
+	// Initialize environment
+	shell.env = init_env(envp);
+	shell.exit_status = 0;
+	shell.running = 1;
+	// Test environment variables
+	ft_printf("\n=== ENVIRONMENT TEST ===\n");
+	ft_printf("HOME  = %s\n", get_env_value(shell.env, "HOME"));
+	ft_printf("USER  = %s\n", get_env_value(shell.env, "USER"));
+	ft_printf("PWD   = %s\n", get_env_value(shell.env, "PWD"));
+	ft_printf("SHLVL = %s\n", get_env_value(shell.env, "SHLVL"));
+	ft_printf("========================\n\n");
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
@@ -98,10 +110,11 @@ int	main(int ac, char **av, char **envp)
 		if (input[0] != '\0')
 		{
 			add_history(input);
-			// TODO : we will parse and excute here
-			ft_printf("I have typed : %s\n", input);
+			// HACK : we will parse and excute here
+			// ft_printf("I have typed : %s\n", input);
 		}
 		free(input);
 	}
-	return (0);
+	free_env_list(&shell.env);
+	return (shell.exit_status);
 }

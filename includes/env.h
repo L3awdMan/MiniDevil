@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 22:44:42 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/02 23:49:42 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/03 21:03:31 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,14 @@ t_env				*init_env(char **envp);
 t_env				*create_env_node(char *env_string);
 void				add_env_node(t_env **head, t_env *new_node);
 
-#endif 
+// Environment operations
+char				*get_env_value(t_env *env_list, char *key);
+int					set_env_value(t_env **env_list, char *key, char *value);
+
+// Environment utilities
+void				handle_shlvl(t_env **env_list);
+void				ensure_pwd(t_env **env_list);
+void				free_env_list(t_env **env_list);
+int					env_list_size(t_env *env_list);
+
+#endif

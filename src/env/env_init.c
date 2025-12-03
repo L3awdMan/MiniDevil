@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 22:35:48 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/02 23:49:38 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/03 21:19:01 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,19 @@ t_env	*init_env(char **envp)
 
 	head = NULL;
 	if (!envp || !envp[0])
-		// TODO : function to create minimal environment
-		return (create_minimal_env());
+		return (NULL);
 	i = 0;
-	while (env[i])
+	while (envp[i])
 	{
-		new_node = create_node_envp(envp[i]);
-		if (!node)
+		new_node = create_env_node(envp[i]);
+		if (!new_node)
 		{
-			// TODO : create function to free the env list
-			free_env_list(head);
+			free_env_list(&head);
 			return (NULL);
 		}
-		// TODO : create function that add node to end of list
 		add_env_node(&head, new_node);
 		i++;
 	}
-	// TODO : Handle special variables
 	handle_shlvl(&head);
 	ensure_pwd(&head);
 	return (head);
@@ -112,35 +108,79 @@ t_env	*init_env(char **envp)
 //            node->next = NULL
 //            node->prev = NULL
 
-t_env	create_env_node(char *env_string)
+t_env	*create_env_node(char *env_string)
 {
 	t_env	*node;
 	char	*equal_pos;
 	int		key_len;
-  
-  // allocate the node  
+
 	node = ft_calloc(sizeof(t_env), 1);
-	// find '=' position
-  equal_pos = ft_strchr(env_string, "=");
+	equal_pos = ft_strchr(env_string, '=');
 	if (!equal_pos)
 		return (NULL);
-| // extract key 
-  key_len = equal_pos - env_string;
-  (*node).key = ft_substr(env_string, 0, key_len);
-  if (!node->key) 
-  {
-    free(node);
-    return (NULL);
-  }
-  // extract value 
-  node->value = ft_strdup(equal_pos + 1);
-  if(!(*node).value)
-  {
-    free(node->key);
-    free(node);
-    return (NULL);
-  } 
-  node->next = NULL;
-  node->prev = NULL;
-  return(node);
+	key_len = equal_pos - env_string;
+	(*node).key = ft_substr(env_string, 0, key_len);
+	if (!node->key)
+	{
+		free(node);
+		return (NULL);
+	}
+	node->value = ft_strdup(equal_pos + 1);
+	if (!(*node).value)
+	{
+		free(node->key);
+		free(node);
+		return (NULL);
+	}
+	node->next = NULL;
+	node->prev = NULL;
+	return (node);
+}
+
+// FUNCTION: add_env_node
+//========================================================================
+//
+// PURPOSE: Add node to END of double linked list
+//
+// ALGORITHM:
+// 1. IF list is empty (head is NULL):
+//    - Set head = new_node
+//    - Done!
+// 2. ELSE:
+//    - Find last node (traverse to end)
+//    - last->next = new_node
+//    - new_node->prev = last
+//
+// PARAMETERS:
+//    t_env **head - Pointer to head pointer (can modify head)
+//    t_env *new_node - Node to add
+//
+// RETURN:
+//    void
+//
+// WHY **head?
+//    Because if list is empty, we need to CHANGE what head points to
+//
+// EXAMPLE:
+//    Before: [HOME=/home] <-> [PATH=/bin] <-> NULL
+//    Add: [USER=john]
+//    After: [HOME=/home] <-> [PATH=/bin] <-> [USER=john] <-> NULL
+
+void	add_env_node(t_env **head, t_env *new_node)
+{
+	t_env	*current;
+
+	if (!new_node)
+		return ;
+	if (!*head)
+	{
+		*head = new_node;
+		return ;
+	}
+	// set current to head
+	current = *head;
+	while (current->next)
+		current = current->next;
+	current->next = new_node;
+	new_node->prev = current;
 }

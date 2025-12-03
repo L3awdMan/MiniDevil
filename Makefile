@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3 
+CFLAGS = -Wall -Wextra -Werror -g3
 LDFLAGS = -lreadline
 
 # Directories
@@ -11,13 +11,12 @@ LIBFT_DIR = lib/libft
 PRINTF_DIR = lib/ft_printf
 
 # Source files
-SRC = $(SRC_DIR)/main.c
-# Add more source files here as you develop:
-# SRC += $(SRC_DIR)/parsing.c
-# SRC += $(SRC_DIR)/executor.c
-# etc.
+SRC = $(SRC_DIR)/main.c \
+      $(SRC_DIR)/env/env_init.c \
+      $(SRC_DIR)/env/env_operations.c \
+      $(SRC_DIR)/env/env_utils.c
 
-# Object files
+# Object files (with subdirectory structure)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Libraries
@@ -33,8 +32,9 @@ all: $(NAME)
 $(NAME): $(LIBFT) $(PRINTF) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(LDFLAGS) -o $(NAME)
 
+# Pattern rule that creates subdirectories in obj/ as needed
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIBFT):
