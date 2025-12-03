@@ -117,9 +117,30 @@ t_env	create_env_node(char *env_string)
 	t_env	*node;
 	char	*equal_pos;
 	int		key_len;
-
+  
+  // allocate the node  
 	node = ft_calloc(sizeof(t_env), 1);
-	equal_pos = ft_strchr(env_string, "=");
+	// find '=' position
+  equal_pos = ft_strchr(env_string, "=");
 	if (!equal_pos)
 		return (NULL);
+| // extract key 
+  key_len = equal_pos - env_string;
+  (*node).key = ft_substr(env_string, 0, key_len);
+  if (!node->key) 
+  {
+    free(node);
+    return (NULL);
+  }
+  // extract value 
+  node->value = ft_strdup(equal_pos + 1);
+  if(!(*node).value)
+  {
+    free(node->key);
+    free(node);
+    return (NULL);
+  } 
+  node->next = NULL;
+  node->prev = NULL;
+  return(node);
 }
