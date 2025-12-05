@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:14:10 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/04 00:11:57 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/04 19:37:10 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,46 @@ typedef enum e_token_type
 // PURPOSE: Represent one token from input
 //
 // FIELDS:
-//   type  - Type of token (from enum above)
-//   value - Actual text content (e.g., "echo", "|", "file.txt")
-//   next  - Next token in list
+//   type   - Type of token (from enum above)
+//   value  - Actual text content (e.g., "echo", "|", "file.txt")
+//   quoted - Flag: 1 if token was inside quotes, 0 if not
+//   next   - Next token in list
+//
+// WHY 'quoted' FLAG?
+//    - Tells us if this token was originally in quotes
+//    - Important for: preserving spaces, handling $expansion
+//    - Example: 'hello world' â†’ value="hello world", quoted=1
+//    - Example: hello â†’ value="hello", quoted=0
+//
+// EXAMPLE:
+//    Input: echo 'hello world'
+//    Token 1: type=TOKEN_WORD, value="echo", quoted=0, next=â†’Token2
+//    Token 2: type=TOKEN_WORD, value="hello world", quoted=1, next=NULL
 
 typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	int				quoted;
 	struct s_token	*next;
 }					t_token;
 
 // Token creation/deletion & token list management
-t_token				*create_token(t_token_type type, char *value);
+t_token				*create_token(t_token_type type, char *value, int quoted);
 void				free_token(t_token *token);
 void				free_token_list(t_token *head);
 void				add_token(t_token **head, t_token *new_token);
 int					token_list_size(t_token *head);
+
+// Quotes handling
+int					find_closing_quote(char *str, char quote_char, int start);
+char				*extract_quoted_content(char *str, int start, int end);
+char				*handle_quotes(char *input, int *is_quoted);
+
+// Tokenizer utils 
+int	is_operator(char c);
+int	is_whitespace(char c);
+t_token_type	get_operator_token_type(char *str, int *len);
+char	*extract_word(char *str, int *len);
 
 #endif

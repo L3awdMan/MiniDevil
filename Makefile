@@ -11,11 +11,12 @@ LIBFT_DIR = lib/libft
 PRINTF_DIR = lib/ft_printf
 
 # Source files
-SRC = $(SRC_DIR)/main.c \
+SRC = $(SRC_DIR)/main_for_tests.c \
       $(SRC_DIR)/env/env_init.c \
       $(SRC_DIR)/env/env_operations.c \
       $(SRC_DIR)/env/env_utils.c \
- 			$(SRC_DIR)/lexer/token.c
+ 			$(SRC_DIR)/lexer/token.c \
+			$(SRC_DIR)/lexer/quote_handler.c
 
 # Object files (with subdirectory structure)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

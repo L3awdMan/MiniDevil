@@ -1,0 +1,133 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote_handler.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/04 18:06:14 by zotaj-di          #+#    #+#             */
+/*   Updated: 2025/12/04 19:41:40 by zotaj-di         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "token.h"
+
+//======================== FUNCTION: find_closing_quote =====================
+//
+// PURPOSE:
+//    Find the closing quote that matches the opening quote
+//
+// RETURN:
+//    int - Index of closing quote, or -1 if not found
+//
+// PARAMETERS:
+//    char *str        - String to search in
+//    char quote_char  - Quote character to find (' or ")
+//    int start        - Where to start searching (after opening quote)
+//
+// VARIABLES:
+//    int i - Index counter
+//
+// ALGORITHM:
+//    1. Start loop at 'start' position: i = start
+//    2. While str[i] exists:
+//       - If str[i] == quote_char: return i (found closing quote!)
+//       - Move forward: i++
+//    3. If loop ends: return -1 (no closing quote found)
+
+int	find_closing_quote(char *str, char quote_char, int start)
+{
+	int	i;
+
+	i = start;
+	while (str[i])
+	{
+		if (str[i] == quote_char)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+//======================== FUNCTION: extract_quoted_content =================
+//
+// PURPOSE:
+//    Extract content between quotes (without the quotes themselves)
+//
+// RETURN:
+//    char * - Content between quotes, or NULL on error
+//
+// PARAMETERS:
+//    char *str   - Full string
+//    int start   - Index of opening quote
+//    int end     - Index of closing quote
+//
+// VARIABLES:
+//    int len    - Length of content (end - start - 1)
+//    char *result - Extracted content
+//
+// ALGORITHM:
+//    1. Calculate length
+//    2. Use ft_substr to extract
+//    3. Return result
+
+char	*extract_quoted_content(char *str, int start, int end)
+{
+	int		len;
+	char	*result;
+
+	len = end - start - 1;
+	result = ft_substr(str, start + 1, len);
+	return (result);
+}
+
+//======================== FUNCTION: handle_quotes ==========================
+//
+// PURPOSE:
+//    Process a string that may contain quotes, merge quoted content
+//
+// RETURN:
+//    char * - Processed string with quotes removed
+//
+// PARAMETERS:
+//    char *input   - Input string (may have quotes)
+//    int *is_quoted - Output: 1 if string was quoted, 0 if not
+//
+// VARIABLES:
+//    char quote_char - Which quote we found (' or ")
+//    int close_pos   - Position of closing quote
+//    char *result    - Extracted string without quotes (return value)
+//
+// ALGORITHM:
+//    1. Check first character:
+//       - If it's `'` or `"` : we have quoted content
+//       - Store quote_char
+//       - Find closing quote
+//       - If close_pos == -1 print : "UNCLOSED QUOTE ERROR"
+//       - Extract content between quotes
+//       - Set *is_quoted = 1
+//       - Return extracted content
+//    2. No quotes found - return duplicate of input
+
+char	*handle_quotes(char *input, int *is_quoted)
+{
+	char	quote_char;
+	int		close_pos;
+	char	*result;
+
+	*is_quoted = 0;
+	if (input[0] == '\'' || input[0] == '"')
+	{
+		quote_char = input[0];
+		close_pos = find_closing_quote(input, quote_char, 1);
+		if (close_pos == -1)
+		{
+			ft_printf("ERROR : UNCLOSED QUOTE \n");
+			return (NULL);
+		}
+		result = extract_quoted_content(input, 0, close_pos);
+		*is_quoted = 1;
+		return (result);
+	}
+	return (ft_strdup(input));
+}

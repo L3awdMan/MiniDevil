@@ -98,14 +98,6 @@ int	main(int ac, char **av, char **envp)
 	ft_printf("PWD   = %s\n", get_env_value(shell.env, "PWD"));
 	ft_printf("SHLVL = %s\n", get_env_value(shell.env, "SHLVL"));
 	ft_printf("========================\n\n");
-   // Test environment variables
-    ft_printf("\n=== ENVIRONMENT TEST ===\n");
-    ft_printf("HOME  = %s\n", get_env_value(shell.env, "HOME"));
-    ft_printf("USER  = %s\n", get_env_value(shell.env, "USER"));
-    ft_printf("PWD   = %s\n", get_env_value(shell.env, "PWD"));
-    ft_printf("SHLVL = %s\n", get_env_value(shell.env, "SHLVL"));
-    ft_printf("========================\n\n");
-
     // ========== ADD THIS BLOCK HERE ==========
     ft_printf("\n=== QUOTE HANDLER TEST ===\n");
     

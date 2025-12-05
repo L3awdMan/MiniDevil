@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:28:33 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/04 00:01:16 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/04 19:42:58 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,31 @@
 //======================== FUNCTION: create_token ===========================
 //
 // PURPOSE:
-//    Create a new token with given type and value
+//    Create a new token with given type, value, and quoted flag
 //
 // RETURN:
 //    t_token * - New token, or NULL on error
 //
 // PARAMETERS:
-//    t_token_type type - Type of token
+//    t_token_type type - Type of token (TOKEN_WORD, TOKEN_PIPE, etc.)
 //    char *value       - Text content to store
+//    int quoted        - Flag: 1 if from quotes, 0 if not
 //
 // VARIABLES:
 //    t_token *token - New token being created
 //
 // ALGORITHM:
-//    1. Allocate memory: token
+//    1. Allocate memory
 //    2. Set the type field: token->type = type;
-//    3. Duplicate the string: token->value = ft_strdup(value);
-//    4. Check strdup: if (!token->value)
-//          - Free the token: free(token);
-//          - Return NULL: return (NULL);
-//    5. Initialize next pointer: token->next = NULL;
-//    6. Return the token: return (token);
+//    3. Duplicate the string
+//    5. Check strdup
+//          - Free the token
+//          - Return NULL
+//    6. Set quoted flag: token->quoted = quoted;
+//    7. Initialize next pointer
+//    8. Return the token
 
-t_token	*create_token(t_token_type type, char *value)
+t_token	*create_token(t_token_type type, char *value, int quoted)
 {
 	t_token	*token;
 
@@ -49,6 +51,7 @@ t_token	*create_token(t_token_type type, char *value)
 		free(token);
 		return (NULL);
 	}
+	token->quoted = quoted;
 	token->next = NULL;
 	return (token);
 }
@@ -182,7 +185,7 @@ void	add_token(t_token **head, t_token *new_token)
 //       - Move to next
 //    4. Return the count
 
-int	token_list_size(t_token *current)
+int	token_list_size(t_token *head)
 {
 	int		count;
 	t_token	*current;
