@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_for_tests.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/04 00:12:27 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/06 15:37:22 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	handle_sigint(int sig)
 // 7. CLEANUP
 //    - `free(input)` at the end of every loop iteration.
 //
+
+
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
@@ -91,13 +93,16 @@ int	main(int ac, char **av, char **envp)
 	shell.env = init_env(envp);
 	shell.exit_status = 0;
 	shell.running = 1;
-	// Test environment variables
+
+  // Test environment variables
 	ft_printf("\n=== ENVIRONMENT TEST ===\n");
 	ft_printf("HOME  = %s\n", get_env_value(shell.env, "HOME"));
 	ft_printf("USER  = %s\n", get_env_value(shell.env, "USER"));
 	ft_printf("PWD   = %s\n", get_env_value(shell.env, "PWD"));
 	ft_printf("SHLVL = %s\n", get_env_value(shell.env, "SHLVL"));
 	ft_printf("========================\n\n");
+
+
     // ========== ADD THIS BLOCK HERE ==========
     ft_printf("\n=== QUOTE HANDLER TEST ===\n");
     
@@ -138,6 +143,34 @@ int	main(int ac, char **av, char **envp)
 
     ft_printf("=========================\n\n");
     // ========== END OF TEST BLOCK ==========
+
+    ft_printf("\n=== TOKENIZETION TEST ===\n");
+    t_token *tokens;
+    t_token *curr;
+    
+    // Test 1
+    tokens = tokenize("echo hello");
+    curr = tokens;
+    ft_printf("$> echo hello\n\n");
+    while (curr)
+    {
+        printf("type=%d, value='%s'\n", curr->type, curr->value);
+        curr = curr->next;
+    }
+    free_token_list(tokens);
+    ft_printf("\n");
+    // Test 2
+    tokens = tokenize("cat < file.txt | grep test > out.txt | >> EOF <<");
+    curr = tokens;
+    ft_printf("$> cat < file.txt | grep test > out.txt | >> EOF <<\n\n");
+    while (curr)
+    {
+        printf("type=%d, value='%s'\n", curr->type, curr->value);
+        curr = curr->next;
+    }
+    free_token_list(tokens);
+
+    ft_printf("=========================\n\n");
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)

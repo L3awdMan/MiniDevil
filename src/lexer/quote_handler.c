@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 18:06:14 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/04 19:41:40 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/06 12:29:08 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,4 +130,42 @@ char	*handle_quotes(char *input, int *is_quoted)
 		return (result);
 	}
 	return (ft_strdup(input));
+}
+
+//======================== FUNCTION: was_quoted =============================
+//
+// PURPOSE:
+//    Detect if a token value was likely originally quoted
+//
+// RETURN:
+//    int - 1 if value was likely quoted, 0 if not
+//
+// PARAMETERS:
+//    const char *value - Token value to check
+//
+// VARIABLES:
+//    None
+//
+// ALGORITHM:
+//    1. Check if value is NULL
+//    2. Check if value contains spaces (strong indicator of quoting)
+//    3. Check if value contains shell special characters
+//    4. Return 1 if any condition met, 0 otherwise
+//
+// LOGIC:
+//    - If a value contains spaces, it must have been quoted
+//    - If a value contains special chars like |, >, <, they're usually quoted
+//    - This is a heuristic - not 100% accurate but good enough for most cases
+
+int	was_quoted(const char *value)
+{
+	if (!value)
+		return (0);
+	if (ft_strchr(value, ' ') || ft_strchr(value, '\t'))
+		return (1);
+	if (ft_strchr(value, '|') || ft_strchr(value, '>') || ft_strchr(value, '<'))
+		return (1);
+	if (ft_strchr(value, '$') || ft_strchr(value, '*') || ft_strchr(value, '?'))
+		return (1);
+	return (0);
 }

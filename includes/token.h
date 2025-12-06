@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:14:10 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/04 19:37:10 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/06 15:01:03 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,18 @@ int					token_list_size(t_token *head);
 int					find_closing_quote(char *str, char quote_char, int start);
 char				*extract_quoted_content(char *str, int start, int end);
 char				*handle_quotes(char *input, int *is_quoted);
+int					was_quoted(const char *value);
 
 // Tokenizer utils
-int	is_operator(char c);
-int	is_whitespace(char c);
-t_token_type	get_operator_token_type(char *str, int *len);
-char	*extract_word(char *str, int *len);
+int					is_operator(char c);
+int					is_whitespace(char c);
+t_token_type		get_operator_token_type(char *str, int *len);
+char				*extract_word(char *str, int *len);
 
-// Quote detection utility
-int	was_quoted(const char *value);
+// Token processing helpers & main tokenizer
+int					process_quoted_token(char *input, t_token **head);
+int					process_operator_token(char *input, t_token **head);
+int					process_word_token(char *input, t_token **head);
+t_token				*tokenize(char *input);
 
 #endif
