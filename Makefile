@@ -18,7 +18,9 @@ SRC = $(SRC_DIR)/main_for_tests.c \
  			$(SRC_DIR)/lexer/token.c \
 			$(SRC_DIR)/lexer/quote_handler.c \
 			$(SRC_DIR)/lexer/tokenizer_utils.c \
-			$(SRC_DIR)/lexer/tokenizer.c
+			$(SRC_DIR)/lexer/tokenizer.c \
+			$(SRC_DIR)/lexer/expander_utils.c \
+			$(SRC_DIR)/lexer/expander.c
 
 # Object files (with subdirectory structure)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

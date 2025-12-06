@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:14:10 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/06 15:01:03 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/06 17:43:49 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,15 @@ int					process_quoted_token(char *input, t_token **head);
 int					process_operator_token(char *input, t_token **head);
 int					process_word_token(char *input, t_token **head);
 t_token				*tokenize(char *input);
+
+// Expansion utilities (expander_utils.c)
+int					is_var_char(char c);
+char				*extract_var_name(char *str, int *len);
+char				*append_char(char *str, char c);
+char				*append_str(char *s1, char *s2);
+
+// Main expansion function (expander.c)
+char				*expand_variables(char *str, t_env *env_list,
+						int in_quotes);
 
 #endif
