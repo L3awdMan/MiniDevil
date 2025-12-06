@@ -62,12 +62,11 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	int				quoted;
 	struct s_token	*next;
 }					t_token;
 
 // Token creation/deletion & token list management
-t_token				*create_token(t_token_type type, char *value, int quoted);
+t_token				*create_token(t_token_type type, char *value);
 void				free_token(t_token *token);
 void				free_token_list(t_token *head);
 void				add_token(t_token **head, t_token *new_token);
@@ -78,10 +77,13 @@ int					find_closing_quote(char *str, char quote_char, int start);
 char				*extract_quoted_content(char *str, int start, int end);
 char				*handle_quotes(char *input, int *is_quoted);
 
-// Tokenizer utils 
+// Tokenizer utils
 int	is_operator(char c);
 int	is_whitespace(char c);
 t_token_type	get_operator_token_type(char *str, int *len);
 char	*extract_word(char *str, int *len);
+
+// Quote detection utility
+int	was_quoted(const char *value);
 
 #endif

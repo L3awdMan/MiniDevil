@@ -15,7 +15,7 @@
 //======================== FUNCTION: create_token ===========================
 //
 // PURPOSE:
-//    Create a new token with given type, value, and quoted flag
+//    Create a new token with given type and value
 //
 // RETURN:
 //    t_token * - New token, or NULL on error
@@ -23,7 +23,6 @@
 // PARAMETERS:
 //    t_token_type type - Type of token (TOKEN_WORD, TOKEN_PIPE, etc.)
 //    char *value       - Text content to store
-//    int quoted        - Flag: 1 if from quotes, 0 if not
 //
 // VARIABLES:
 //    t_token *token - New token being created
@@ -32,14 +31,13 @@
 //    1. Allocate memory
 //    2. Set the type field: token->type = type;
 //    3. Duplicate the string
-//    5. Check strdup
-//          - Free the token
+//    4. Check strdup success
+//          - Free the token if failed
 //          - Return NULL
-//    6. Set quoted flag: token->quoted = quoted;
-//    7. Initialize next pointer
-//    8. Return the token
+//    5. Initialize next pointer
+//    6. Return the token
 
-t_token	*create_token(t_token_type type, char *value, int quoted)
+t_token	*create_token(t_token_type type, char *value)
 {
 	t_token	*token;
 
@@ -51,7 +49,6 @@ t_token	*create_token(t_token_type type, char *value, int quoted)
 		free(token);
 		return (NULL);
 	}
-	token->quoted = quoted;
 	token->next = NULL;
 	return (token);
 }
@@ -198,4 +195,42 @@ int	token_list_size(t_token *head)
 		current = current->next;
 	}
 	return (count);
+}
+
+//======================== FUNCTION: was_quoted =============================
+//
+// PURPOSE:
+//    Detect if a token value was likely originally quoted
+//
+// RETURN:
+//    int - 1 if value was likely quoted, 0 if not
+//
+// PARAMETERS:
+//    const char *value - Token value to check
+//
+// VARIABLES:
+//    None
+//
+// ALGORITHM:
+//    1. Check if value is NULL
+//    2. Check if value contains spaces (strong indicator of quoting)
+//    3. Check if value contains shell special characters
+//    4. Return 1 if any condition met, 0 otherwise
+//
+// LOGIC:
+//    - If a value contains spaces, it must have been quoted
+//    - If a value contains special chars like |, >, <, they're usually quoted
+//    - This is a heuristic - not 100% accurate but good enough for most cases
+
+int	was_quoted(const char *value)
+{
+	if (!value)
+		return (0);
+	if (ft_strchr(value, ' ') || ft_strchr(value, '\t'))
+		return (1);
+	if (ft_strchr(value, '|') || ft_strchr(value, '>') || ft_strchr(value, '<'))
+		return (1);
+	if (ft_strchr(value, '$') || ft_strchr(value, '*') || ft_strchr(value, '?'))
+		return (1);
+	return (0);
 }
