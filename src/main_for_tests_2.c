@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/07 21:45:43 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/07 23:27:20 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "ast.h"
 #include "env.h"
 #include "minishell.h"
+#include "parser.h"
 #include "token.h"
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -38,6 +39,46 @@ void	print_tokens(t_token *tokens)
 		curr = curr->next;
 		i++;
 	}
+}
+
+void	test_parser(void)
+{
+	t_token	*tokens;
+	t_ast	*tree;
+
+	printf("\n╔════════════════════════════════════════╗\n");
+	printf("║   PARSER TESTS                         ║\n");
+	printf("╚════════════════════════════════════════╝\n");
+	// Test 1: Simple command
+	printf("\n✓ Test 1: Simple command\n");
+	tokens = tokenize("echo hello world");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_COMMAND && tree->data.cmd.argc == 3)
+		printf("✅ Parsed: echo hello world (3 args)\n");
+	else
+		printf("❌ Failed!\n");
+	free_ast(tree);
+	free_token_list(tokens);
+	// Test 2: Pipeline
+	printf("\n✓ Test 2: Pipeline\n");
+	tokens = tokenize("cat file.txt | grep test");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_PIPE)
+		printf("✅ Parsed: cat | grep (pipe node)\n");
+	else
+		printf("❌ Failed!\n");
+	free_ast(tree);
+	free_token_list(tokens);
+	// Test 3: Multi-pipe
+	printf("\n✓ Test 3: Multi-pipeline\n");
+	tokens = tokenize("cat | grep | sort");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_PIPE)
+		printf("✅ Parsed: cat | grep | sort\n");
+	else
+		printf("❌ Failed!\n");
+	free_ast(tree);
+	free_token_list(tokens);
 }
 
 void	test_ast_quick(void)
@@ -233,7 +274,7 @@ int	main(int ac, char **av, char **envp)
 	printf("\n");
 	printf("╔══════════════════════════════════════════════════════════╗\n");
 	printf("║                                                          ║\n");
-	printf("║        Testing: Tokenizer, Quotes, Expansion             ║\n");
+	printf("║    Testing: Tokenizer, Quotes, Expansion, AST, Parser    ║\n");
 	printf("║                                                          ║\n");
 	printf("╚══════════════════════════════════════════════════════════╝\n");
 	test_tokenizer();
@@ -241,6 +282,7 @@ int	main(int ac, char **av, char **envp)
 	test_expansion(shell.env);
 	test_edge_cases();
 	test_ast_quick();
+	test_parser();
 	printf("\n");
 	printf("╔══════════════════════════════════════════════════════════╗\n");
 	printf("║                    TEST COMPLETE                         ║\n");

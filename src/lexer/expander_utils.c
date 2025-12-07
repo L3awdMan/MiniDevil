@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 17:35:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/06 17:40:45 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/07 16:51:45 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,11 @@ int	is_var_char(char c)
 //
 // PURPOSE:
 //    Extract variable name after $ character
-//    Variable names contain only: letters, digits, underscore
+//    Variable names: letters, underscore, then letters/digits/underscore
+//    Special case: $1, $2, etc. (positional params - single digit only)
 //
 // RETURN:
-//    char * - Variable name (e.g., "USER", "HOME", "PATH")
+//    char * - Variable name (e.g., "USER", "HOME", "1", "2")
 //
 // PARAMETERS:
 //    char *str - String starting AFTER the $ character
@@ -55,17 +56,22 @@ int	is_var_char(char c)
 //    int i - Counter for variable name length
 //
 // ALGORITHM:
-//    1. Initialize i = 0
-//    2. Loop while str[i] is valid variable character
-//    3. Set *len = i
-//    4. Extract substring
-//    5. Return extracted variable name
+//    1. If first char is digit: extract only 1 char (positional param)
+//    2. Else: extract while valid var char (letter/digit/underscore)
+//    3. Set *len and return substring
 
 char	*extract_var_name(char *str, int *len)
 {
 	int	i;
 
 	i = 0;
+	// Special case: positional parameters ($1, $2, ..., $9)
+	if (str[0] && ft_isdigit(str[0]))
+	{
+		*len = 1;
+		return (ft_substr(str, 0, 1));
+	}
+	// Regular variable names
 	while (str[i] && is_var_char(str[i]))
 		i++;
 	*len = i;

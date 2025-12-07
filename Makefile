@@ -22,7 +22,10 @@ SRC = $(SRC_DIR)/main_for_tests_2.c \
 			$(SRC_DIR)/lexer/expander_utils.c \
 			$(SRC_DIR)/lexer/expander.c \
 			$(SRC_DIR)/parser/ast_utils.c \
-			$(SRC_DIR)/parser/ast.c
+			$(SRC_DIR)/parser/ast.c \
+			$(SRC_DIR)/parser/parser_cmd.c \
+			$(SRC_DIR)/parser/parser_pipeline.c \
+			$(SRC_DIR)/parser/parser.c
 
 # Object files (with subdirectory structure)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

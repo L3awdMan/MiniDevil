@@ -6,13 +6,14 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:14:10 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/06 17:43:49 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/07 16:35:48 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKEN_H
 # define TOKEN_H
 
+# include "env.h"
 # include "minishell.h"
 
 //======================== TOKEN TYPES ENUM =================================
