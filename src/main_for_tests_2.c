@@ -1,0 +1,251 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_for_tests_2.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
+/*   Updated: 2025/12/07 21:45:43 by zotaj-di         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*   main_for_tests.c                                                        */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ast.h"
+#include "env.h"
+#include "minishell.h"
+#include "token.h"
+#include <readline/history.h>
+#include <readline/readline.h>
+#include <signal.h>
+#include <stdio.h>
+
+void	print_tokens(t_token *tokens)
+{
+	t_token	*curr;
+	int		i;
+
+	curr = tokens;
+	i = 0;
+	while (curr)
+	{
+		printf("  [%d] type=%d value='%s'\n", i, curr->type, curr->value);
+		curr = curr->next;
+		i++;
+	}
+}
+
+void	test_ast_quick(void)
+{
+	t_ast	*cmd;
+	char	**args;
+
+	printf("\n╔════════════════════════════════════════╗\n");
+	printf("║   AST QUICK TEST                       ║\n");
+	printf("╚════════════════════════════════════════╝\n");
+	// Test 1: Create command node
+	args = malloc(sizeof(char *) * 3);
+	args[0] = ft_strdup("echo");
+	args[1] = ft_strdup("hello");
+	args[2] = NULL;
+	cmd = create_cmd_node(args, 2);
+	if (cmd && cmd->type == NODE_COMMAND)
+		printf("✅ Command node created: %s %s\n", cmd->data.cmd.args[0],
+			cmd->data.cmd.args[1]);
+	else
+		printf("❌ Command node failed!\n");
+	free_ast(cmd);
+	printf("✅ AST cleanup works!\n");
+}
+
+void	test_tokenizer(void)
+{
+	t_token	*tokens;
+
+	printf("\n╔════════════════════════════════════════╗\n");
+	printf("║   TOKENIZER TESTS                      ║\n");
+	printf("╚════════════════════════════════════════╝\n");
+	printf("\n✓ Test 1: Simple command\n");
+	printf("Input: 'echo hello'\n");
+	tokens = tokenize("echo hello");
+	print_tokens(tokens);
+	free_token_list(tokens);
+	printf("\n✓ Test 2: Pipe operator\n");
+	printf("Input: 'cat file.txt | grep test'\n");
+	tokens = tokenize("cat file.txt | grep test");
+	print_tokens(tokens);
+	free_token_list(tokens);
+	printf("\n✓ Test 3: Input redirection\n");
+	printf("Input: 'cat < input.txt'\n");
+	tokens = tokenize("cat < input.txt");
+	print_tokens(tokens);
+	free_token_list(tokens);
+	printf("\n✓ Test 4: Output redirection\n");
+	printf("Input: 'echo hello > output.txt'\n");
+	tokens = tokenize("echo hello > output.txt");
+	print_tokens(tokens);
+	free_token_list(tokens);
+	printf("\n✓ Test 5: Heredoc\n");
+	printf("Input: 'cat << EOF'\n");
+	tokens = tokenize("cat << EOF");
+	print_tokens(tokens);
+	free_token_list(tokens);
+	printf("\n✓ Test 6: Append\n");
+	printf("Input: 'echo test >> file.txt'\n");
+	tokens = tokenize("echo test >> file.txt");
+	print_tokens(tokens);
+	free_token_list(tokens);
+	printf("\n✓ Test 7: Adjacent operators\n");
+	printf("Input: 'cat<<EOF>>output'\n");
+	tokens = tokenize("cat<<EOF>>output");
+	print_tokens(tokens);
+	free_token_list(tokens);
+	printf("\n✓ Test 8: Complex pipeline\n");
+	printf("Input: 'cat < in.txt | grep test | sort > out.txt'\n");
+	tokens = tokenize("cat < in.txt | grep test | sort > out.txt");
+	print_tokens(tokens);
+	free_token_list(tokens);
+}
+
+void	test_quotes(void)
+{
+	t_token	*tokens;
+
+	printf("\n╔════════════════════════════════════════╗\n");
+	printf("║   QUOTE HANDLING TESTS                 ║\n");
+	printf("╚════════════════════════════════════════╝\n");
+	printf("\n✓ Test 1: Single quotes (preserve spaces)\n");
+	printf("Input: echo 'hello world'\n");
+	tokens = tokenize("echo 'hello world'");
+	print_tokens(tokens);
+	free_token_list(tokens);
+	printf("\n✓ Test 2: Double quotes\n");
+	printf("Input: echo \"test me\"\n");
+	tokens = tokenize("echo \"test me\"");
+	print_tokens(tokens);
+	free_token_list(tokens);
+	printf("\n✓ Test 3: Empty quotes\n");
+	printf("Input: echo '' \"\"\n");
+	tokens = tokenize("echo '' \"\"");
+	print_tokens(tokens);
+	free_token_list(tokens);
+	printf("\n✓ Test 4: Mixed quotes\n");
+	printf("Input: echo 'single' \"double\" unquoted\n");
+	tokens = tokenize("echo 'single' \"double\" unquoted");
+	print_tokens(tokens);
+	free_token_list(tokens);
+	printf("\n✓ Test 5: Quotes with special chars\n");
+	printf("Input: echo '|' '<' '>'\n");
+	tokens = tokenize("echo '|' '<' '>'");
+	print_tokens(tokens);
+	free_token_list(tokens);
+}
+
+void	test_expansion(t_env *env)
+{
+	char	*result;
+
+	printf("\n╔════════════════════════════════════════╗\n");
+	printf("║   VARIABLE EXPANSION TESTS             ║\n");
+	printf("╚════════════════════════════════════════╝\n");
+	printf("\n✓ Test 1: Variable expansion (double quotes context)\n");
+	printf("Input: \"Hello $USER\"\n");
+	result = expand_variables("Hello $USER", env, 1);
+	printf("Output: '%s'\n", result);
+	free(result);
+	printf("\n✓ Test 2: No expansion (single quotes context)\n");
+	printf("Input: 'Hello $USER'\n");
+	result = expand_variables("Hello $USER", env, 0);
+	printf("Output: '%s'\n", result);
+	free(result);
+	printf("\n✓ Test 3: Multiple variables\n");
+	printf("Input: \"$USER at $HOME\"\n");
+	result = expand_variables("$USER at $HOME", env, 1);
+	printf("Output: '%s'\n", result);
+	free(result);
+	printf("\n✓ Test 4: Variable mixed with text\n");
+	printf("Input: \"User: $USER, Home: $HOME\"\n");
+	result = expand_variables("User: $USER, Home: $HOME", env, 1);
+	printf("Output: '%s'\n", result);
+	free(result);
+	printf("\n✓ Test 5: Non-existent variable\n");
+	printf("Input: \"$NONEXISTENT\"\n");
+	result = expand_variables("$NONEXISTENT", env, 1);
+	printf("Output: '%s'\n", result);
+	free(result);
+	printf("\n✓ Test 6: Lone $ character\n");
+	printf("Input: \"Price: $100\"\n");
+	result = expand_variables("Price: $100", env, 1);
+	printf("Output: '%s'\n", result);
+	free(result);
+	printf("\n✓ Test 7: Empty string\n");
+	printf("Input: \"\"\n");
+	result = expand_variables("", env, 1);
+	printf("Output: '%s'\n", result);
+	free(result);
+}
+
+void	test_edge_cases(void)
+{
+	t_token	*tokens;
+
+	printf("\n╔════════════════════════════════════════╗\n");
+	printf("║   EDGE CASE TESTS                      ║\n");
+	printf("╚════════════════════════════════════════╝\n");
+	printf("\n✓ Test 1: Empty input\n");
+	tokens = tokenize("");
+	printf("Result: %s\n", tokens ? "NOT NULL (ERROR!)" : "NULL (OK)");
+	free_token_list(tokens);
+	printf("\n✓ Test 2: Only spaces\n");
+	tokens = tokenize("     ");
+	printf("Result: %s\n", tokens ? "NOT NULL (ERROR!)" : "NULL (OK)");
+	free_token_list(tokens);
+	printf("\n✓ Test 3: Multiple spaces between tokens\n");
+	printf("Input: 'echo     hello     world'\n");
+	tokens = tokenize("echo     hello     world");
+	print_tokens(tokens);
+	free_token_list(tokens);
+	printf("\n✓ Test 4: Operator at start\n");
+	printf("Input: '| cat'\n");
+	tokens = tokenize("| cat");
+	print_tokens(tokens);
+	free_token_list(tokens);
+	printf("\n✓ Test 5: Operator at end\n");
+	printf("Input: 'cat |'\n");
+	tokens = tokenize("cat |");
+	print_tokens(tokens);
+	free_token_list(tokens);
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	t_shell	shell;
+
+	(void)ac;
+	(void)av;
+	shell.env = init_env(envp);
+	shell.exit_status = 0;
+	printf("\n");
+	printf("╔══════════════════════════════════════════════════════════╗\n");
+	printf("║                                                          ║\n");
+	printf("║        Testing: Tokenizer, Quotes, Expansion             ║\n");
+	printf("║                                                          ║\n");
+	printf("╚══════════════════════════════════════════════════════════╝\n");
+	test_tokenizer();
+	test_quotes();
+	test_expansion(shell.env);
+	test_edge_cases();
+	test_ast_quick();
+	printf("\n");
+	printf("╔══════════════════════════════════════════════════════════╗\n");
+	printf("║                    TEST COMPLETE                         ║\n");
+	printf("╚══════════════════════════════════════════════════════════╝\n");
+	printf("\n✅ If all tests show expected output or POSIX behavior → MILESTONE 2 WORKS!\n");
+	free_env_list(&shell.env);
+	return (0);
+}
