@@ -6,10 +6,13 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 18:06:14 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/06 12:29:08 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 02:11:28 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
+#include "libft.h"
+#include "structs.h"
 #include "token.h"
 
 //======================== FUNCTION: find_closing_quote =====================
@@ -70,7 +73,6 @@ int	find_closing_quote(char *str, char quote_char, int start)
 //    1. Calculate length
 //    2. Use ft_substr to extract
 //    3. Return result
-
 char	*extract_quoted_content(char *str, int start, int end)
 {
 	int		len;
@@ -108,14 +110,13 @@ char	*extract_quoted_content(char *str, int start, int end)
 //       - Set *is_quoted = 1
 //       - Return extracted content
 //    2. No quotes found - return duplicate of input
-
-char	*handle_quotes(char *input, int *is_quoted)
+char	*handle_quotes(char *input, t_quote_type *quote_type)
 {
 	char	quote_char;
 	int		close_pos;
 	char	*result;
 
-	*is_quoted = 0;
+	*quote_type = QUOTE_NONE;
 	if (input[0] == '\'' || input[0] == '"')
 	{
 		quote_char = input[0];
@@ -123,10 +124,14 @@ char	*handle_quotes(char *input, int *is_quoted)
 		if (close_pos == -1)
 		{
 			ft_printf("ERROR : UNCLOSED QUOTE \n");
+			*quote_type = QUOTE_NONE;
 			return (NULL);
 		}
 		result = extract_quoted_content(input, 0, close_pos);
-		*is_quoted = 1;
+		if (quote_char == '\'')
+			*quote_type = QUOTE_SINGLE;
+		else if (quote_char == '"')
+			*quote_type = QUOTE_DOUBLE;
 		return (result);
 	}
 	return (ft_strdup(input));

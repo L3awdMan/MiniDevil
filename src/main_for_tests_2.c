@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/07 23:27:20 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 02:55:05 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "env.h"
 #include "minishell.h"
 #include "parser.h"
+#include "structs.h"
 #include "token.h"
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -41,6 +42,47 @@ void	print_tokens(t_token *tokens)
 	}
 }
 
+void	debug_environment(t_env *env)
+{
+	t_env	*current;
+	int		count;
+
+	printf("\n╔════════════════════════════════════════╗\n");
+	printf("║   ENVIRONMENT DEBUG                    ║\n");
+	printf("╚════════════════════════════════════════╝\n\n");
+	// Count variables
+	count = 0;
+	current = env;
+	while (current)
+	{
+		count++;
+		current = current->next;
+	}
+	printf("📊 Total environment variables: %d\n\n", count);
+	// Check specific variables
+	printf("🔍 Checking critical variables:\n");
+	printf("   USER  = '%s'\n", get_env_value(env, "USER") ? get_env_value(env,
+			"USER") : "(NULL)");
+	printf("   HOME  = '%s'\n", get_env_value(env, "HOME") ? get_env_value(env,
+			"HOME") : "(NULL)");
+	printf("   PATH  = '%s'\n", get_env_value(env, "PATH") ? get_env_value(env,
+			"PATH") : "(NULL)");
+	printf("   PWD   = '%s'\n", get_env_value(env, "PWD") ? get_env_value(env,
+			"PWD") : "(NULL)");
+	printf("   SHLVL = '%s'\n", get_env_value(env, "SHLVL") ? get_env_value(env,
+			"SHLVL") : "(NULL)");
+	// List first 10 variables
+	printf("\n📋 First 10 environment variables:\n");
+	current = env;
+	count = 0;
+	while (current && count < 10)
+	{
+		printf("   [%d] %s = '%s'\n", count, current->key, current->value);
+		current = current->next;
+		count++;
+	}
+	printf("\n");
+}
 void	test_parser(void)
 {
 	t_token	*tokens;
@@ -196,37 +238,37 @@ void	test_expansion(t_env *env)
 	printf("╚════════════════════════════════════════╝\n");
 	printf("\n✓ Test 1: Variable expansion (double quotes context)\n");
 	printf("Input: \"Hello $USER\"\n");
-	result = expand_variables("Hello $USER", env, 1);
+	result = expand_variables("Hello $USER", env, QUOTE_DOUBLE);
 	printf("Output: '%s'\n", result);
 	free(result);
 	printf("\n✓ Test 2: No expansion (single quotes context)\n");
 	printf("Input: 'Hello $USER'\n");
-	result = expand_variables("Hello $USER", env, 0);
+	result = expand_variables("Hello $USER", env, QUOTE_SINGLE);
 	printf("Output: '%s'\n", result);
 	free(result);
-	printf("\n✓ Test 3: Multiple variables\n");
-	printf("Input: \"$USER at $HOME\"\n");
-	result = expand_variables("$USER at $HOME", env, 1);
+	printf("\n✓ Test 3: Multiple variables (unquoted)\n");
+	printf("Input: $USER at $HOME\n");
+	result = expand_variables("$USER at $HOME", env, QUOTE_NONE);
 	printf("Output: '%s'\n", result);
 	free(result);
-	printf("\n✓ Test 4: Variable mixed with text\n");
+	printf("\n✓ Test 4: Variable mixed with text (double quotes)\n");
 	printf("Input: \"User: $USER, Home: $HOME\"\n");
-	result = expand_variables("User: $USER, Home: $HOME", env, 1);
+	result = expand_variables("User: $USER, Home: $HOME", env, QUOTE_DOUBLE);
 	printf("Output: '%s'\n", result);
 	free(result);
-	printf("\n✓ Test 5: Non-existent variable\n");
+	printf("\n✓ Test 5: Non-existent variable (double quotes)\n");
 	printf("Input: \"$NONEXISTENT\"\n");
-	result = expand_variables("$NONEXISTENT", env, 1);
+	result = expand_variables("$NONEXISTENT", env, QUOTE_DOUBLE);
 	printf("Output: '%s'\n", result);
 	free(result);
-	printf("\n✓ Test 6: Lone $ character\n");
+	printf("\n✓ Test 6: Lone $ character (double quotes)\n");
 	printf("Input: \"Price: $100\"\n");
-	result = expand_variables("Price: $100", env, 1);
+	result = expand_variables("Price: $100", env, QUOTE_DOUBLE);
 	printf("Output: '%s'\n", result);
 	free(result);
-	printf("\n✓ Test 7: Empty string\n");
+	printf("\n✓ Test 7: Empty string (double quotes)\n");
 	printf("Input: \"\"\n");
-	result = expand_variables("", env, 1);
+	result = expand_variables("", env, QUOTE_DOUBLE);
 	printf("Output: '%s'\n", result);
 	free(result);
 }
@@ -283,6 +325,7 @@ int	main(int ac, char **av, char **envp)
 	test_edge_cases();
 	test_ast_quick();
 	test_parser();
+	debug_environment(shell.env);
 	printf("\n");
 	printf("╔══════════════════════════════════════════════════════════╗\n");
 	printf("║                    TEST COMPLETE                         ║\n");

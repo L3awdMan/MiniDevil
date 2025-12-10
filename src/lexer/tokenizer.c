@@ -6,10 +6,11 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 22:33:43 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/06 15:22:38 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 02:44:28 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "structs.h"
 #include "token.h"
 
 //=================== FUNCTION: process_quoted_token ====================
@@ -25,34 +26,42 @@
 //    t_token **head - Token list to add to
 //
 // VARIABLES:
-//    char *word     - Extracted quoted content (without quotes)
-//    int is_quoted  - Flag from handle_quotes
-//    int quote_len  - Length INCLUDING quotes
+//    char *word          - Extracted quoted content (without quotes)
+//    t_quote_type quote_type - Type of quote detected
+//    int quote_len       - Length INCLUDING quotes
+//    t_token *token      - Created token
 //
 // ALGORITHM:
-//    1. Call handle_quotes on input (returns content, sets is_quoted)
-//    2. Calculate total length: find closing quote position
+//    1. Call handle_quotes on input (returns content, sets quote_type)
+//    2. Check if word is NULL (error): return -1
+//    3. Calculate total length: find closing quote position
 //       - Use find_closing_quote(input, input[0], 1)
-//       - quote_len = closing_pos + 1
-//    3. Create TOKEN_WORD with word and is_quoted flag
-//    4. Add to list
-//    5. Free word
-//    6. Return quote_len
-
+//       - quote_len = closing_pos + 2 (both quotes)
+//    4. Create TOKEN_WORD token
+//    5. Set token->quote_type to the detected quote type
+//    6. Add to list
+//    7. Free word
+//    8. Return quote_len
 int	process_quoted_token(char *input, t_token **head)
 {
-	char	*word;
-	int		is_quoted;
-	int		quote_len;
+	char			*word;
+	t_quote_type	quote_type;
+	int				quote_len;
+	t_token			*token;
 
-	word = handle_quotes(input, &is_quoted);
+	word = handle_quotes(input, &quote_type);
 	if (!word)
 		return (-1);
 	quote_len = find_closing_quote(input, input[0], 1) + 1;
-	add_token(head, create_token(TOKEN_WORD, word));
+	token = create_token(TOKEN_WORD, word);
+	if (!token)
+		return (free(word), -1);
+	token->quote_type = quote_type;
+	add_token(head, token);
 	free(word);
 	return (quote_len);
 }
+
 //=================== FUNCTION: process_operator_token ==================
 //
 // PURPOSE:

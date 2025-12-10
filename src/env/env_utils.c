@@ -6,11 +6,13 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 19:31:46 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/03 21:33:10 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 02:08:21 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "libft.h"
+#include "structs.h"
 #include <limits.h>
 
 //======================== FUNCTION: handle_shlvl ===========================

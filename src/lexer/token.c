@@ -6,10 +6,12 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:28:33 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/06 13:37:35 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 02:08:40 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include "structs.h"
 #include "token.h"
 
 //======================== FUNCTION: create_token ===========================
@@ -42,6 +44,8 @@ t_token	*create_token(t_token_type type, char *value)
 	t_token	*token;
 
 	token = ft_calloc(sizeof(t_token), 1);
+	if (!token)
+		return (NULL);
 	token->type = type;
 	token->value = ft_strdup(value);
 	if (!token->value)
@@ -49,6 +53,7 @@ t_token	*create_token(t_token_type type, char *value)
 		free(token);
 		return (NULL);
 	}
+	token->quote_type = QUOTE_NONE;
 	token->next = NULL;
 	return (token);
 }

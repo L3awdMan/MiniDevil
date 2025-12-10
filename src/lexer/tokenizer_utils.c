@@ -6,10 +6,11 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 23:16:00 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/06 13:35:36 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 01:12:54 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "structs.h"
 #include "token.h"
 
 int	is_operator(char c)

@@ -6,11 +6,12 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 16:47:17 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/07 16:52:37 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 02:28:51 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "structs.h"
 #include "token.h"
 
 //===================== FUNCTION: process_dollar =========================
@@ -84,15 +85,13 @@ static int	process_dollar(char *str, int i, char **result, t_env *env_list)
 //       - If $: process_dollar, skip returned amount
 //       - Else: append char, i++
 //    4. Return result
-//
-//========================================================================
 
-char	*expand_variables(char *str, t_env *env_list, int in_quotes)
+char	*expand_variables(char *str, t_env *env_list, t_quote_type quote_type)
 {
 	char	*result;
 	int		i;
 
-	if (in_quotes == 0)
+	if (quote_type == QUOTE_SINGLE)
 		return (ft_strdup(str));
 	result = ft_strdup("");
 	if (!result)

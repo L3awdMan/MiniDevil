@@ -6,10 +6,11 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 17:35:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/07 16:51:45 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 01:25:20 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "structs.h"
 #include "token.h"
 
 //======================== FUNCTION: is_var_char ============================
@@ -117,6 +118,8 @@ char	*append_char(char *str, char c)
 
 	len = ft_strlen(str);
 	new_str = ft_calloc(sizeof(char), len + 2);
+	if (!new_str)
+		return (free(str), NULL);
 	i = 0;
 	while (i < len)
 	{

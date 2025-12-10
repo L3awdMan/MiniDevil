@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_for_tests.c                                   :+:      :+:    :+:   */
+/*   main_under_process.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/07 16:44:58 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 01:14:40 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "minishell.h"
+#include "structs.h"
 #include "token.h"
 #include <readline/history.h>
 #include <readline/readline.h>

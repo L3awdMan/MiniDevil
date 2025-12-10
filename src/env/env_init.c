@@ -6,13 +6,15 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 22:35:48 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/03 21:19:01 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 02:59:35 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "libft.h"
+#include "structs.h"
 
-//======================== FUNCTION: init_env ===============================
+//======================== FUNCTIN: init_env ===============================
 //
 // PURPOSE: Convert char **envp → t_env *linked list
 //
@@ -73,62 +75,97 @@ t_env	*init_env(char **envp)
 	return (head);
 }
 
-//======================== FUNCTION: create_env_node ========================
+//===================== FUNCTION: set_env_key_value =======================
 //
-// PURPOSE: Create ONE environment variable node from "KEY=VALUE" string
-//
-// ALGORITHM:
-// 1. Malloc new t_env node
-// 2. Find '=' position using ft_strchr()
-//    Example: "HOME=/users/john"
-//             equal_pos points to '=' at index 4
-// 3. Extract key: ft_substr(env_string, 0, equal_pos - env_string)
-//    Result: key = "HOME"
-// 4. Extract value: ft_strdup(equal_pos + 1)
-//    Result: value = "/users/john"
-// 5. Initialize next = NULL, prev = NULL
-// 6. Return node
-//
-// PARAMETERS:
-//    char *env_string - One environment string "KEY=VALUE"
+// PURPOSE:
+//    Extract and set key/value from "KEY=VALUE" string into node
 //
 // RETURN:
-//    t_env *node - New node, or NULL on error
+//    int - 1 on success, 0 on failure
 //
-// EDGE CASES:
-//    - No '=' in string → invalid, return NULL
-//    - Empty key (=VALUE) → invalid, return NULL
-//    - Empty value (KEY=) → valid! value = ""
-//    - Malloc fails → return NULL
+// PARAMETERS:
+//    t_env *node      - Node to populate
+//    char *env_string - Full string "KEY=VALUE"
+//    char *equal_pos  - Pointer to '=' character
+//
+// VARIABLES:
+//    int key_len - Length of key part
+//
+// ALGORITHM:
+//    1. Calculate key length: equal_pos - env_string
+//    2. Extract key using ft_substr(env_string, 0, key_len)
+//    3. If key extraction fails: return 0
+//    4. Extract value using ft_strdup(equal_pos + 1)
+//    5. If value extraction fails: free key, return 0
+//    6. Return 1 (success)
 //
 // EXAMPLE:
-//    Input: "PATH=/usr/bin:/bin"
-//    Output: node->key = "PATH"
-//            node->value = "/usr/bin:/bin"
-//            node->next = NULL
-//            node->prev = NULL
+//    env_string = "HOME=/home/user", equal_pos points to '='
+//    → node->key = "HOME"
+//    → node->value = "/home/user"
+//    → returns 1
+
+static int	set_env_key_value(t_env *node, char *env_string, char *equal_pos)
+{
+	int	key_len;
+
+	key_len = equal_pos - env_string;
+	node->key = ft_substr(env_string, 0, key_len);
+	if (!node->key)
+		return (0);
+	node->value = ft_strdup(equal_pos + 1);
+	if (!node->value)
+	{
+		free(node->key);
+		return (0);
+	}
+	return (1);
+}
+
+//======================== FUNCTION: create_env_node ========================
+//
+// PURPOSE:
+//    Create one environment variable node from "KEY=VALUE" string
+//
+// RETURN:
+//    t_env * - New node, or NULL on error
+//
+// PARAMETERS:
+//    char *env_string - Environment string "KEY=VALUE"
+//
+// VARIABLES:
+//    t_env *node     - New node
+//    char *equal_pos - Position of '='
+//
+// ALGORITHM:
+//    1. Allocate node with ft_calloc
+//    2. Find '=' with ft_strchr
+//    3. If no '=': free node, return NULL
+//    4. Call set_env_key_value() to extract key/value
+//    5. If helper fails: free node, return NULL
+//    6. Initialize next/prev to NULL
+//    7. Return node
+//
+// EXAMPLE:
+//    Input: "PATH=/usr/bin"
+//    Output: node with key="PATH", value="/usr/bin"
 
 t_env	*create_env_node(char *env_string)
 {
 	t_env	*node;
 	char	*equal_pos;
-	int		key_len;
 
 	node = ft_calloc(sizeof(t_env), 1);
+	if (!node)
+		return (NULL);
 	equal_pos = ft_strchr(env_string, '=');
 	if (!equal_pos)
-		return (NULL);
-	key_len = equal_pos - env_string;
-	(*node).key = ft_substr(env_string, 0, key_len);
-	if (!node->key)
 	{
 		free(node);
 		return (NULL);
 	}
-	node->value = ft_strdup(equal_pos + 1);
-	if (!(*node).value)
+	if (!set_env_key_value(node, env_string, equal_pos))
 	{
-		free(node->key);
 		free(node);
 		return (NULL);
 	}
@@ -177,7 +214,6 @@ void	add_env_node(t_env **head, t_env *new_node)
 		*head = new_node;
 		return ;
 	}
-	// set current to head
 	current = *head;
 	while (current->next)
 		current = current->next;
