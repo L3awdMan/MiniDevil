@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:19:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 01:14:00 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 20:41:19 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 #include "structs.h"
 
 //==================== FUNCTION: parse ===================================
-//
-// PURPOSE:
-//    Main parser entry point - convert tokens to AST
-//
-// RETURN:
-//    t_ast * - Root of AST tree, NULL on error
-//
-// PARAMETERS:
-//    t_token *tokens - Token list from lexer
-//
-// ALGORITHM:
-//    1. Validate input (check for NULL)
-//    2. Call parse_pipeline to build tree
-//    3. Return the resulting AST
-//
-// EXAMPLE:
-//    tokens = [cat, file, |, grep, test]
-//    parse(tokens) -> PIPE(CMD(cat), CMD(grep))
+	//
+	// PURPOSE:
+	//    Main parser entry point - convert tokens to AST
+	//
+	// RETURN:
+	//    t_ast * - Root of AST tree, NULL on error
+	//
+	// PARAMETERS:
+	//    t_token *tokens - Token list from lexer
+	//
+	// ALGORITHM:
+	//    1. Validate input (check for NULL)
+	//    2. Call parse_pipeline to build tree
+	//    3. Return the resulting AST
+	//
+	// EXAMPLE:
+	//    tokens = [cat, file, |, grep, test]
+	//    parse(tokens) -> PIPE(CMD(cat), CMD(grep))
 
 t_ast	*parse(t_token *tokens)
 {

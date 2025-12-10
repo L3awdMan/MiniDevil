@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_under_process.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 01:14:40 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 20:41:35 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,27 @@
 #include <stdio.h>
 
 //--------- Implementation Steps: ---------------------------------
-//
-// STEP 1: Print newline
-//    write(1, "\n", 1);
-//    → Moves cursor to next line (like pressing Enter)
-//
-// STEP 2: Tell readline we're on a new line
-//    rl_on_new_line();
-//    → Readline function: "hey, cursor moved to new line"
-//
-// STEP 3: Clear the current input buffer
-//    rl_replace_line("", 0);
-//    → Replace whatever user typed with empty string
-//
-// STEP 4: Redraw the prompt
-//    rl_redisplay();
-//    → Shows "minishell$ " again, ready for new input
-//
-// Visual example:
-//    minishell$ hello worl^C    <- User presses Ctrl+C here
-//
-//    minishell$                 <- Fresh prompt appears
+	//
+	// STEP 1: Print newline
+	//    write(1, "\n", 1);
+	//    → Moves cursor to next line (like pressing Enter)
+	//
+	// STEP 2: Tell readline we're on a new line
+	//    rl_on_new_line();
+	//    → Readline function: "hey, cursor moved to new line"
+	//
+	// STEP 3: Clear the current input buffer
+	//    rl_replace_line("", 0);
+	//    → Replace whatever user typed with empty string
+	//
+	// STEP 4: Redraw the prompt
+	//    rl_redisplay();
+	//    → Shows "minishell$ " again, ready for new input
+	//
+	// Visual example:
+	//    minishell$ hello worl^C    <- User presses Ctrl+C here
+	//
+	//    minishell$                 <- Fresh prompt appears
 
 void	handle_sigint(int sig)
 {
@@ -52,35 +52,34 @@ void	handle_sigint(int sig)
 }
 
 //--------- Setup to follow for implementation : --------------------------
-
-// 1. INFINITE LOOP START
-//    Initiate a `while` loop that runs as long as the shell state is running.
-//
-// 2. CAPTURE INPUT
-//    call `input = readline("minishell$ ");`
-//
-// 3. CHECK FOR EOF (Ctrl+D)
-//    IF `input` is NULL:
-//       - This means Ctrl+D was pressed.
-//       - Print "exit\n" to mimic Bash.
-//       - Break the loop (or clean_exit).
-//
-// 4. CHECK FOR EMPTY INPUT
-//    IF `input` is not NULL but points to an empty string (""):
-//       - Free `input`.
-//    - Continue to the next iteration (don't add to history, don't execute).
-//
-// 5. HISTORY MANAGEMENT
-//    IF `input` contains text:
-//       - Call `add_history(input)`.
-//       - This allows the Up/Down arrow keys to work immediately.
-//
-// 6. EXECUTION (Future Step)
-//    - This is where you'd send `input` to your parser/executor.
-//
-// 7. CLEANUP
-//    - `free(input)` at the end of every loop iteration.
-//
+	// 1. INFINITE LOOP START
+	//    Initiate a `while` loop that runs as long as the shell state is running.
+	//
+	// 2. CAPTURE INPUT
+	//    call `input = readline("minishell$ ");`
+	//
+	// 3. CHECK FOR EOF (Ctrl+D)
+	//    IF `input` is NULL:
+	//       - This means Ctrl+D was pressed.
+	//       - Print "exit\n" to mimic Bash.
+	//       - Break the loop (or clean_exit).
+	//
+	// 4. CHECK FOR EMPTY INPUT
+	//    IF `input` is not NULL but points to an empty string (""):
+	//       - Free `input`.
+	//    - Continue to the next iteration (don't add to history, don't execute).
+	//
+	// 5. HISTORY MANAGEMENT
+	//    IF `input` contains text:
+	//       - Call `add_history(input)`.
+	//       - This allows the Up/Down arrow keys to work immediately.
+	//
+	// 6. EXECUTION (Future Step)
+	//    - This is where you'd send `input` to your parser/executor.
+	//
+	// 7. CLEANUP
+	//    - `free(input)` at the end of every loop iteration.
+	//
 
 int	main(int ac, char **av, char **envp)
 {

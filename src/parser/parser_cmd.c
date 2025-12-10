@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:34:13 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 01:14:11 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 20:41:09 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 #include "structs.h"
 
 //==================== FUNCTION: count_word_tokens =======================
-//
-// PURPOSE:
-//    Count how many consecutive WORD tokens exist
-//
-// RETURN:
-//    int - Number of consecutive WORD tokens
-//
-// PARAMETERS:
-//    t_token *tokens - Current token position
-//
-// ALGORITHM:
-//    1. Initialize count to 0
-//    2. While token exists AND is TOKEN_WORD:
-//       - Increment count
-//       - Move to next token
-//    3. Return count
+	//
+	// PURPOSE:
+	//    Count how many consecutive WORD tokens exist
+	//
+	// RETURN:
+	//    int - Number of consecutive WORD tokens
+	//
+	// PARAMETERS:
+	//    t_token *tokens - Current token position
+	//
+	// ALGORITHM:
+	//    1. Initialize count to 0
+	//    2. While token exists AND is TOKEN_WORD:
+	//       - Increment count
+	//       - Move to next token
+	//    3. Return count
 
 static int	count_word_tokens(t_token *tokens)
 {
@@ -45,24 +45,24 @@ static int	count_word_tokens(t_token *tokens)
 }
 
 //==================== FUNCTION: fill_args_array =========================
-//
-// PURPOSE:
-//    Fill argument array with token values
-//
-// RETURN:
-//    void
-//
-// PARAMETERS:
-//    char **args      - Array to fill
-//    t_token **tokens - Token list (advanced as we read)
-//    int count        - Number of args to collect
-//
-// ALGORITHM:
-//    1. Loop count times:
-//       - Duplicate current token's value
-//       - Store in args array
-//       - Advance to next token
-//    2. Add NULL terminator at end
+	//
+	// PURPOSE:
+	//    Fill argument array with token values
+	//
+	// RETURN:
+	//    void
+	//
+	// PARAMETERS:
+	//    char **args      - Array to fill
+	//    t_token **tokens - Token list (advanced as we read)
+	//    int count        - Number of args to collect
+	//
+	// ALGORITHM:
+	//    1. Loop count times:
+	//       - Duplicate current token's value
+	//       - Store in args array
+	//       - Advance to next token
+	//    2. Add NULL terminator at end
 
 static void	fill_args_array(char **args, t_token **tokens, int count)
 {
@@ -79,23 +79,23 @@ static void	fill_args_array(char **args, t_token **tokens, int count)
 }
 
 //==================== FUNCTION: collect_args ============================
-//
-// PURPOSE:
-//    Collect all consecutive WORD tokens into array
-//
-// RETURN:
-//    char ** - Array of arguments, NULL on error
-//
-// PARAMETERS:
-//    t_token **tokens - Current token (will be advanced)
-//    int *argc        - Output: number of args collected
-//
-// ALGORITHM:
-//    1. Count consecutive WORD tokens
-//    2. If count is 0: return NULL (no args)
-//    3. Allocate array (count + 1 for NULL)
-//    4. Fill array with token values
-//    5. Set argc and return array
+	//
+	// PURPOSE:
+	//    Collect all consecutive WORD tokens into array
+	//
+	// RETURN:
+	//    char ** - Array of arguments, NULL on error
+	//
+	// PARAMETERS:
+	//    t_token **tokens - Current token (will be advanced)
+	//    int *argc        - Output: number of args collected
+	//
+	// ALGORITHM:
+	//    1. Count consecutive WORD tokens
+	//    2. If count is 0: return NULL (no args)
+	//    3. Allocate array (count + 1 for NULL)
+	//    4. Fill array with token values
+	//    5. Set argc and return array
 
 char	**collect_args(t_token **tokens, int *argc)
 {
@@ -114,22 +114,22 @@ char	**collect_args(t_token **tokens, int *argc)
 }
 
 //==================== FUNCTION: parse_simple_command ====================
-//
-// PURPOSE:
-//    Parse a simple command (words only, no operators)
-//
-// RETURN:
-//    t_ast * - Command node, NULL on error
-//
-// PARAMETERS:
-//    t_token **tokens - Pointer to current token
-//
-// ALGORITHM:
-//    1. Validate input
-//    2. Collect all consecutive WORD tokens
-//    3. If no args found: return NULL
-//    4. Create command node with collected args
-//    5. Return the node
+	//
+	// PURPOSE:
+	//    Parse a simple command (words only, no operators)
+	//
+	// RETURN:
+	//    t_ast * - Command node, NULL on error
+	//
+	// PARAMETERS:
+	//    t_token **tokens - Pointer to current token
+	//
+	// ALGORITHM:
+	//    1. Validate input
+	//    2. Collect all consecutive WORD tokens
+	//    3. If no args found: return NULL
+	//    4. Create command node with collected args
+	//    5. Return the node
 
 t_ast	*parse_simple_command(t_token **tokens)
 {

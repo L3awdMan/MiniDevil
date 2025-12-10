@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 21:02:54 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 01:13:50 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 20:40:41 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,29 @@
 #include "structs.h"
 
 //===================== FUNCTION: free_args ==============================
-//
-// PURPOSE:
-//    Free array of strings (command arguments)
-//
-// RETURN:
-//    void
-//
-// PARAMETERS:
-//    char **args - Array of strings to free
-//
-// VARIABLES:
-//    int i - Loop counter
-//
-// ALGORITHM:
-//    1. Check if args is NULL
-//    2. Loop through each string
-//    3. Free each string
-//    4. Free the array itself
-//
-// EXAMPLE:
-//    args = ["echo", "hello", NULL]
-//    free_args(args)
-//    Result: All memory freed
+	//
+	// PURPOSE:
+	//    Free array of strings (command arguments)
+	//
+	// RETURN:
+	//    void
+	//
+	// PARAMETERS:
+	//    char **args - Array of strings to free
+	//
+	// VARIABLES:
+	//    int i - Loop counter
+	//
+	// ALGORITHM:
+	//    1. Check if args is NULL
+	//    2. Loop through each string
+	//    3. Free each string
+	//    4. Free the array itself
+	//
+	// EXAMPLE:
+	//    args = ["echo", "hello", NULL]
+	//    free_args(args)
+	//    Result: All memory freed
 
 static void	free_args(char **args)
 {
@@ -54,31 +54,31 @@ static void	free_args(char **args)
 }
 
 //===================== FUNCTION: free_ast ===============================
-//
-// PURPOSE:
-//    Recursively free entire AST tree
-//
-// RETURN:
-//    void
-//
-// PARAMETERS:
-//    t_ast *node - Root node of tree to free
-//
-// VARIABLES:
-//    None
-//
-// ALGORITHM:
-//    1. If node is NULL: return
-//    2. Check node type:
-//       a. COMMAND: free args array
-//       b. PIPE: recursively free left and right
-//       c. REDIR: free file and recursively free cmd
-//    3. Free the node itself
-//
-// EXAMPLE:
-//    tree = pipe(cmd("echo"), cmd("cat"))
-//    free_ast(tree)
-//    Result: Entire tree freed
+	//
+	// PURPOSE:
+	//    Recursively free entire AST tree
+	//
+	// RETURN:
+	//    void
+	//
+	// PARAMETERS:
+	//    t_ast *node - Root node of tree to free
+	//
+	// VARIABLES:
+	//    None
+	//
+	// ALGORITHM:
+	//    1. If node is NULL: return
+	//    2. Check node type:
+	//       a. COMMAND: free args array
+	//       b. PIPE: recursively free left and right
+	//       c. REDIR: free file and recursively free cmd
+	//    3. Free the node itself
+	//
+	// EXAMPLE:
+	//    tree = pipe(cmd("echo"), cmd("cat"))
+	//    free_ast(tree)
+	//    Result: Entire tree freed
 
 void	free_ast(t_ast *node)
 {
