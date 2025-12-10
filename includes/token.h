@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:14:10 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 02:28:38 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 21:46:15 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ t_token_type	get_operator_token_type(char *str, int *len);
  * @return Extracted word (allocated!)
  */
 char			*extract_word(char *str, int *len);
+
+int				is_word_end(char c);
 
 //==================================================
 //================ MAIN TOKENIZER ==================

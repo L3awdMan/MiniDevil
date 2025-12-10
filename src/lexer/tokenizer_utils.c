@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 23:16:00 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 16:09:31 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 21:45:59 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_whitespace(char c)
 }
 
 // is_word_end()
-static int	is_word_end(char c)
+int	is_word_end(char c)
 {
 	if (c == '\0')
 		return (1);
