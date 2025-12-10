@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 02:55:05 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 15:51:38 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,69 @@ void	print_tokens(t_token *tokens)
 		curr = curr->next;
 		i++;
 	}
+}
+void	test_quote_concatenation(void)
+{
+	t_token	*tokens;
+
+	printf("\n╔════════════════════════════════════════╗\n");
+	printf("║   QUOTE CONCATENATION TESTS            ║\n");
+	printf("╚════════════════════════════════════════╝\n");
+	printf("\n✓ Test 1: Word with embedded quotes\n");
+	printf("Input: echo hami\"d\"\n");
+	tokens = tokenize("echo hami\"d\"");
+	print_tokens(tokens);
+	printf("Expected: [echo] [hamid] (2 tokens)\n");
+	if (token_list_size(tokens) == 2)
+		printf("✅ Correct token count\n");
+	else
+		printf("⚠️  Got %d tokens (needs quote merging)\n",
+			token_list_size(tokens));
+	free_token_list(tokens);
+	printf("\n✓ Test 2: Multiple quote sections\n");
+	printf("Input: echo \"hello\"world\"test\"\n");
+	tokens = tokenize("echo \"hello\"world\"test\"");
+	print_tokens(tokens);
+	printf("Expected: [echo] [helloworldtest] (2 tokens)\n");
+	if (token_list_size(tokens) == 2)
+		printf("✅ Correct token count\n");
+	else
+		printf("⚠️  Got %d tokens (needs quote merging)\n",
+			token_list_size(tokens));
+	free_token_list(tokens);
+	printf("\n✓ Test 3: Quotes at start\n");
+	printf("Input: echo \"ha\"mid\n");
+	tokens = tokenize("echo \"ha\"mid");
+	print_tokens(tokens);
+	printf("Expected: [echo] [hamid] (2 tokens)\n");
+	if (token_list_size(tokens) == 2)
+		printf("✅ Correct token count\n");
+	else
+		printf("⚠️  Got %d tokens (needs quote merging)\n",
+			token_list_size(tokens));
+	free_token_list(tokens);
+	printf("\n✓ Test 4: Empty quotes concatenation\n");
+	printf("Input: echo a\"\"b\n");
+	tokens = tokenize("echo a\"\"b");
+	print_tokens(tokens);
+	printf("Expected: [echo] [ab] (2 tokens)\n");
+	if (token_list_size(tokens) == 2)
+		printf("✅ Correct token count\n");
+	else
+		printf("⚠️  Got %d tokens (needs quote merging)\n",
+			token_list_size(tokens));
+	free_token_list(tokens);
+	printf("\n✓ Test 5: Mixed single and double quotes\n");
+	printf("Input: echo ha'mi'\"d\"\n");
+	tokens = tokenize("echo ha'mi'\"d\"");
+	print_tokens(tokens);
+	printf("Expected: [echo] [hamid] (2 tokens)\n");
+	if (token_list_size(tokens) == 2)
+		printf("✅ Correct token count\n");
+	else
+		printf("⚠️  Got %d tokens (needs quote merging)\n",
+			token_list_size(tokens));
+	free_token_list(tokens);
 }
 
 void	debug_environment(t_env *env)
@@ -227,6 +290,11 @@ void	test_quotes(void)
 	tokens = tokenize("echo '|' '<' '>'");
 	print_tokens(tokens);
 	free_token_list(tokens);
+	printf("\n✓ Test : hami\"d \n");
+	printf("Input: echo hami\"d \n");
+	tokens = tokenize("echo ham\"i\"d");
+	print_tokens(tokens);
+	free_token_list(tokens);
 }
 
 void	test_expansion(t_env *env)
@@ -237,9 +305,9 @@ void	test_expansion(t_env *env)
 	printf("║   VARIABLE EXPANSION TESTS             ║\n");
 	printf("╚════════════════════════════════════════╝\n");
 	printf("\n✓ Test 1: Variable expansion (double quotes context)\n");
-	printf("Input: \"Hello $USER\"\n");
-	result = expand_variables("Hello $USER", env, QUOTE_DOUBLE);
-	printf("Output: '%s'\n", result);
+	printf("Input: Hello ham\"$USER\"\n");
+	result = expand_variables("Hello ham\"$USER\" ", env, QUOTE_DOUBLE);
+	printf("Output: %s\n", result);
 	free(result);
 	printf("\n✓ Test 2: No expansion (single quotes context)\n");
 	printf("Input: 'Hello $USER'\n");
@@ -269,6 +337,11 @@ void	test_expansion(t_env *env)
 	printf("\n✓ Test 7: Empty string (double quotes)\n");
 	printf("Input: \"\"\n");
 	result = expand_variables("", env, QUOTE_DOUBLE);
+	printf("Output: '%s'\n", result);
+	free(result);
+	printf("\n✓ Test 8: Hami\"d\" \n");
+	printf("Input: hamid \n");
+	result = expand_variables("Hami\"d\" ", env, QUOTE_DOUBLE);
 	printf("Output: '%s'\n", result);
 	free(result);
 }
@@ -321,6 +394,7 @@ int	main(int ac, char **av, char **envp)
 	printf("╚══════════════════════════════════════════════════════════╝\n");
 	test_tokenizer();
 	test_quotes();
+	test_quote_concatenation();
 	test_expansion(shell.env);
 	test_edge_cases();
 	test_ast_quick();
