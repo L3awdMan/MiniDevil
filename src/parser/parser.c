@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:19:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 01:14:00 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/10 23:30:40 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 t_ast	*parse(t_token *tokens)
 {
 	if (!tokens)
+		return (NULL);
+	if (validate_syntax(tokens) < 0)
 		return (NULL);
 	return (parse_pipeline(&tokens));
 }
