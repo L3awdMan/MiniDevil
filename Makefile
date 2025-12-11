@@ -30,7 +30,8 @@ SRC = $(SRC_DIR)/main_for_tests_2.c \
 			$(SRC_DIR)/parser/parser_redir.c \
 	$(SRC_DIR)/builtins/builtin_echo.c \
 	$(SRC_DIR)/builtins/builtin_pwd.c \
-	$(SRC_DIR)/builtins/builtin_cd.c
+	$(SRC_DIR)/builtins/builtin_cd.c \
+	$(SRC_DIR)/builtins/builtin_exit.c
 
 # Object files (with subdirectory structure)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
