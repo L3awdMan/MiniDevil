@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 20:41:35 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/11 00:27:10 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,14 @@
 	//    minishell$ hello worl^C    <- User presses Ctrl+C here
 	//
 	//    minishell$                 <- Fresh prompt appears
-
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+// void	handle_sigint(int sig)
+// {
+// 	(void)sig;
+// 	write(1, "\n", 1);
+// 	rl_on_new_line();
+// 	rl_replace_line("", 0);
+// 	rl_redisplay();
+// }
 
 //--------- Setup to follow for implementation : --------------------------
 	// 1. INFINITE LOOP START
@@ -96,13 +95,14 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
+		setup_signals();
 		input = readline("MiniDevil $> ");
 		if (input == NULL)
 		{
-			ft_printf("exit\n");
+			ft_printf("exit\n"); // could just use ft_putstr_fd() and no need to include ft_printf to the project then (regular printf wouldn't work but our libft version just works with write() so its the same)
 			break ;
 		}
-		if (input[0] != '\0')
+		if (input[0] != '\0') // could write it as ft_strlen(input) > 0 for better clarity
 		{
 			add_history(input);
 			// HACK : we will parse and excute here
