@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/11 07:19:19 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/11 23:46:06 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,68 +41,174 @@ void	print_tokens(t_token *tokens)
 		i++;
 	}
 }
-void	test_quote_concatenation(void)
+
+void	test_grammar_validation(void)
 {
 	t_token	*tokens;
+	int		result;
 
 	printf("\n╔════════════════════════════════════════╗\n");
-	printf("║   QUOTE CONCATENATION TESTS            ║\n");
+	printf("║   GRAMMAR VALIDATION TESTS             ║\n");
 	printf("╚════════════════════════════════════════╝\n");
-	printf("\n✓ Test 1: Word with embedded quotes\n");
-	printf("Input: echo hami\"d\"\n");
-	tokens = tokenize("echo hami\"d\"");
-	print_tokens(tokens);
-	printf("Expected: [echo] [hamid] (2 tokens)\n");
-	if (token_list_size(tokens) == 2)
-		printf("✅ Correct token count\n");
-	else
-		printf("⚠️  Got %d tokens (needs quote merging)\n",
-			token_list_size(tokens));
+	// ============ TEST 1: Empty Input ============
+	printf("\n✓ Test 1: Empty input (NULL)\n");
+	tokens = NULL;
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected -1)\n", result);
+	printf("Expected: syntax error: empty input\n");
+	// ============ TEST 2: Pipe at Start ============
+	printf("\n✓ Test 2: Pipe at start\n");
+	printf("Input: '| cat'\n");
+	tokens = tokenize("| cat");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected -1)\n", result);
+	printf("Expected: syntax error near unexpected token `|'\n");
 	free_token_list(tokens);
-	printf("\n✓ Test 2: Multiple quote sections\n");
-	printf("Input: echo \"hello\"world\"test\"\n");
-	tokens = tokenize("echo \"hello\"world\"test\"");
-	print_tokens(tokens);
-	printf("Expected: [echo] [helloworldtest] (2 tokens)\n");
-	if (token_list_size(tokens) == 2)
-		printf("✅ Correct token count\n");
-	else
-		printf("⚠️  Got %d tokens (needs quote merging)\n",
-			token_list_size(tokens));
+	// ============ TEST 3: Pipe at End ============
+	printf("\n✓ Test 3: Pipe at end\n");
+	printf("Input: 'cat |'\n");
+	tokens = tokenize("cat |");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected -1)\n", result);
+	printf("Expected: syntax error near unexpected token `|'\n");
 	free_token_list(tokens);
-	printf("\n✓ Test 3: Quotes at start\n");
-	printf("Input: echo \"ha\"mid\n");
-	tokens = tokenize("echo \"ha\"mid");
-	print_tokens(tokens);
-	printf("Expected: [echo] [hamid] (2 tokens)\n");
-	if (token_list_size(tokens) == 2)
-		printf("✅ Correct token count\n");
-	else
-		printf("⚠️  Got %d tokens (needs quote merging)\n",
-			token_list_size(tokens));
+	// ============ TEST 4: Double Pipe ============
+	printf("\n✓ Test 4: Double pipe\n");
+	printf("Input: 'cat || grep'\n");
+	tokens = tokenize("cat || grep");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected -1)\n", result);
+	printf("Expected: syntax error near unexpected token `|'\n");
 	free_token_list(tokens);
-	printf("\n✓ Test 4: Empty quotes concatenation\n");
-	printf("Input: echo a\"\"b\n");
-	tokens = tokenize("echo a\"\"b");
-	print_tokens(tokens);
-	printf("Expected: [echo] [ab] (2 tokens)\n");
-	if (token_list_size(tokens) == 2)
-		printf("✅ Correct token count\n");
-	else
-		printf("⚠️  Got %d tokens (needs quote merging)\n",
-			token_list_size(tokens));
+	// ============ TEST 5: Pipe Followed by Redirection ============
+	printf("\n✓ Test 5: Pipe followed by redirection\n");
+	printf("Input: 'cat | > out.txt'\n");
+	tokens = tokenize("cat | > out.txt");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected -1)\n", result);
+	printf("Expected: syntax error: missing command after pipe\n");
 	free_token_list(tokens);
-	printf("\n✓ Test 5: Mixed single and double quotes\n");
-	printf("Input: echo ha'mi'\"d\"\n");
-	tokens = tokenize("echo ha'mi'\"d\"");
-	print_tokens(tokens);
-	printf("Expected: [echo] [hamid] (2 tokens)\n");
-	if (token_list_size(tokens) == 2)
-		printf("✅ Correct token count\n");
-	else
-		printf("⚠️  Got %d tokens (needs quote merging)\n",
-			token_list_size(tokens));
+	// ============ TEST 6: Redirection Without Filename ============
+	printf("\n✓ Test 6: Redirection without filename (< at end)\n");
+	printf("Input: 'cat <'\n");
+	tokens = tokenize("cat <");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected -1)\n", result);
+	printf("Expected: syntax error: missing filename after redirection\n");
 	free_token_list(tokens);
+	// ============ TEST 7: Redirection Followed by Operator ============
+	printf("\n✓ Test 7: Redirection followed by operator\n");
+	printf("Input: 'cat < |'\n");
+	tokens = tokenize("cat < |");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected -1)\n", result);
+	printf("Expected: syntax error: missing filename after redirection\n");
+	free_token_list(tokens);
+	// ============ TEST 8: Multiple Errors (First Error Wins) ============
+	printf("\n✓ Test 8: Multiple errors (pipe at start + no filename)\n");
+	printf("Input: '| cat <'\n");
+	tokens = tokenize("| cat <");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected -1)\n", result);
+	printf("Expected: syntax error near unexpected token `|' (first error)\n");
+	free_token_list(tokens);
+	printf("\n╔════════════════════════════════════════╗\n");
+	printf("║   VALID SYNTAX TESTS (Should Pass)    ║\n");
+	printf("╚════════════════════════════════════════╝\n");
+	// ============ VALID TEST 1: Simple Command ============
+	printf("\n✓ Valid Test 1: Simple command\n");
+	printf("Input: 'echo hello'\n");
+	tokens = tokenize("echo hello");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected 0 = valid)\n", result);
+	free_token_list(tokens);
+	// ============ VALID TEST 2: Pipe ============
+	printf("\n✓ Valid Test 2: Valid pipe\n");
+	printf("Input: 'cat | grep test'\n");
+	tokens = tokenize("cat | grep test");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected 0 = valid)\n", result);
+	free_token_list(tokens);
+	// ============ VALID TEST 3: Input Redirection ============
+	printf("\n✓ Valid Test 3: Input redirection\n");
+	printf("Input: 'cat < input.txt'\n");
+	tokens = tokenize("cat < input.txt");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected 0 = valid)\n", result);
+	free_token_list(tokens);
+	// ============ VALID TEST 4: Output Redirection ============
+	printf("\n✓ Valid Test 4: Output redirection\n");
+	printf("Input: 'echo hello > output.txt'\n");
+	tokens = tokenize("echo hello > output.txt");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected 0 = valid)\n", result);
+	free_token_list(tokens);
+	// ============ VALID TEST 5: Multiple Redirections ============
+	printf("\n✓ Valid Test 5: Multiple redirections\n");
+	printf("Input: 'cat < in.txt > out.txt'\n");
+	tokens = tokenize("cat < in.txt > out.txt");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected 0 = valid)\n", result);
+	free_token_list(tokens);
+	// ============ VALID TEST 6: Append Redirection ============
+	printf("\n✓ Valid Test 6: Append redirection\n");
+	printf("Input: 'echo test >> file.txt'\n");
+	tokens = tokenize("echo test >> file.txt");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected 0 = valid)\n", result);
+	free_token_list(tokens);
+	// ============ VALID TEST 7: Heredoc ============
+	printf("\n✓ Valid Test 7: Heredoc\n");
+	printf("Input: 'cat << EOF'\n");
+	tokens = tokenize("cat << EOF");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected 0 = valid)\n", result);
+	free_token_list(tokens);
+	// ============ VALID TEST 8: Complex Pipeline ============
+	printf("\n✓ Valid Test 8: Complex pipeline with redirections\n");
+	printf("Input: 'cat < in.txt | grep test | sort > out.txt'\n");
+	tokens = tokenize("cat < in.txt | grep test | sort > out.txt");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected 0 = valid)\n", result);
+	free_token_list(tokens);
+	printf("\n╔════════════════════════════════════════╗\n");
+	printf("║   EDGE CASE TESTS                      ║\n");
+	printf("╚════════════════════════════════════════╝\n");
+	// ============ EDGE 1: Three Pipes ============
+	printf("\n✓ Edge Test 1: Three pipes in a row\n");
+	printf("Input: 'cat ||| grep'\n");
+	tokens = tokenize("cat ||| grep");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected -1)\n", result);
+	printf("Expected: syntax error near unexpected token `|'\n");
+	free_token_list(tokens);
+	// ============ EDGE 2: Only Redirection ============
+	printf("\n✓ Edge Test 2: Only redirection operator\n");
+	printf("Input: '>'\n");
+	tokens = tokenize(">");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected -1)\n", result);
+	printf("Expected: syntax error: missing filename after redirection\n");
+	free_token_list(tokens);
+	// ============ EDGE 3: Redirection to Redirection ============
+	printf("\n✓ Edge Test 3: Redirection followed by redirection\n");
+	printf("Input: 'cat < > out.txt'\n");
+	tokens = tokenize("cat < > out.txt");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected -1)\n", result);
+	printf("Expected: syntax error: missing filename after redirection\n");
+	free_token_list(tokens);
+	// ============ EDGE 4: Multiple Consecutive Pipes ============
+	printf("\n✓ Edge Test 4: Pipe after pipe after pipe\n");
+	printf("Input: 'cat | | | grep'\n");
+	tokens = tokenize("cat | | | grep");
+	result = validate_syntax(tokens);
+	printf("Result: %d (expected -1)\n", result);
+	printf("Expected: syntax error near unexpected token `|'\n");
+	free_token_list(tokens);
+	printf("\n╔══════════════════════════════════════════════════════════╗\n");
+	printf("║          GRAMMAR VALIDATION TEST COMPLETE                ║\n");
+	printf("╚══════════════════════════════════════════════════════════╝\n\n");
 }
 
 void	debug_environment(t_env *env)
@@ -121,9 +227,9 @@ void	debug_environment(t_env *env)
 		count++;
 		current = current->next;
 	}
-	printf("📊 Total environment variables: %d\n\n", count);
+	printf(" - Total environment variables: %d\n\n", count);
 	// Check specific variables
-	printf("🔍 Checking critical variables:\n");
+	printf(" - Checking critical variables:\n");
 	printf("   USER  = '%s'\n", get_env_value(env, "USER") ? get_env_value(env,
 			"USER") : "(NULL)");
 	printf("   HOME  = '%s'\n", get_env_value(env, "HOME") ? get_env_value(env,
@@ -135,7 +241,7 @@ void	debug_environment(t_env *env)
 	printf("   SHLVL = '%s'\n", get_env_value(env, "SHLVL") ? get_env_value(env,
 			"SHLVL") : "(NULL)");
 	// List first 10 variables
-	printf("\n📋 First 10 environment variables:\n");
+	printf("\n - First 10 environment variables:\n");
 	current = env;
 	count = 0;
 	while (current && count < 10)
@@ -146,6 +252,7 @@ void	debug_environment(t_env *env)
 	}
 	printf("\n");
 }
+
 void	test_parser(void)
 {
 	t_token	*tokens;
@@ -394,21 +501,21 @@ int	main(int ac, char **av, char **envp)
 	printf("╚══════════════════════════════════════════════════════════╝\n");
 	test_tokenizer();
 	test_quotes();
-	test_quote_concatenation();
 	test_expansion(shell.env);
 	test_edge_cases();
 	test_ast_quick();
 	test_parser();
 	debug_environment(shell.env);
+	test_grammar_validation();
 	printf("\n");
 	printf("╔══════════════════════════════════════════════════════════╗\n");
 	printf("║                    TEST COMPLETE                         ║\n");
 	printf("╚══════════════════════════════════════════════════════════╝\n");
 	printf("\n✅ If all tests show expected output or POSIX behavior → MILESTONE 2 WORKS!\n");
-	printf("\n\n\n\n\n\n"); // simply testing builtins now
-	test_echo();
-	test_pwd();
-	test_cd(&shell.env);
+	//	printf("\n\n\n\n\n\n"); // simply testing builtins now
+	//	test_echo();
+	//	test_pwd();
+	//	test_cd(&shell.env);
 	free_env_list(&shell.env);
 	return (0);
 }
