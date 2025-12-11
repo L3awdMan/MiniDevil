@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 06:07:41 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/11 06:35:16 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/11 07:34:58 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	builtin_pwd(void)
 
 	if (!getcwd(cwd, PATH_MAX))
 	{
-		perror("pwd");
+		perror("minishell: pwd");
 		return (1);
 	}
 	ft_putendl_fd(cwd, STDOUT_FILENO);

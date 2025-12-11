@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/11 06:31:16 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/11 07:19:19 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -405,9 +405,10 @@ int	main(int ac, char **av, char **envp)
 	printf("║                    TEST COMPLETE                         ║\n");
 	printf("╚══════════════════════════════════════════════════════════╝\n");
 	printf("\n✅ If all tests show expected output or POSIX behavior → MILESTONE 2 WORKS!\n");
-	free_env_list(&shell.env);
 	printf("\n\n\n\n\n\n"); // simply testing builtins now
 	test_echo();
 	test_pwd();
+	test_cd(&shell.env);
+	free_env_list(&shell.env);
 	return (0);
 }
