@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/11 00:27:10 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/11 01:22:53 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ int	main(int ac, char **av, char **envp)
 	shell.env = init_env(envp);
 	shell.exit_status = 0;
 	shell.running = 1;
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		setup_signals();
@@ -110,5 +108,6 @@ int	main(int ac, char **av, char **envp)
 		}
 		free(input);
 	}
+	free_env_list(&shell.env); // we need to free this at the end
 	return (shell.exit_status);
 }
