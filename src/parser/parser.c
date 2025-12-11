@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:19:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 20:41:19 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/11 01:53:24 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 t_ast	*parse(t_token *tokens)
 {
 	if (!tokens)
+		return (NULL);
+	if (validate_syntax(tokens) < 0)
 		return (NULL);
 	return (parse_pipeline(&tokens));
 }
