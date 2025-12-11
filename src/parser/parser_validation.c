@@ -3,29 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   parser_validation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 18:11:17 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/11 00:00:44 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/11 05:45:05 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "parser.h"
 #include "structs.h"
 
 //==================== FUNCTION: is_redirection ==========================
-//
-// PURPOSE:
-//    Check if token is a redirection operator
-//
-// RETURN:
-//    int - 1 if redirection, 0 otherwise
-//
-// PARAMETERS:
-//    t_token_type type - Token type to check
-//
-// ALGORITHM:
-//    Return true if type is any of the 4 redirection types
+	//
+	// PURPOSE:
+	//    Check if token is a redirection operator
+	//
+	// RETURN:
+	//    int - 1 if redirection, 0 otherwise
+	//
+	// PARAMETERS:
+	//    t_token_type type - Token type to check
+	//
+	// ALGORITHM:
+	//    Return true if type is any of the 4 redirection types
 
 int	is_redirection(t_token_type type)
 {
@@ -34,20 +35,20 @@ int	is_redirection(t_token_type type)
 }
 
 //==================== FUNCTION: validate_empty ==========================
-//
-// PURPOSE:
-//    Check for empty input
-//
-// RETURN:
-//    int - 0 if valid (not empty), -1 if invalid (empty)
-//
-// PARAMETERS:
-//    t_token *tokens - Token list to validate
-//
-// ALGORITHM:
-//    If tokens is NULL, print error and return -1
+	//
+	// PURPOSE:
+	//    Check for empty input
+	//
+	// RETURN:
+	//    int - 0 if valid (not empty), -1 if invalid (empty)
+	//
+	// PARAMETERS:
+	//    t_token *tokens - Token list to validate
+	//
+	// ALGORITHM:
+	//    If tokens is NULL, print error and return -1
 
-int	validate_empty(t_token *tokens)
+int	validate_empty(t_token *tokens) // redundant since parse() already checks but good, we never know
 {
 	if (!tokens)
 	{
@@ -58,57 +59,62 @@ int	validate_empty(t_token *tokens)
 }
 
 //==================== FUNCTION: validate_pipe_position ==================
-//
-// PURPOSE:
-//    Check for pipes at start or end
-//
-// RETURN:
-//    int - 0 if valid, -1 if invalid
-//
-// PARAMETERS:
-//    t_token *tokens - Token list to validate
-//
-// ALGORITHM:
-//    1. Check if first token is pipe
-//    2. Find last token and check if it's pipe
-//    3. Return -1 if either case found
+	//
+	// PURPOSE:
+	//    Check for pipes at start or end
+	//
+	// RETURN:
+	//    int - 0 if valid, -1 if invalid
+	//
+	// PARAMETERS:
+	//    t_token *tokens - Token list to validate
+	//
+	// ALGORITHM:
+	//    1. Check if first token is pipe
+	//    2. Find last token and check if it's pipe
+	//    3. Return -1 if either case found
 
 int	validate_pipe_position(t_token *tokens)
 {
 	t_token	*current;
 
-	if (tokens->type == TOKEN_PIPE)
+	if (tokens && tokens->type == TOKEN_PIPE)
 	{
 		write(2, "syntax error near unexpected token `|'\n", 39);
 		return (-1);
 	}
 	current = tokens;
-	while (current->next)
-		current = current->next;
-	if (current->type == TOKEN_PIPE)
+	while (current)
 	{
-		write(2, "syntax error near unexpected token `|'\n", 39);
-		return (-1);
+		if (current->type == TOKEN_PIPE)
+		{
+			if (!current->next || current->next->type == TOKEN_PIPE) // if pipe is last OR next token is also a pipe
+			{
+				write(2, "syntax error near unexpected token `|'\n", 39);
+				return (-1);
+			}
+		}
+		current = current->next;
 	}
 	return (0);
 }
 
 //==================== FUNCTION: validate_consecutive ====================
-//
-// PURPOSE:
-//    Check for consecutive operators without words between
-//
-// RETURN:
-//    int - 0 if valid, -1 if invalid
-//
-// PARAMETERS:
-//    t_token *tokens - Token list to validate
-//
-// ALGORITHM:
-//    Loop through tokens and check for:
-//    - Pipe followed by pipe
-//    - Pipe followed by redirection
-//    - Redirection followed by non-word
+	//
+	// PURPOSE:
+	//    Check for consecutive operators without words between
+	//
+	// RETURN:
+	//    int - 0 if valid, -1 if invalid
+	//
+	// PARAMETERS:
+	//    t_token *tokens - Token list to validate
+	//
+	// ALGORITHM:
+	//    Loop through tokens and check for:
+	//    - Pipe followed by pipe
+	//    - Pipe followed by redirection
+	//    - Redirection followed by non-word
 
 int	validate_consecutive(t_token *tokens)
 {
@@ -138,18 +144,18 @@ int	validate_consecutive(t_token *tokens)
 }
 
 //==================== FUNCTION: validate_redirection_file ===============
-//
-// PURPOSE:
-//    Check that redirections have filenames
-//
-// RETURN:
-//    int - 0 if valid, -1 if invalid
-//
-// PARAMETERS:
-//    t_token *tokens - Token list to validate
-//
-// ALGORITHM:
-//    Find last token, check if it's a redirection
+	//
+	// PURPOSE:
+	//    Check that redirections have filenames
+	//
+	// RETURN:
+	//    int - 0 if valid, -1 if invalid
+	//
+	// PARAMETERS:
+	//    t_token *tokens - Token list to validate
+	//
+	// ALGORITHM:
+	//    Find last token, check if it's a redirection
 
 int	validate_redirection_file(t_token *tokens)
 {
@@ -167,25 +173,25 @@ int	validate_redirection_file(t_token *tokens)
 }
 
 //==================== FUNCTION: validate_syntax =========================
-//
-// PURPOSE:
-//    Main validation function - checks all syntax rules
-//
-// RETURN:
-//    int - 0 if valid, -1 if invalid
-//
-// PARAMETERS:
-//    t_token *tokens - Token list to validate
-//
-// ALGORITHM:
-//    Run all validation checks in sequence
-//    Return -1 if any check fails
-//
-// EXAMPLE:
-//    "| cat"     → validate_pipe_position fails
-//    "cat |"     → validate_pipe_position fails
-//    "cat <"     → validate_redirection_file fails
-//    "cat | | grep" → validate_consecutive fails
+	//
+	// PURPOSE:
+	//    Main validation function - checks all syntax rules
+	//
+	// RETURN:
+	//    int - 0 if valid, -1 if invalid
+	//
+	// PARAMETERS:
+	//    t_token *tokens - Token list to validate
+	//
+	// ALGORITHM:
+	//    Run all validation checks in sequence
+	//    Return -1 if any check fails
+	//
+	// EXAMPLE:
+	//    "| cat"     → validate_pipe_position fails
+	//    "cat |"     → validate_pipe_position fails
+	//    "cat <"     → validate_redirection_file fails
+	//    "cat | | grep" → validate_consecutive fails
 
 int	validate_syntax(t_token *tokens)
 {

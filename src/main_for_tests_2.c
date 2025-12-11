@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_for_tests_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 15:51:38 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/11 05:43:32 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -406,5 +406,7 @@ int	main(int ac, char **av, char **envp)
 	printf("╚══════════════════════════════════════════════════════════╝\n");
 	printf("\n✅ If all tests show expected output or POSIX behavior → MILESTONE 2 WORKS!\n");
 	free_env_list(&shell.env);
+	printf("\n\n\n\n\n\n"); // simply testing builtins now
+	test_echo();
 	return (0);
 }

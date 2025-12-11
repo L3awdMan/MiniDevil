@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 18:43:02 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/11 00:25:44 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/11 05:18:14 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ extern volatile sig_atomic_t	g_signal;
 # include "structs.h"
 # include "token.h"
 # include "signals.h"
+# include "builtins.h"
 
 #endif

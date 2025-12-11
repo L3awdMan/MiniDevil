@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:17:12 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 02:17:21 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/11 05:46:46 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,12 @@ t_ast	*parse_simple_command(t_token **tokens);
  * @return NULL terminated argument array
  */
 char	**collect_args(t_token **tokens, int *argc);
+
+
+t_ast	*parse_command(t_token **tokens);
+
+int	validate_syntax(t_token *tokens);
+
+int	is_redirection(t_token_type type);
 
 #endif

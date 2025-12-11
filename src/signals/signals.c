@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 23:44:56 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/11 00:41:08 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/11 05:24:05 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,13 @@ void	setup_signals(void)
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
-void	reset_child_signals(void)
+/**
+ * @brief Restore default signal handling (SIG_DFL) for a child process
+ * 
+ * Called after fork() and before execve() to reset SIGINT and SIGQUIT to
+ * SIG_DFL so that external commands receive Ctrl C and Ctrl \ normally
+ */
+void	reset_child_signals(void) // When 
 {
 	struct sigaction	sa;
 
@@ -67,4 +73,9 @@ void	reset_child_signals(void)
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
+}
+
+void	setup_signals_heredoc(void)
+{
+	// need to handle SIGINT inside heredoc
 }
