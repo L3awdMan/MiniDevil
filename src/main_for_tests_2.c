@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/11 05:43:32 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/11 06:31:16 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -408,5 +408,6 @@ int	main(int ac, char **av, char **envp)
 	free_env_list(&shell.env);
 	printf("\n\n\n\n\n\n"); // simply testing builtins now
 	test_echo();
+	test_pwd();
 	return (0);
 }
