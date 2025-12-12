@@ -6,14 +6,14 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 22:35:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/12 07:32:24 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/12 20:55:16 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Check if a string is a vaslid env variable identifier
+ * @brief Check if a string is a valid env variable identifier
  * 
  * Rules are:
  * - Must start with a letter or an underscore

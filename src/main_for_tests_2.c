@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/12 06:50:19 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/12 21:19:35 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -413,6 +413,7 @@ int	main(int ac, char **av, char **envp)
 	test_env(shell.env);
 	test_env_hidden(&shell.env);
 	test_export(&shell.env);
+	test_unset(&shell.env);
 	free_env_list(&shell.env);
 	return (0);
 }
