@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:53:47 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/11 22:41:45 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/12 06:18:36 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	count_args(char **args) // replace by ft_arrlen()
  * "too many arguments" and return 1 WITHOUT exiting
  * 4. If valid, convert the first argument to an 8 bit status exit code (0-255)
  * @param args Null terminated array (args[0] is "exit")
- * @param last_status THe exit code of the last executed command
+ * @param last_status The exit code of the last executed command
  * @return 1 if too many arguments, otherwise doesn't return but exits
  */
 int	builtin_exit(char **args, int last_status)
@@ -80,7 +80,14 @@ int	builtin_exit(char **args, int last_status)
 	exit(exit_code);
 }
 
-////////////////. TEMPORARY
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////// TEMPORARY
+//////////////////////////////////////////////////
 
 #define YELLOW "\x1b[33m"
 #define GRAY "\x1b[90m"
