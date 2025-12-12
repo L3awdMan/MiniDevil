@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/11 01:22:53 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/12 23:50:57 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	main(int ac, char **av, char **envp)
 	shell.running = 1;
 	while (1)
 	{
-		setup_signals();
+		setup_interactive_signals();
 		input = readline("MiniDevil $> ");
 		if (input == NULL)
 		{

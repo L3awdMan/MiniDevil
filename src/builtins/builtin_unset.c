@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 08:25:52 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/12 22:27:46 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/13 00:14:21 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static void	print_unset_error(char *arg)
  * @param env Double pointer to the head of the env list
  * @param key The key to remove
  */
-static void	remove_env_node(t_env **env, char *key) // could be replaced by a helper from env_operations later ?
+// could be replaced by a helper from env_operations later ?
+static void	remove_env_node(t_env **env, char *key)
 {
 	t_env	*current;
 
@@ -198,7 +199,7 @@ void	test_unset(t_env **env)
 	fflush(stdout);
 	int status5 = builtin_unset(args5, env);
 	if (status5 == 1)
-		printf(GREEN "✅ returned 1 (correctly flagged as invalid)" RESET);
+		printf(GREEN "✅ returned 1 (correctly flagged as invalid)\n" RESET);
 	else
 		printf(RED "⚠️ Returned %d (expected 1)\n" RESET, status5);
 }

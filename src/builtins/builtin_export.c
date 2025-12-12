@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 22:35:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/12 20:55:16 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/12 22:51:40 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	is_valid_identifier(char *str)
 			if (str[i + 1] == '=')
 				return (1);
 			else
-				return(0);
+				return (0);
 		}
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (0);

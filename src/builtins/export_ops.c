@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 05:43:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/12 07:32:18 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/12 22:50:51 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	export_no_value(t_env **env, char *key)
 	while (current)
 	{
 		if (ft_strncmp(current->key, key, ft_strlen(key) + 1) == 0)
-			return	;
+			return ;
 		current = current->next;
 	}
 	new_node = ft_calloc(1, sizeof(t_env));

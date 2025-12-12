@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 05:00:41 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/12 06:13:03 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/12 22:52:17 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	is_n_flag(char *arg)
  * @param args Null terminated array of args (arg[0] should be "echo")
  * @return Always 0 (success)
  */
-int builtin_echo(char **args)
+int	builtin_echo(char **args)
 {
 	int	i;
 	int	newline;

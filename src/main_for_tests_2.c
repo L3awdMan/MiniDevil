@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/12 21:19:35 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/13 00:15:08 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -414,6 +414,8 @@ int	main(int ac, char **av, char **envp)
 	test_env_hidden(&shell.env);
 	test_export(&shell.env);
 	test_unset(&shell.env);
+	printf("\n\n\n\n\n\n"); // heredoc testing
+	test_heredoc(shell.env);
 	free_env_list(&shell.env);
 	return (0);
 }
