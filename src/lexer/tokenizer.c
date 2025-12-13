@@ -6,25 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 22:33:43 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 21:53:31 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/13 06:29:56 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "token.h"
 #include "minishell.h"
-
-static char	*join_and_free(char *s1, char *s2) // gonna add this to libft later...
-{
-	char	*result;
-
-	if (!s1 || !s2)
-		return (NULL);
-	result = ft_strjoin(s1, s2);
-	free(s1);
-	free(s2);
-	return (result);
-}
 
 //==================================================
 //================ WORD EXTRACTION =================
@@ -104,7 +92,7 @@ int	process_word_token(char *input, t_token **head)
 		part = get_next_chunk(input + total_len, &part_len);
 		if (!part)
 			return (free(result), -1);
-		result = join_and_free(result, part);
+		result = ft_strjoin_and_free(result, part);
 		if (!result)
 			return (-1);
 		total_len += part_len;
