@@ -6,14 +6,14 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:58:03 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 03:34:11 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/13 06:37:53 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief CHeck if the received delimiter is quoted
+ * @brief Check if the received delimiter is quoted
  * 
  * If the delimiter was quoted ('EOF' or "EOF") then no expansion occurs
  * @param delimiter The delimiter string
@@ -135,7 +135,7 @@ int	handle_heredoc(char *received_delimiter, t_env *env)
 	if (!delimiter)
 		return (-1);
 	if (pipe(pipe_fd) == -1)
-		return(free(delimiter), perror("minishell: pipe"), -1);
+		return (free(delimiter), perror("minishell: pipe"), -1);
 	setup_heredoc_signals();
 	g_signal = 0;
 	interrupted = read_heredoc_lines(pipe_fd[1], delimiter, env, expand);
@@ -149,95 +149,4 @@ int	handle_heredoc(char *received_delimiter, t_env *env)
 		return (-1);
 	}
 	return (pipe_fd[0]);
-}
-
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////// TEMPORARY
-//////////////////////////////////////////////////
-
-#define YELLOW "\x1b[33m"
-#define GRAY "\x1b[90m"
-#define GREEN "\x1b[32m"
-#define RED "\x1b[31m"
-#define RESET "\x1b[0m"
-
-void	test_heredoc(t_env *env)
-{
-	int		fd;
-	char	buffer[1024];
-	int		bytes;
-
-	printf("\n╔════════════════════════════════════════╗\n");
-	printf("║       HEREDOC TEST                     ║\n");
-	printf("╚════════════════════════════════════════╝\n");
-
-	printf(YELLOW "\nTest 1: basic heredoc (delimiter is EOF)\n" RESET);
-	fflush(stdout);
-	fd = handle_heredoc("EOF", env);
-
-	if (fd >= 0)
-	{
-		printf(GREEN "\n✅ Heredoc returned, fd = %d\n" RESET, fd);
-		printf(GRAY "Content read from heredoc:\n" RESET);
-		fflush(stdout);
-		while ((bytes = read(fd, buffer, sizeof(buffer) - 1)) > 0)
-			{
-				buffer[bytes] = '\0';
-				printf("%s", buffer);
-			}
-		printf("\n");
-		fflush(stdout);
-		close(fd);
-	}
-	else
-		printf(RED "⚠️ heredoc failed\n" RESET);
-
-/////////////////////////
-
-	printf(YELLOW "\nTest 2: heredoc with expansion (type $USER then EOF)\n" RESET);
-	fflush(stdout);
-	fd = handle_heredoc("EOF", env);
-	if (fd >= 0)
-	{
-		printf(GREEN "\n ✅ Heredoc returned with fd = %d\n" RESET, fd);
-		printf(GRAY "Content (should expand):\n" RESET);
-		fflush(stdout);
-		while ((bytes = read(fd, buffer, sizeof(buffer) - 1)) > 0)
-			{
-				buffer[bytes] = '\0';
-				printf("%s", buffer);
-			}
-		printf("\n");
-		fflush(stdout);
-		close(fd);
-	}
-	else
-		printf(RED "⚠️ heredoc failed\n" RESET);
-
-/////////////////////////
-
-	printf(YELLOW "\nTest 3: quoted delimiter (type $USER then EOF)\n"RESET);
-	printf(GRAY "Delimiter is 'EOF' (no expansion expected)\n" RESET);
-	fflush(stdout);
-	fd = handle_heredoc("'EOF'", env);
-	if (fd >= 0)
-	{
-		printf(GREEN "\n✅ Heredoc returned with fd = %d\n" RESET, fd);
-		printf(GRAY "Content (should NOT expand):\n" RESET);
-		fflush(stdout);
-		while ((bytes = read(fd, buffer, sizeof(buffer) - 1)) > 0)
-		{
-			buffer[bytes] = '\0';
-			printf("%s", buffer);
-		}
-	printf("\n");
-	close(fd);
-	}
-	else
-		printf(RED "⚠️ heredoc failed\n" RESET);
 }

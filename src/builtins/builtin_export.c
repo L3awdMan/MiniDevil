@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 22:35:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/12 22:51:40 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/13 06:18:16 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,90 +114,4 @@ int	builtin_export(char **args, t_env **env)
 		i++;
 	}
 	return (status);
-}
-
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////// TEMPORARY
-//////////////////////////////////////////////////
-
-#define YELLOW "\x1b[33m"
-#define GRAY "\x1b[90m"
-#define GREEN "\x1b[32m"
-#define RED "\x1b[31m"
-#define RESET "\x1b[0m"
-
-static void	check_var(t_env *env, char *key, char *expected)
-{
-	char	*val;
-
-	val = get_env_value(env, key);
-
-	if (!val && !expected)
-		printf(GREEN "✅ %s is unset/hidden as expected\n" RESET, key);
-	else if (!val)
-		printf(RED "⚠️ %s is not found (expected %s)\n" RESET, key, expected);
-	else if (expected && ft_strncmp(val, expected, -1) == 0)
-		printf(GREEN "✅ %s = %s\n" RESET, key, val);
-	else
-		printf(RED "⚠️ %s = %s (expected %s)\n" RESET, key, val, expected);
-}
-
-void	test_export(t_env **env)
-{
-	printf("\n╔════════════════════════════════════════╗\n");
-	printf("║       EXPORT BUILTIN TEST              ║\n");
-	printf("╚════════════════════════════════════════╝\n");
-
-	printf(YELLOW "\nTest 1: export (no args)\n" RESET);
-	printf(GRAY "should print sorted list with 'declare -x'\n\n" RESET);
-	fflush(stdout);
-	char *args1[] = {"export", NULL};
-	builtin_export(args1, env);
-
-	printf(YELLOW "\nTest 2: TEST_VAR=hamid\n" RESET);
-	fflush(stdout);
-	char *args2[] = {"export", "TEST_VAR=hamid", NULL};
-	builtin_export(args2, env);
-	check_var(*env, "TEST_VAR", "hamid");
-
-	printf(YELLOW "\nTest 3: VAR1=one VAR2=two\n" RESET);
-	fflush(stdout);
-	char *args3[] = {"export", "VAR1=one", "VAR2=two", NULL};
-	builtin_export(args3, env);
-	check_var(*env, "VAR1", "one");
-	check_var(*env, "VAR2", "two");
-
-	printf(YELLOW "\nTest 4: 123=invalid (Should print error)\n" RESET);
-	fflush(stdout);
-	char *args4[] = {"export", "123=invalid", NULL};
-	int status4 = builtin_export(args4, env);
-	if (status4 == 1)
-		printf(GREEN "✅ Returned 1 (error)\n" RESET);
-	else
-		printf(RED "⚠️ Returned $d (expected 1)\n" RESET);
-	// verifying if it was added
-	if (get_env_value(*env, "123") == NULL)
-		printf(GREEN "✅ Variable 123 was not added\n" RESET);
-	else
-		printf(RED "⚠️ Variable 123 was added\n" RESET);
-
-	printf(YELLOW "\nTest 5: VAR+=append\n" RESET);
-	printf(GRAY "export APPEND_VAR=ham\n" RESET);
-	fflush(stdout);
-	set_env_value(env, "APPEND_VAR", "ham");
-	printf(GRAY "export APPEND_VAR+=_id\n" RESET);
-	fflush(stdout);
-	char *args5[] = {"export", "APPEND_VAR+=_id", NULL};
-	builtin_export(args5, env);
-	// verifying now
-	char *val = get_env_value(*env, "APPEND_VAR");
-	if (val && ft_strncmp(val, "ham_id", -1) == 0)
-		printf(GREEN "✅ %s (appended correctly)\n" RESET, val);
-	else
-		printf(RED "⚠️ %s (expected ham_id)\n" RESET, val);
 }

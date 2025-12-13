@@ -7,8 +7,7 @@ LDFLAGS = -lreadline
 SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = includes
-LIBFT_DIR = lib/libft
-PRINTF_DIR = lib/ft_printf
+LIBFT_DIR = libft
 
 # Source files
 SRC = $(SRC_DIR)/main_for_tests_2.c \
@@ -40,22 +39,22 @@ SRC = $(SRC_DIR)/main_for_tests_2.c \
 	$(SRC_DIR)/executor/heredoc.c \
 	$(SRC_DIR)/signals/signals.c \
 	$(SRC_DIR)/signals/heredoc_signals.c \
-	$(SRC_DIR)/executor/path.c
+	$(SRC_DIR)/executor/path.c \
+	$(SRC_DIR)/test.c
 
 # Object files (with subdirectory structure)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Libraries
 LIBFT = $(LIBFT_DIR)/libft.a
-PRINTF = $(PRINTF_DIR)/libftprintf.a
 
 # Includes and library flags
-INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR)
-LIBS = -L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf
+INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR)/include
+LIBS = -L$(LIBFT_DIR) -lft
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(PRINTF) $(OBJ)
+$(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(LDFLAGS) -o $(NAME)
 
 # Pattern rule that creates subdirectories in obj/ as needed
@@ -66,18 +65,13 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(LIBFT):
 	@make -C $(LIBFT_DIR)
 
-$(PRINTF):
-	@make -C $(PRINTF_DIR)
-
 clean:
 	rm -rf $(OBJ_DIR)
 	@make -C $(LIBFT_DIR) clean
-	@make -C $(PRINTF_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
 	@make -C $(LIBFT_DIR) fclean
-	@make -C $(PRINTF_DIR) fclean
 
 re: fclean all
 

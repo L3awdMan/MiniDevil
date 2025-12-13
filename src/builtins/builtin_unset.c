@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 08:25:52 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 00:14:21 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/13 06:17:46 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,82 +124,4 @@ int	builtin_unset(char **args, t_env **env)
 		i++;
 	}
 	return (status);
-}
-
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////// TEMPORARY
-//////////////////////////////////////////////////
-
-#define YELLOW "\x1b[33m"
-#define GRAY "\x1b[90m"
-#define GREEN "\x1b[32m"
-#define RED "\x1b[31m"
-#define RESET "\x1b[0m"
-
-static void	check_unset(t_env *env, char *key)
-{
-	if (get_env_value(env, key) == NULL)
-		printf(GREEN "✅ %s is unset (not found)\n" RESET, key);
-	else
-		printf(RED "⚠️ %s still exists (unset failed)\n" RESET, key);
-}
-
-void	test_unset(t_env **env)
-{
-	printf("\n╔════════════════════════════════════════╗\n");
-	printf("║       UNSET BUILTIN TEST               ║\n");
-	printf("╚════════════════════════════════════════╝\n");
-
-	set_env_value(env, "VAR", "isbullshit");
-	set_env_value(env, "VAR1", "one");
-	set_env_value(env, "VAR2", "two");
-	set_env_value(env, "VAR3", "three");
-	set_env_value(env, "PATH", "/usr/bin");
-	printf(GRAY "Added VAR, VAR1, VAR2, VAR3, PATH\n" RESET);
-
-	printf(YELLOW "\nTest 1: unset VAR\n" RESET);
-	fflush(stdout);
-	char *args1[] = {"unset", "VAR", NULL};
-	builtin_unset(args1, env);
-	check_unset(*env, "VAR");
-
-
-	printf(YELLOW "\nTest 2: unset VAR1 VAR2 VAR3\n" RESET);
-	fflush(stdout);
-	char *args2[] = {"unset", "VAR1", "VAR2", "VAR3", NULL};
-	builtin_unset(args2, env);
-	check_unset(*env, "VAR1");
-	check_unset(*env, "VAR2");
-	check_unset(*env, "VAR3");
-
-
-	printf(YELLOW "\nTest 3: unset NONEXISTENT\n" RESET);
-	char *args3[] = {"unset", "NONEXISTENT", NULL};
-	int status3 = builtin_unset(args3, env);
-	if (status3 == 0)
-		printf(GREEN "✅ Returned 0 (no error)\n" RESET);
-	else
-		printf(RED "⚠️ Returned %d (expected 0)\n" RESET, status3);
-
-
-	printf(YELLOW "\nTest 4: unset PATH\n" RESET);
-	char *args4[] = {"unset", "PATH", NULL};
-	builtin_unset(args4, env);
-	check_unset(*env, "PATH");
-
-
-	printf(YELLOW "\nTest 5: unset 1_INVALID\n" RESET);
-	char *args5[] = {"unset", "123_INVALID", NULL};
-	printf(GRAY "(Expecting error message)\n" RESET);
-	fflush(stdout);
-	int status5 = builtin_unset(args5, env);
-	if (status5 == 1)
-		printf(GREEN "✅ returned 1 (correctly flagged as invalid)\n" RESET);
-	else
-		printf(RED "⚠️ Returned %d (expected 1)\n" RESET, status5);
 }

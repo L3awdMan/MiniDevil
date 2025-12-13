@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 01:41:07 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/12 06:37:26 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/13 06:39:14 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	print_sorted_export(t_env *env)
 
 	count = count_env(env);
 	if (count == 0)
-		return	;
+		return ;
 	arr = env_to_array(env, count);
 	if (!arr)
 		return ;

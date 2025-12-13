@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 06:07:41 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 04:54:42 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/13 06:17:58 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,59 +35,4 @@ int	builtin_pwd(void)
 	}
 	ft_putendl_fd(cwd, STDOUT_FILENO);
 	return (0);
-}
-
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////// TEMPORARY
-//////////////////////////////////////////////////
-
-#define YELLOW "\x1b[33m"
-#define RESET "\x1b[0m"
-
-
-void test_pwd(void)
-{
-	char	*cwd;
-	char	*original_dir;
-
-	printf("\n╔════════════════════════════════════════╗\n");
-	printf("║       PWD BUILTIN TEST                 ║\n");
-	printf("╚════════════════════════════════════════╝\n");
-
-	original_dir = getcwd(NULL, 0);
-	printf(YELLOW "\n Test 1 (running in current directory)" RESET);
-
-	cwd = getcwd(NULL, 0);
-	if (cwd)
-	{
-		printf("\nExpected: %s\n", cwd);
-		free(cwd);
-	}
-	printf("\nGot: ");
-	fflush(stdout);
-	builtin_pwd();
-
-	printf("\n------------------\n");
-
-	printf(YELLOW "\n Test 2 (running after \"cd /tmp && pwd\")" RESET);
-	if (chdir("/tmp") == 0)
-	{
-		printf("\nExpceted: /tmp\n");
-		printf("\nGot: ");
-		fflush(stdout);
-		builtin_pwd();
-	}
-	else
-		perror("tester error");
-
-	if (original_dir)
-	{
-		chdir(original_dir);
-		free(original_dir);
-	}
 }

@@ -6,27 +6,11 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:32:43 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 05:28:37 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/13 06:38:01 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-///////////////// ADD TO LIBFT
-static void	ft_free_split_array(char **arr)
-{
-	int	i;
-
-	if (!arr)
-		return ;
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
 
 /**
  * @brief Check if a command is a valid path (absolute or relative)
@@ -82,7 +66,7 @@ static char	*search_in_dir(char *dir, char *cmd)
 	if (!full_path)
 		return (NULL);
 	if (access(full_path, X_OK) == 0)
-			return (full_path);
+		return (full_path);
 	free(full_path);
 	return (NULL);
 }
@@ -111,7 +95,7 @@ static char	*search_in_path(char *cmd, char *path_var)
 		result = search_in_dir(dirs[i], cmd);
 		i++;
 	}
-	ft_free_split_array(dirs);
+	ft_free_strarray(dirs);
 	return (result);
 }
 
@@ -144,89 +128,4 @@ char	*find_cmd_path(char *cmd, t_env *env)
 	if (!path_var)
 		return (NULL);
 	return (search_in_path(cmd, path_var));
-}
-
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////////// TEMPORARY
-//////////////////////////////////////////////////
-
-#define YELLOW "\x1b[33m"
-#define GRAY "\x1b[90m"
-#define GREEN "\x1b[32m"
-#define RED "\x1b[31m"
-#define RESET "\x1b[0m"
-
-void	test_path_finder(t_env *env)
-{
-	char	*path;
-
-	printf("\n╔════════════════════════════════════════╗\n");
-	printf("║       PATH FINDER TEST                 ║\n");
-	printf("╚════════════════════════════════════════╝\n");
-
-	char *debug_path = get_env_value(env, "PATH");
-	if (debug_path)
-		printf(GRAY "!DEBUG [%s]\n" RESET, debug_path);
-	else
-		printf(RED "Problem with env init\n");
-
-
-	printf(YELLOW "\nTest 1: \"ls\"\n" RESET);
-	path = find_cmd_path("ls", env);
-	if (path)
-		printf(GREEN "✅ Found %s\n" RESET, path);
-	else
-		printf(RED "⚠️ Not found\n" RESET);
-	free(path);
-
-	printf(YELLOW "\nTest 2: \"cat\"\n" RESET);
-	path = find_cmd_path("cat", env);
-	if (path)
-		printf(GREEN "✅ Found %s\n" RESET, path);
-	else
-		printf(RED "⚠️ Not found\n" RESET);
-	free(path);
-
-	printf(YELLOW "\nTest 3: \"NONEXISTENT\"\n" RESET);
-	path = find_cmd_path("NONEXISTENT", env);
-	if (!path)
-		printf(GREEN "Correctly returned NULL\n" RESET);
-	else
-	{
-		printf(RED "⚠️ got %s (expected NULL)\n" RESET, path);
-		free(path);
-	}
-
-	printf(YELLOW "\nTest 4: absolute path \"/bin/ls\"\n" RESET);
-	path = find_cmd_path("/bin/ls", env);
-	if (path && ft_strncmp(path, "/bin/ls", -1) == 0)
-		printf(GREEN "✅ Found %s\n" RESET, path);
-	else
-		printf(RED "⚠️ Fail\n" RESET);
-	free(path);
-
-	printf(YELLOW "\nTest 5: invalid absolute path \"/nonexistent/ls\"\n" RESET);
-	path = find_cmd_path("/nonexistent/ls", env);
-	if (!path)
-		printf(GREEN "✅ Correctly returned NULL\n" RESET);
-	else
-	{
-		printf(RED "⚠️ got %s (expected NULL)\n" RESET, path);
-		free(path);
-	}
-
-	printf(YELLOW "\nTest 6: empty \"\"\n" RESET);
-	path = find_cmd_path("", env);
-	if (!path)
-		printf(GREEN "✅ Correctly returned NULL\n" RESET);
-	else
-	{
-		printf(RED "⚠️ got %s (expected NULL)\n" RESET, path);
-		free(path);
-	}
 }
