@@ -6,14 +6,14 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 05:03:44 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/12 21:19:25 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/13 11:26:33 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-int 	builtin_echo(char **args);
+int		builtin_echo(char **args);
 
 int		builtin_pwd(void);
 
@@ -31,7 +31,6 @@ void	export_no_value(t_env **env, char *key);
 
 int		builtin_unset(char **args, t_env **env);
 
-
 ///// TEMPORARY
 
 void	test_echo(void);
@@ -48,5 +47,7 @@ void	test_env_hidden(t_env **env);
 void	test_export(t_env **env);
 
 void	test_unset(t_env **env);
+
+void	test_path_finder(t_env *env);
 
 #endif

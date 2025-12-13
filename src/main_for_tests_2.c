@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/11 23:46:06 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/13 17:25:13 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@
 #include <signal.h>
 #include <stdio.h>
 
+#define YELLOW "\x1b[33m"
+#define GRAY "\x1b[90m"
+#define GREEN "\x1b[32m"
+#define RED "\x1b[31m"
+#define RESET "\x1b[0m"
+
 void	print_tokens(t_token *tokens)
 {
 	t_token	*curr;
@@ -42,6 +48,257 @@ void	print_tokens(t_token *tokens)
 	}
 }
 
+// ═══════════════════════════════════════════════════════════════════════
+// ISSUE #11: SIMPLE COMMAND PARSING TESTS
+// ═══════════════════════════════════════════════════════════════════════
+
+void	test_issue_11_simple_commands(void)
+{
+	t_token	*tokens;
+	t_ast	*tree;
+
+	printf("\n╔═══════════════════════════════════════════════════════════╗\n");
+	printf("║   ISSUE #11: SIMPLE COMMAND PARSING                      ║\n");
+	printf("╚═══════════════════════════════════════════════════════════╝\n");
+	// TEST 1: Basic command with no args
+	printf(YELLOW "\n✓ Test 1: echo\n" RESET);
+	tokens = tokenize("echo");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_COMMAND && tree->data.cmd.argc == 1)
+		printf(GREEN "✅ PASS: argc=1, arg[0]='%s'\n" RESET,
+			tree->data.cmd.args[0]);
+	else
+		printf(RED "❌ FAIL: Expected NODE_COMMAND with argc=1\n" RESET);
+	free_ast(tree);
+	free_token_list(tokens);
+	// TEST 2: Command with arguments
+	printf(YELLOW "\n✓ Test 2: echo hello world\n" RESET);
+	tokens = tokenize("echo hello world");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_COMMAND && tree->data.cmd.argc == 3)
+		printf(GREEN "✅ PASS: argc=3, args=['%s','%s','%s']\n" RESET,
+			tree->data.cmd.args[0], tree->data.cmd.args[1],
+			tree->data.cmd.args[2]);
+	else
+		printf(RED "❌ FAIL: Expected argc=3, got argc=%d\n" RESET,
+			tree ? tree->data.cmd.argc : -1);
+	free_ast(tree);
+	free_token_list(tokens);
+	// TEST 3: Command with quoted argument
+	printf(YELLOW "\n✓ Test 3: echo 'hello world'\n" RESET);
+	tokens = tokenize("echo 'hello world'");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_COMMAND && tree->data.cmd.argc == 2)
+		printf(GREEN "✅ PASS: argc=2, arg[1]='%s'\n" RESET,
+			tree->data.cmd.args[1]);
+	else
+		printf(RED "❌ FAIL\n" RESET);
+	free_ast(tree);
+	free_token_list(tokens);
+	// TEST 4: Path command
+	printf(YELLOW "\n✓ Test 4: /bin/ls -la\n" RESET);
+	tokens = tokenize("/bin/ls -la");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_COMMAND && tree->data.cmd.argc == 2)
+		printf(GREEN "✅ PASS: Full path command works\n" RESET);
+	else
+		printf(RED "❌ FAIL\n" RESET);
+	free_ast(tree);
+	free_token_list(tokens);
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// ISSUE #12: REDIRECTION PARSING TESTS (CRITICAL!)
+// ═══════════════════════════════════════════════════════════════════════
+
+void	test_issue_12_redirections(void)
+{
+	t_token	*tokens;
+	t_ast	*tree;
+	t_ast	*cmd;
+
+	printf("\n╔═══════════════════════════════════════════════════════════╗\n");
+	printf("║                   REDIRECTION PARSING                     ║\n");
+	printf("╚═══════════════════════════════════════════════════════════╝\n");
+	// TEST 1: Output redirection
+	printf(YELLOW "\n✓ Test 1: echo hello > out.txt\n" RESET);
+	tokens = tokenize("echo hello > out.txt");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_REDIR_OUT)
+	{
+		printf(GREEN "✅ PASS: Root is REDIR_OUT\n" RESET);
+		printf("   File: '%s'\n", tree->data.redir.file);
+		if (tree->data.redir.cmd && tree->data.redir.cmd->type == NODE_COMMAND)
+			printf("   Command argc: %d\n",
+				tree->data.redir.cmd->data.cmd.argc);
+		else
+			printf(RED "   ❌ No command node!\n" RESET);
+	}
+	else
+		printf(RED "❌ FAIL: Expected NODE_REDIR_OUT, got type=%d\n" RESET,
+			tree ? tree->type : -1);
+	free_ast(tree);
+	free_token_list(tokens);
+	// TEST 2: Input redirection
+	printf(YELLOW "\n✓ Test 2: cat < input.txt\n" RESET);
+	tokens = tokenize("cat < input.txt");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_REDIR_IN)
+	{
+		printf(GREEN "✅ PASS: Root is REDIR_IN, file='%s'\n" RESET,
+			tree->data.redir.file);
+	}
+	else
+		printf(RED "❌ FAIL\n" RESET);
+	free_ast(tree);
+	free_token_list(tokens);
+	// TEST 3: Multiple redirections (TRICKY!)
+	printf(YELLOW "\n✓ Test 3: cat < in.txt > out.txt\n" RESET);
+	tokens = tokenize("cat < in.txt > out.txt");
+	tree = parse(tokens);
+	if (tree)
+	{
+		printf("   Root type: %d (should be REDIR_OUT=%d or REDIR_IN=%d)\n",
+			tree->type, NODE_REDIR_OUT, NODE_REDIR_IN);
+		if (tree->type == NODE_REDIR_OUT)
+		{
+			printf("   Out file: '%s'\n", tree->data.redir.file);
+			if (tree->data.redir.cmd
+				&& tree->data.redir.cmd->type == NODE_REDIR_IN)
+				printf(GREEN "✅ PASS: Nested redirections!\n" RESET);
+			else
+				printf(RED "❌ FAIL: Missing nested REDIR_IN\n" RESET);
+		}
+	}
+	else
+		printf(RED "❌ FAIL: NULL tree\n" RESET);
+	free_ast(tree);
+	free_token_list(tokens);
+	// TEST 4: Append redirection
+	printf(YELLOW "\n✓ Test 4: echo test >> file.txt\n" RESET);
+	tokens = tokenize("echo test >> file.txt");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_REDIR_APPEND)
+		printf(GREEN "✅ PASS: APPEND works\n" RESET);
+	else
+		printf(RED "❌ FAIL: Expected APPEND\n" RESET);
+	free_ast(tree);
+	free_token_list(tokens);
+	// TEST 5: Heredoc
+	printf(YELLOW "\n✓ Test 5: cat << EOF\n" RESET);
+	tokens = tokenize("cat << EOF");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_REDIR_HEREDOC)
+		printf(GREEN "✅ PASS: HEREDOC parsed, delimiter='%s'\n" RESET,
+			tree->data.redir.file);
+	else
+		printf(RED "❌ FAIL\n" RESET);
+	free_ast(tree);
+	free_token_list(tokens);
+	// TEST 6: EDGE CASE - Redirection BEFORE command
+	printf(YELLOW "\n✓ Test 6: < in.txt cat\n" RESET);
+	tokens = tokenize("< in.txt cat");
+	tree = parse(tokens);
+	if (tree)
+	{
+		printf("   Type: %d\n", tree->type);
+		if (tree->type == NODE_REDIR_IN)
+			printf(GREEN "✅ PASS: Handles redir before command\n" RESET);
+		else
+			printf(RED "❌ FAIL: Should be REDIR_IN\n" RESET);
+	}
+	free_ast(tree);
+	free_token_list(tokens);
+	// TEST 7: EDGE CASE - Mixed args and redirections
+	printf(YELLOW "\n✓ Test 7: echo hello > out.txt world\n" RESET);
+	printf(RED "⚠️  THIS IS THE TRICKY ONE Check if 'world' is in command args!\n" RESET);
+	tokens = tokenize("echo hello > out.txt hamid");
+	tree = parse(tokens);
+	if (tree)
+	{
+		printf("   Root type: %d\n", tree->type);
+		// This should parse as:
+		// REDIR_OUT(file=out.txt, cmd=COMMAND(echo, hello, world))
+		// OR it might fail if parser doesn't handle args after redirections
+		if (tree->type == NODE_REDIR_OUT && tree->data.redir.cmd)
+		{
+			cmd = tree->data.redir.cmd;
+			printf("   Command argc: %d\n", cmd->data.cmd.argc);
+			if (cmd->data.cmd.argc == 3)
+				printf(GREEN "   ✅ PASS: 'world' is in args!\n" RESET);
+			else
+				printf(RED "   ❌ FAIL: argc=%d, missing 'world'!\n" RESET,
+					cmd->data.cmd.argc);
+		}
+		if (tree->type == NODE_REDIR_OUT && tree->data.redir.cmd)
+		{
+			cmd = tree->data.redir.cmd;
+			printf("   Command argc: %d\n", cmd->data.cmd.argc);
+			// ADD THIS:
+			printf("   Args are: ");
+			for (int i = 0; i < cmd->data.cmd.argc; i++)
+				printf("'%s' ", cmd->data.cmd.args[i]);
+			printf("\n");
+		}
+	}
+	free_ast(tree);
+	free_token_list(tokens);
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// PIPELINE PARSING TESTS
+// ═══════════════════════════════════════════════════════════════════════
+
+void	test_pipelines(void)
+{
+	t_token	*tokens;
+	t_ast	*tree;
+
+	printf("\n╔═══════════════════════════════════════════════════════════╗\n");
+	printf("║                     PIPELINE PARSING                      ║\n");
+	printf("╚═══════════════════════════════════════════════════════════╝\n");
+	// TEST 1: Simple pipe
+	printf(YELLOW "\n✓ Test 1: ls | grep test\n" RESET);
+	tokens = tokenize("ls | grep test");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_PIPE)
+	{
+		printf(GREEN "✅ PASS: Root is PIPE\n" RESET);
+		printf("   Left type: %d (should be %d=COMMAND)\n",
+			tree->data.binary.left->type, NODE_COMMAND);
+		printf("   Right type: %d (should be %d=COMMAND)\n",
+			tree->data.binary.right->type, NODE_COMMAND);
+	}
+	else
+		printf(RED "❌ FAIL\n" RESET);
+	free_ast(tree);
+	free_token_list(tokens);
+	// TEST 2: Triple pipe
+	printf(YELLOW "\n✓ Test 2: cat | grep word | wc -l\n" RESET);
+	tokens = tokenize("cat | grep word | wc -l");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_PIPE)
+	{
+		printf(GREEN "✅ PASS: Root is PIPE\n" RESET);
+		// Tree should be: PIPE(PIPE(cat, grep), wc)
+		if (tree->data.binary.left && tree->data.binary.left->type == NODE_PIPE)
+			printf(GREEN "   ✅ Left is also PIPE (correct structure!)\n" RESET);
+		else
+			printf(RED "   ❌ Left should be PIPE for 3-command pipeline\n" RESET);
+	}
+	free_ast(tree);
+	free_token_list(tokens);
+	// TEST 3: Pipe with redirections
+	printf(YELLOW "\n✓ Test 3: cat < in.txt | grep test > out.txt\n" RESET);
+	tokens = tokenize("cat < in.txt | grep test > out.txt");
+	tree = parse(tokens);
+	if (tree && tree->type == NODE_PIPE)
+		printf(GREEN "✅ PASS: Complex pipeline parsed\n" RESET);
+	else
+		printf(RED "❌ FAIL\n" RESET);
+	free_ast(tree);
+	free_token_list(tokens);
+}
 void	test_grammar_validation(void)
 {
 	t_token	*tokens;
@@ -503,19 +760,28 @@ int	main(int ac, char **av, char **envp)
 	test_quotes();
 	test_expansion(shell.env);
 	test_edge_cases();
-	test_ast_quick();
+	//	test_ast_quick();
 	test_parser();
 	debug_environment(shell.env);
 	test_grammar_validation();
+	test_issue_11_simple_commands();
+	test_issue_12_redirections();
+	test_pipelines();
 	printf("\n");
 	printf("╔══════════════════════════════════════════════════════════╗\n");
 	printf("║                    TEST COMPLETE                         ║\n");
 	printf("╚══════════════════════════════════════════════════════════╝\n");
 	printf("\n✅ If all tests show expected output or POSIX behavior → MILESTONE 2 WORKS!\n");
-	//	printf("\n\n\n\n\n\n"); // simply testing builtins now
-	//	test_echo();
-	//	test_pwd();
-	//	test_cd(&shell.env);
+	printf("\n\n\n\n\n\n"); // simply testing builtins now
+							//	test_echo();
+							//	test_pwd();
+							//	test_cd(&shell.env);
+							//	test_exit();
+							//	test_env(shell.env);
+							//	test_env_hidden(&shell.env);
+							//	test_export(&shell.env);
+							//	test_unset(&shell.env);
+							//	test_path_finder(shell.env);
 	free_env_list(&shell.env);
 	return (0);
 }
