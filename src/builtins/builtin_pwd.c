@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 06:07:41 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/12 06:13:16 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/13 04:54:42 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,22 @@ int	builtin_pwd(void)
 
 void test_pwd(void)
 {
+	char	*cwd;
+	char	*original_dir;
+
 	printf("\n╔════════════════════════════════════════╗\n");
 	printf("║       PWD BUILTIN TEST                 ║\n");
 	printf("╚════════════════════════════════════════╝\n");
 
+	original_dir = getcwd(NULL, 0);
 	printf(YELLOW "\n Test 1 (running in current directory)" RESET);
-	printf("\nExpected: %s\n", getcwd(NULL, 0));
+
+	cwd = getcwd(NULL, 0);
+	if (cwd)
+	{
+		printf("\nExpected: %s\n", cwd);
+		free(cwd);
+	}
 	printf("\nGot: ");
 	fflush(stdout);
 	builtin_pwd();
@@ -74,4 +84,10 @@ void test_pwd(void)
 	}
 	else
 		perror("tester error");
+
+	if (original_dir)
+	{
+		chdir(original_dir);
+		free(original_dir);
+	}
 }
