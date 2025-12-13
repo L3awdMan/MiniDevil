@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 00:25:59 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 00:15:27 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/13 03:43:45 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	setup_signals_child(void);
 
 void	heredoc_sigint_handler(int sig);
 void	setup_heredoc_signals(void);
+void	restore_stdin(void);
 
 
 /// temporary

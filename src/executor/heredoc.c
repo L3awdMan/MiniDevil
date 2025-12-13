@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:58:03 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 00:29:52 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/13 03:34:11 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,11 +135,7 @@ int	handle_heredoc(char *received_delimiter, t_env *env)
 	if (!delimiter)
 		return (-1);
 	if (pipe(pipe_fd) == -1)
-	{
-		free(delimiter);
-		perror("minishell: pipe");
-		return (-1);
-	}
+		return(free(delimiter), perror("minishell: pipe"), -1);
 	setup_heredoc_signals();
 	g_signal = 0;
 	interrupted = read_heredoc_lines(pipe_fd[1], delimiter, env, expand);
@@ -147,7 +143,11 @@ int	handle_heredoc(char *received_delimiter, t_env *env)
 	close(pipe_fd[1]);
 	free(delimiter);
 	if (interrupted)
-		return (close(pipe_fd[0]), -1);
+	{
+		close(pipe_fd[0]);
+		restore_stdin();
+		return (-1);
+	}
 	return (pipe_fd[0]);
 }
 
