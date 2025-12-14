@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:35:25 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/11 04:20:03 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/14 05:21:16 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ t_ast	*parse_pipeline(t_token **tokens)
 	t_ast	*left;
 	t_ast	*right;
 
-	left = parse_command(tokens);
+	left = parse_simple_command(tokens);
 	if (!left)
 		return (NULL);
 	while (*tokens && (*tokens)->type == TOKEN_PIPE)
 	{
 		*tokens = (*tokens)->next;
-		right = parse_command(tokens);
+		right = parse_simple_command(tokens);
 		if (!right)
 		{
 			free_ast(left);

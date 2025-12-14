@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 18:43:02 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/13 06:20:53 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/14 01:20:46 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,6 @@
 # include "libft.h"
 
 //==================================================
-//=============== GLOBAL VARIABLES =================
-//==================================================
-
-/**
- * @brief Global signal indicator
- *
- * Used to communicate between signal handlers and main program
- * Only modified in signal handlers and read in main loop
- * sig_atomic_t ensures atomic read/write operations (@see WIP)
- */
-extern volatile sig_atomic_t	g_signal;
-
-//==================================================
 //=============== PROJECT INCLUDES =================
 //==================================================
 
@@ -68,5 +55,18 @@ extern volatile sig_atomic_t	g_signal;
 # include "signals.h"
 # include "builtins.h"
 # include "executor.h"
+
+//==================================================
+//=============== GLOBAL VARIABLES =================
+//==================================================
+
+/**
+ * @brief Global signal indicator
+ *
+ * Used to communicate between signal handlers and main program
+ * Only modified in signal handlers and read in main loop
+ * sig_atomic_t ensures atomic read/write operations (@see WIP)
+ */
+extern volatile sig_atomic_t	g_signal;
 
 #endif

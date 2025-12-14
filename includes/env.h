@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 22:44:42 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 02:16:33 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/14 03:19:20 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,7 @@ void	free_env_list(t_env **env_list);
  * @return Number of environment variables
  */
 int		env_list_size(t_env *env_list);
+
+char	**env_to_array(t_env *env);
 
 #endif

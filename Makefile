@@ -41,7 +41,10 @@ SRC = $(SRC_DIR)/main_for_tests_2.c \
 	$(SRC_DIR)/signals/signals.c \
 	$(SRC_DIR)/signals/heredoc_signals.c \
 	$(SRC_DIR)/executor/path.c \
-	$(SRC_DIR)/test.c
+	$(SRC_DIR)/test.c \
+	$(SRC_DIR)/env/env_conversion.c \
+	$(SRC_DIR)/executor/exec_cmd.c \
+	$(SRC_DIR)/executor/exec_utils.c
 
 # Object files (with subdirectory structure)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
