@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 06:14:09 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 06:18:58 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/14 05:51:20 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -652,3 +652,180 @@ void	test_path_finder(t_env *env)
 ////////////////////////////////////// //////////////////////////////////////
 //////////////////////////////////////
 ////////////////////////////////////// //////////////////////////////////////
+
+static void	test_env_to_array(t_env *env)
+{
+	char	**arr;
+	int		i;
+
+	printf(YELLOW "\nTest env_to_array\n" RESET);
+	arr = env_to_array(env);
+	if (!arr)
+	{
+		printf(RED "⚠️ env_to_array returned NULL\n" RESET);
+		return ;
+	}
+	printf(GREEN "✅ wp. Array created\n" RESET);
+	i = 0;
+	while (arr[i] && i < 3)
+	{
+		printf("> %d %.50s...\n", i, arr[i]);
+		i++;
+	}
+	printf(GRAY "%d total entries\n" RESET, env_list_size(env));
+	ft_free_strarray(arr);
+}
+
+static void	test_is_builtin(void)
+{
+	printf(YELLOW "\n Test is_builtin\n" RESET);
+	if (is_builtin("echo") && is_builtin("cd") && is_builtin("pwd")
+		&& is_builtin("export") && is_builtin("unset") && is_builtin("env")
+		&& is_builtin("exit"))
+		printf(GREEN "✅ All builtins detected\n" RESET);
+	else
+		printf(RED "✅ some builtins not detected\n" RESET);
+	if (!is_builtin("ls") && !is_builtin("cat") && !is_builtin("grep"))
+		printf(GREEN "✅ external commands were not detected as builtins\n" RESET);
+	else
+		printf(RED "⚠️ external commands were detected as builtins\n" RESET);
+	if (!is_builtin(NULL) && !is_builtin(""))
+		printf(GREEN "✅ NULL and empty handled with brio\n" RESET);
+	else
+		printf(RED "⚠️ NULL empty are not handled correctly\n" RESET);
+}
+
+static void	test_exec_ls(t_env *env)
+{
+	char	*args_absolute[3];
+	char	*args_path[3];
+	int		status;
+
+	printf(YELLOW "\n Test exec_external with /bin/ls -la\n" RESET);
+	args_absolute[0] = "/bin/ls";
+	args_absolute[1] = "-la";
+	args_absolute[2] = NULL;
+	printf(GRAY "Running /bin/ls -la\n" RESET);
+	fflush(stdout);
+	status = exec_external(args_absolute, env);
+	if (status == 0)
+		printf(GREEN "✅ /bin/ls returned %d\n" RESET, status);
+	else
+		printf(RED "⚠️ /bin/ls returned %d\n" RESET, status);
+	////
+	printf (YELLOW "\nTest exec_external with ls (PATH search)\n" RESET);
+	fflush(stdout);
+	args_path[0] = "ls";
+	args_path[1] = NULL;
+	args_path[2] = NULL;
+	status = exec_external(args_path, env);
+	if (status == 0)
+		printf(GREEN "✅ ls returned %d\n" RESET, status);
+	else
+		printf(RED "⚠️ ls returned %d\n" RESET, status);
+}
+
+static void	test_cmd_not_found(t_env *env)
+{
+	char	*args[2];
+	int		status;
+
+	printf(YELLOW "\nTest exec_external with NONEXISTENT\n" RESET);
+	fflush(stdout);
+	args[0] = "NONEXISTENT";
+	args[1] = NULL;
+	status = exec_external(args, env);
+	if (status == 127)
+		printf(GREEN "✅ Returned %d\n" RESET, status);
+	else
+		printf(RED "⚠️ Returned %d (expecting 127)\n" RESET, status);
+}
+
+static void	test_exec_simple_builtin(t_env **env)
+{
+	char	*args_echo[3];
+	char	*args_pwd[2];
+	int		status;
+
+	printf(YELLOW "\n Test exec_simple_cmd: echo\n" RESET);
+	args_echo[0] = "echo";
+	args_echo[1] = "tahia lmalin krwassa";
+	args_echo[2] = NULL;
+	fflush(stdout);
+	status = exec_simple_command(args_echo, env, 0);
+	if (status == 0)
+		printf(GREEN "✅ echo returend %d\n" RESET, status);
+	else
+		printf(RED "⚠️ echo retuned %d\n" RESET, status);
+
+	printf(YELLOW "\n Test exec_simple_cmd: pwd\n" RESET);
+	args_pwd[0] = "pwd";
+	args_pwd[1] = NULL;
+	fflush(stdout);
+	status = exec_simple_command(args_pwd, env, 0);
+	if (status == 0)
+		printf(GREEN "✅ pwd returend %d\n" RESET, status);
+	else
+		printf(RED "⚠️ pwd retuned %d\n" RESET, status);
+}
+
+static void	test_exec_script(t_env *env)
+{
+	char	*args[2];
+	int		status;
+
+	printf(YELLOW "\n Test ./script.sh\n" RESET);
+	args[0] = "./script.sh";
+	args[1] = NULL;
+	printf(GRAY "Running ./script.sh (print a msg and exit 42)\n" RESET);
+	if (access("script.sh", X_OK) == -1)
+	{
+		printf(GRAY "adding permission to the script\n" RESET);
+		chmod("script.sh", 0777);
+	}
+	fflush(stdout);
+	
+	status = exec_external(args, env);
+	if (status == 42)
+		printf(GREEN "✅ script returned %d\n" RESET, status);
+	else
+		printf(RED "⚠️ malin krwassa returned %d (expecting 42)\n" RESET, status);
+}
+
+static void	test_not_exec_script(t_env *env)
+{
+	char	*args[2];
+	int		status;
+
+	printf(YELLOW "\n Test ./notexecutable.sh\n" RESET);
+	args[0] = "./notexecutable.sh";
+	args[1] = NULL;
+	chmod("notexecutable.sh", 0000);
+	fflush(stdout);
+	
+	status = exec_external(args, env);
+	if (status == 126)
+		printf(GREEN "✅ Returned %d\n" RESET, status);
+	else
+		printf(RED "⚠️ Returned %d (expecting 126)\n" RESET, status);
+}
+
+void	test_exec_external(t_env **env)
+{
+	printf("\n╔════════════════════════════════════════╗\n");
+	printf("║       EXEC EXTERNAL TEST               ║\n");
+	printf("╚════════════════════════════════════════╝\n");
+
+	test_env_to_array(*env);
+	test_is_builtin();
+	test_exec_ls(*env);
+	test_cmd_not_found(*env);
+	test_exec_simple_builtin(env);
+	test_exec_script(*env);
+	test_not_exec_script(*env);
+}
+
+////////////////////////////////////// //////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////// //////////////////////////////////////
+

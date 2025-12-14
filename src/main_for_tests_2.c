@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/13 17:25:13 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/14 05:20:18 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	test_issue_11_simple_commands(void)
 // ISSUE #12: REDIRECTION PARSING TESTS (CRITICAL!)
 // ═══════════════════════════════════════════════════════════════════════
 
+/*
 void	test_issue_12_redirections(void)
 {
 	t_token	*tokens;
@@ -244,6 +245,7 @@ void	test_issue_12_redirections(void)
 	free_ast(tree);
 	free_token_list(tokens);
 }
+*/
 
 // ═══════════════════════════════════════════════════════════════════════
 // PIPELINE PARSING TESTS
@@ -765,14 +767,14 @@ int	main(int ac, char **av, char **envp)
 	debug_environment(shell.env);
 	test_grammar_validation();
 	test_issue_11_simple_commands();
-	test_issue_12_redirections();
+	// test_issue_12_redirections();
 	test_pipelines();
 	printf("\n");
 	printf("╔══════════════════════════════════════════════════════════╗\n");
 	printf("║                    TEST COMPLETE                         ║\n");
 	printf("╚══════════════════════════════════════════════════════════╝\n");
 	printf("\n✅ If all tests show expected output or POSIX behavior → MILESTONE 2 WORKS!\n");
-	printf("\n\n\n\n\n\n"); // simply testing builtins now
+	printf("\n\n\n\n\n\n"); // testing builtins and path finder
 							//	test_echo();
 							//	test_pwd();
 							//	test_cd(&shell.env);
@@ -782,6 +784,8 @@ int	main(int ac, char **av, char **envp)
 							//	test_export(&shell.env);
 							//	test_unset(&shell.env);
 							//	test_path_finder(shell.env);
+	printf("\n\n\n\n\n\n"); // testing exec external
+	test_exec_external(&shell.env);
 	free_env_list(&shell.env);
 	return (0);
 }

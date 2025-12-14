@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 02:24:43 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/11 20:00:51 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/14 01:20:00 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ typedef struct s_token
  */
 typedef struct s_env
 {
-	char *key;   // Variable name (example "PATH")
-	char *value; // Variable value (example "/usr/bin:/bin")
+	char				*key;
+	char				*value;
 	struct s_env		*next;
 	struct s_env		*prev;
 }						t_env;
@@ -147,8 +147,8 @@ typedef struct s_env
  */
 typedef struct s_cmd_node
 {
-	char **args; // NULL terminated array
-	int argc;    // Arguments count
+	char	**args;
+	int		argc;
 }						t_cmd_node;
 
 /**
@@ -164,9 +164,9 @@ typedef struct s_cmd_node
  */
 typedef struct s_redir_node
 {
-	char *file;             // Target filename
-	struct s_ast *cmd;      // The command being redirected
-	t_node_type redir_type; // Which redirection <, >, <<, >>
+	char			*file;
+	struct s_ast	*cmd;
+	t_node_type		redir_type;
 }						t_redir_node;
 
 /**
@@ -181,9 +181,26 @@ typedef struct s_redir_node
  */
 typedef struct s_binary_node
 {
-	struct s_ast *left;  // LEft side command (runs first: stdout -> pipe)
-	struct s_ast *right; // Right side command (runs second: stdin <- pipe)
+	struct s_ast	*left;
+	struct s_ast	*right;
 }						t_binary_node;
+
+/**
+ * @brief Union for the AST node
+ * 
+ * This union stores the data for exactly one AST node type
+ * Members are:
+ * - cmd (data for a command node)
+ * - redir (data for a redirection node)
+ * - binary (data for a binary node = pipe)
+ * @see t_ast
+ */
+typedef union u_ast_data
+{
+	t_cmd_node		cmd;
+	t_redir_node	redir;
+	t_binary_node	binary;
+}	t_ast_data;
 
 /**
  * @brief AST node - main tree structure
@@ -200,13 +217,8 @@ typedef struct s_binary_node
  */
 typedef struct s_ast
 {
-	t_node_type type; // Determines which union member is valid
-	union
-	{
-		t_cmd_node		cmd;
-		t_redir_node	redir;
-		t_binary_node	binary;
-	} data; // The actual data (only ONE is valid based on type)
+	t_node_type	type; // Determines which union member is valid
+	t_ast_data	data; // The actual data (only ONE is valid based on type)
 }						t_ast;
 
 //==================================================
@@ -220,10 +232,10 @@ typedef struct s_ast
  */
 typedef struct s_shell
 {
-	t_env *env;      // Head of environment variables list
-	int exit_status; // Last command's exit status ($?)
-	int running;     // Current AST being executed
-} t_shell;           // 1 if running in tty, 0 if piped or scripted
+	t_env	*env;
+	int		exit_status;
+	int		running;
+}	t_shell;
 
 //==================================================
 //================ SYNTAX ERROR CODES ==============
@@ -233,18 +245,25 @@ typedef struct s_shell
  * @brief Enum for specific syntax error types
  *
  * Allows precise error tracking and better testing
+ * 
+ * - **EMPTY_INPUT**		Empty input string
+ * - **PIPE_START**			Pipe at start: | cat
+ * - **PIPE_END**			Pipe at end: cat |
+ * - **PIPE_DOUBLE**		Double pipe: cat || grep
+ * - **PIPE_NO_CMD**		No command after pipe: cat | > out
+ * - **REDIR_NO_FILE**		Missing filename: cat <
+ * - **REDIR_AFTER_PIPE**	Redirection right after pipe
  */
-
 typedef enum e_syntax_error
 {
-	ERR_NONE = 0,        // No error
-	ERR_EMPTY_INPUT,     // Empty input string
-	ERR_PIPE_START,      // Pipe at start: | cat
-	ERR_PIPE_END,        // Pipe at end: cat |
-	ERR_PIPE_DOUBLE,     // Double pipe: cat || grep
-	ERR_PIPE_NO_CMD,     // No command after pipe: cat | > out
-	ERR_REDIR_NO_FILE,   // Missing filename: cat <
-	ERR_REDIR_AFTER_PIPE // Redirection right after pipe
-}						t_syntax_error;
+	ERR_NONE = 0,
+	ERR_EMPTY_INPUT,
+	ERR_PIPE_START,
+	ERR_PIPE_END,
+	ERR_PIPE_DOUBLE,
+	ERR_PIPE_NO_CMD,
+	ERR_REDIR_NO_FILE,
+	ERR_REDIR_AFTER_PIPE
+}	t_syntax_error;
 
 #endif

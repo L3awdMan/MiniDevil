@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 01:41:07 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 06:39:14 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/14 05:22:46 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	count_env(t_env *env)
  * @param count The number of nodes
  * @return NULL terminated array of t_env pointers or NULL on fail
  */
-static t_env	**env_to_array(t_env *env, int count)
+static t_env	**env_to_node_array(t_env *env, int count)
 {
 	t_env	**arr;
 	int		i;
@@ -131,7 +131,7 @@ void	print_sorted_export(t_env *env)
 	count = count_env(env);
 	if (count == 0)
 		return ;
-	arr = env_to_array(env, count);
+	arr = env_to_node_array(env, count);
 	if (!arr)
 		return ;
 	sort_env_array(arr, count);
