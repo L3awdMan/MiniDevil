@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/18 20:56:41 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/19 00:03:32 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,19 @@ static int	process_input(char *input, t_shell *shell)
 	t_ast	*ast;
 	int		status;
 
+	t_token *tmp; // for debug
 	tokens = tokenize(input);
 	if (!tokens)
 		return (1);
+	// for debug
+	printf("\n===================\n");
+	tmp = tokens;
+	while (tmp)
+	{
+		printf("type : %d -- value : %s\n", tmp->type, tmp->value);
+		tmp = tmp->next;
+	}
+	printf("\n===================\n");
 	ast = parse(tokens);
 	free_token_list(tokens);
 	if (!ast)
