@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/14 05:20:18 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/18 04:39:38 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,202 @@ void	print_tokens(t_token *tokens)
 	}
 }
 
+// ============ DEBUG ===========
+void	test_count_words(void)
+{
+	t_token	*tokens;
+	t_token	*curr;
+	int		i;
+
+	tokens = tokenize("echo test > /tmp/debug.txt");
+	printf("Testing count_word_tokens():\n");
+	printf("Should count 2 (echo, test)\n");
+	printf("Actually counts: %d\n", count_word_tokens(tokens));
+	// Check token types
+	curr = tokens;
+	i = 0;
+	while (curr)
+	{
+		printf("  Token[%d]: type=%d (%s)\n", i, curr->type,
+			curr->type == 0 ? "WORD" : "OPERATOR");
+		curr = curr->next;
+		i++;
+	}
+	free_token_list(tokens);
+}
+
+void	test_tokenizer_only(void)
+{
+	t_token	*tokens;
+	t_token	*curr;
+	int		i;
+
+	printf("\n╔═══════════════════════════════════════╗\n");
+	printf("║   TOKENIZER DEBUG TEST                ║\n");
+	printf("╚═══════════════════════════════════════╝\n");
+	printf("\nInput: 'echo test > /tmp/debug.txt'\n\n");
+	tokens = tokenize("echo test > /tmp/debug.txt");
+	printf("Tokens created:\n");
+	curr = tokens;
+	i = 0;
+	while (curr)
+	{
+		printf("  [%d] type=%d value='%s'\n", i, curr->type, curr->value);
+		printf("       Token type names:\n");
+		printf("         0=TOKEN_WORD\n");
+		printf("         1=TOKEN_PIPE\n");
+		printf("         2=TOKEN_REDIR_IN\n");
+		printf("         3=TOKEN_REDIR_OUT\n");
+		printf("         4=TOKEN_APPEND\n");
+		printf("         5=TOKEN_HEREDOC\n");
+		if (curr->type == 3)
+			printf(" ✅ This is TOKEN_REDIR_OUT!\n");
+		else if (curr->type == 0 && curr->value[0] == '>')
+			printf(" ❌ ERROR: '>' is TOKEN_WORD, should be TOKEN_REDIR_OUT!\n");
+		curr = curr->next;
+		i++;
+	}
+	printf("\n");
+	printf("Expected tokens:\n");
+	printf("  [0] type=0 (WORD) value='echo'\n");
+	printf("  [1] type=0 (WORD) value='test'\n");
+	printf("  [2] type=3 (REDIR_OUT) value='>'\n");
+	printf("  [3] type=0 (WORD) value='/tmp/debug.txt'\n");
+	free_token_list(tokens);
+}
+
+void	test_redirection_debug(t_shell *shell)
+{
+	t_token	*tokens;
+	t_ast	*tree;
+	int		status;
+	int		fd;
+	char	buf[100] = {0};
+	ssize_t	n;
+
+	printf("\n╔═══════════════════════════════════════╗\n");
+	printf("║   REDIRECTION DEBUG TEST              ║\n");
+	printf("╚═══════════════════════════════════════╝\n");
+	// Test: echo test > /tmp/debug.txt
+	printf("\n1. Parsing: echo test > /tmp/debug.txt\n");
+	tokens = tokenize("echo test > /tmp/debug.txt");
+	tree = parse(tokens);
+	// Print AST structure
+	printf("2. AST Root node type: %d\n", tree->type);
+	printf("   Expected: %d (NODE_REDIR_OUT)\n", NODE_REDIR_OUT);
+	if (tree->type == NODE_REDIR_OUT)
+	{
+		printf("   ✅ Redirection node created correctly\n");
+		printf("   File: '%s'\n", tree->data.redir.file);
+		printf("   Command node type: %d (should be %d)\n",
+			tree->data.redir.cmd->type, NODE_COMMAND);
+	}
+	else
+	{
+		printf("   ❌ ERROR: Root is not REDIR_OUT!\n");
+		printf("   This means parser didn't create redirection node.\n");
+	}
+	// Execute
+	printf("\n3. Executing...\n");
+	printf("   (If you see 'test' below, redirection failed)\n");
+	status = executor(tree, shell);
+	printf("\n4. Exit status: %d\n", status);
+	// Check file
+	printf("\n5. Checking if file was created...\n");
+	fd = open("/tmp/debug.txt", O_RDONLY);
+	if (fd == -1)
+	{
+		printf("   ❌ FILE NOT CREATED\n");
+		perror("   open");
+	}
+	else
+	{
+		printf("   ✅ File exists!\n");
+		n = read(fd, buf, 99);
+		if (n > 0)
+		{
+			buf[n] = '\0';
+			printf("   File contents: '%s'\n", buf);
+			if (strcmp(buf, "test\n") == 0)
+				printf("   ✅ Correct content!\n");
+			else
+				printf("   ❌ Wrong content (expected 'test\\n')\n");
+		}
+		close(fd);
+	}
+	// Cleanup
+	free_ast(tree);
+	free_token_list(tokens);
+	system("rm -f /tmp/debug.txt");
+}
+
+void	test_executor(t_shell *shell)
+{
+	t_token	*tokens;
+	t_ast	*tree;
+	int		status;
+
+	printf("\n╔═══════════════════════════════════════╗\n");
+	printf("║   EXECUTOR TEST (Issue #15)           ║\n");
+	printf("╚═══════════════════════════════════════╝\n");
+	// Test 1: Simple command
+	printf("\n✓ Test 1: Simple command\n");
+	printf("Input: echo hello\n");
+	tokens = tokenize("echo hello");
+	tree = parse(tokens);
+	status = executor(tree, shell);
+	printf("Exit status: %d (expected 0)\n", status);
+	free_ast(tree);
+	free_token_list(tokens);
+	// Test 2: Output redirection
+	printf("\n✓ Test 2: Output redirection\n");
+	printf("Input: echo test > /tmp/minishell_test.txt\n");
+	tokens = tokenize("echo test > /tmp/minishell_test.txt");
+	tree = parse(tokens);
+	status = executor(tree, shell);
+	printf("Exit status: %d (expected 0)\n", status);
+	printf("Check file: cat /tmp/minishell_test.txt\n");
+	system("cat /tmp/minishell_test.txt");
+	free_ast(tree);
+	free_token_list(tokens);
+	// Test 3: Input redirection
+	printf("\n✓ Test 3: Input redirection\n");
+	printf("Input: echo < /tmp/minishell_test.txt\n");
+	tokens = tokenize("echo < /tmp/minishell_test.txt");
+	tree = parse(tokens);
+	status = executor(tree, shell);
+	printf("Exit status: %d (expected 0)\n", status);
+	free_ast(tree);
+	free_token_list(tokens);
+	// Test 4: Simple pipe
+	printf("\n✓ Test 4: Simple pipe\n");
+	printf("Input: echo hello | cat\n");
+	tokens = tokenize("echo hello | cat");
+	tree = parse(tokens);
+	status = executor(tree, shell);
+	printf("Exit status: %d (expected 0)\n", status);
+	free_ast(tree);
+	free_token_list(tokens);
+	// Test 5: Complex: pipe + redirection
+	printf("\n✓ Test 5: Pipe + redirection\n");
+	printf("Input: ls < /tmp/minishell_test.txt | grep test\n");
+	tokens = tokenize("ls < /tmp/minishell_test.txt | grep test");
+	tree = parse(tokens);
+	status = executor(tree, shell);
+	printf("Exit status: %d (expected 0)\n", status);
+	free_ast(tree);
+	free_token_list(tokens);
+	// Cleanup
+	system("rm -f /tmp/minishell_test.txt");
+	printf("\n╔═══════════════════════════════════════╗\n");
+	printf("║   EXECUTOR TEST COMPLETE              ║\n");
+	printf("╚═══════════════════════════════════════╝\n");
+}
+
 // ═══════════════════════════════════════════════════════════════════════
 // ISSUE #11: SIMPLE COMMAND PARSING TESTS
 // ═══════════════════════════════════════════════════════════════════════
-
+/*
 void	test_issue_11_simple_commands(void)
 {
 	t_token	*tokens;
@@ -106,12 +298,11 @@ void	test_issue_11_simple_commands(void)
 	free_ast(tree);
 	free_token_list(tokens);
 }
-
+*/
 // ═══════════════════════════════════════════════════════════════════════
 // ISSUE #12: REDIRECTION PARSING TESTS (CRITICAL!)
 // ═══════════════════════════════════════════════════════════════════════
 
-/*
 void	test_issue_12_redirections(void)
 {
 	t_token	*tokens;
@@ -245,7 +436,6 @@ void	test_issue_12_redirections(void)
 	free_ast(tree);
 	free_token_list(tokens);
 }
-*/
 
 // ═══════════════════════════════════════════════════════════════════════
 // PIPELINE PARSING TESTS
@@ -758,34 +948,39 @@ int	main(int ac, char **av, char **envp)
 	printf("║    Testing: Tokenizer, Quotes, Expansion, AST, Parser    ║\n");
 	printf("║                                                          ║\n");
 	printf("╚══════════════════════════════════════════════════════════╝\n");
-	test_tokenizer();
-	test_quotes();
-	test_expansion(shell.env);
-	test_edge_cases();
+	// test_tokenizer();
+	//	test_quotes();
+	//	test_expansion(shell.env);
+	//	test_edge_cases();
 	//	test_ast_quick();
-	test_parser();
-	debug_environment(shell.env);
-	test_grammar_validation();
-	test_issue_11_simple_commands();
+	//	test_parser();
+	//	debug_environment(shell.env);
+	//	test_grammar_validation();
+	//	test_issue_11_simple_commands();
 	// test_issue_12_redirections();
-	test_pipelines();
-	printf("\n");
-	printf("╔══════════════════════════════════════════════════════════╗\n");
-	printf("║                    TEST COMPLETE                         ║\n");
-	printf("╚══════════════════════════════════════════════════════════╝\n");
-	printf("\n✅ If all tests show expected output or POSIX behavior → MILESTONE 2 WORKS!\n");
-	printf("\n\n\n\n\n\n"); // testing builtins and path finder
-							//	test_echo();
-							//	test_pwd();
-							//	test_cd(&shell.env);
-							//	test_exit();
-							//	test_env(shell.env);
-							//	test_env_hidden(&shell.env);
-							//	test_export(&shell.env);
-							//	test_unset(&shell.env);
-							//	test_path_finder(shell.env);
-	printf("\n\n\n\n\n\n"); // testing exec external
-	test_exec_external(&shell.env);
+	// test_pipelines();
+	// printf("\n");
+	// printf("╔══════════════════════════════════════════════════════════╗\n");
+	// printf("║                    TEST COMPLETE                         ║\n");
+	// printf("╚══════════════════════════════════════════════════════════╝\n");
+	// printf("\n✅ If all tests show expected output or POSIX behavior → MILESTONE 2 WORKS!\n");
+	// 	printf("\n\n\n\n\n\n"); // testing builtins and path finder
+	//	test_echo();
+	//	test_pwd();
+	//	test_cd(&shell.env);
+	//	test_exit();
+	//	test_env(shell.env);
+	//	test_env_hidden(&shell.env);
+	//	test_export(&shell.env);
+	//	test_unset(&shell.env);
+	//	test_path_finder(shell.env);
+	// printf("\n\n\n\n\n\n"); // testing exec external
+	// test_exec_external(&shell.env);
+	//	test_executor(&shell);
+	//	test_redirection_debug(&shell);
+	//	test_tokenizer_only();
+	// DEBUG :
+	test_count_words();
 	free_env_list(&shell.env);
 	return (0);
 }

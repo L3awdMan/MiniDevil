@@ -1,0 +1,86 @@
+╔═══════════════════════════════════════╗
+║   EXECUTOR TEST (Issue #15)           ║
+╚═══════════════════════════════════════╝
+
+✓ Test 1: Simple command
+Input: echo hello
+hello
+Exit status: 0 (expected 0)
+
+✓ Test 2: Output redirection
+Input: echo test > /tmp/minishell_test.txt
+test
+Exit status: 0 (expected 0)
+Check file: cat /tmp/minishell_test.txt
+cat: /tmp/minishell_test.txt: No such file or directory
+
+✓ Test 3: Input redirection
+Input: cat < /tmp/minishell_test.txt                  <---- here it timeout 
+
+
+
+
+╔═══════════════════════════════════════╗
+║   REDIRECTION DEBUG TEST              ║
+╚═══════════════════════════════════════╝
+
+1. Parsing: echo test > /tmp/debug.txt
+2. AST Root node type: 0
+   Expected: 3 (NODE_REDIR_OUT)
+   ❌ ERROR: Root is not REDIR_OUT!
+   This means parser didn't create redirection node.
+
+3. Executing...
+   (If you see 'test' below, redirection failed)
+
+4. Exit status: 0
+
+5. Checking if file was created...
+   ❌ FILE NOT CREATED
+
+╔═══════════════════════════════════════clea╗
+║   TOKENIZER DEBUG TEST                ║
+╚═══════════════════════════════════════╝
+
+Input: 'echo test > /tmp/debug.txt'
+
+Tokens created:
+  [0] type=0 value='echo'
+       Token type names:
+         0=TOKEN_WORD
+         1=TOKEN_PIPE
+         2=TOKEN_REDIR_IN
+         3=TOKEN_REDIR_OUT
+         4=TOKEN_APPEND
+         5=TOKEN_HEREDOC
+  [1] type=0 value='test'
+       Token type names:
+         0=TOKEN_WORD
+         1=TOKEN_PIPE
+         2=TOKEN_REDIR_IN
+         3=TOKEN_REDIR_OUT
+         4=TOKEN_APPEND
+         5=TOKEN_HEREDOC
+  [2] type=3 value='>'
+       Token type names:
+         0=TOKEN_WORD
+         1=TOKEN_PIPE
+         2=TOKEN_REDIR_IN
+         3=TOKEN_REDIR_OUT
+         4=TOKEN_APPEND
+         5=TOKEN_HEREDOC
+ ✅ This is TOKEN_REDIR_OUT!
+  [3] type=0 value='/tmp/debug.txt'
+       Token type names:
+         0=TOKEN_WORD
+         1=TOKEN_PIPE
+         2=TOKEN_REDIR_IN
+         3=TOKEN_REDIR_OUT
+         4=TOKEN_APPEND
+         5=TOKEN_HEREDOC
+
+Expected tokens:
+  [0] type=0 (WORD) value='echo'
+  [1] type=0 (WORD) value='test'
+  [2] type=3 (REDIR_OUT) value='>'
+  [3] type=0 (WORD) value='/tmp/debug.txt'

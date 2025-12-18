@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:17:12 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/11 19:43:38 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/18 04:54:23 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,17 @@ t_ast	*parse_pipeline(t_token **tokens);
 //==================================================
 //=============== COMMAND PARSING ==================
 //==================================================
+
+/**
+ * @brief Parse a command with all its redirections
+ *
+ * Handle cmd arg1 < infile > outfile arg2
+ * Wraps command in redirection nodes as needed
+ *
+ * @param tokens Pointer to current token (modified as tokens are processed)
+ * @return Command AST node wrapped in redirection nodes, or NULL on error
+ */
+t_ast	*parse_command(t_token **tokens);
 
 /**
  * @brief Parse a simple command with redirections
