@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:34:13 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/18 04:54:13 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/18 15:39:06 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 //       - Move to next token
 //    3. Return count
 
-static int	count_word_tokens(t_token *tokens)
+int	count_word_tokens(t_token *tokens)
 {
 	int	count;
 

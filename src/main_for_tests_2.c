@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:31:50 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/18 04:39:38 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/18 19:42:20 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,118 @@ void	print_tokens(t_token *tokens)
 		curr = curr->next;
 		i++;
 	}
+}
+
+void	test_variable_expansion(t_env *env)
+{
+	char	*result;
+	int		exit_status;
+
+	printf("\n╔═══════════════════════════════════════════╗\n");
+	printf("║   VARIABLE EXPANSION TESTS ($? and $$)   ║\n");
+	printf("╚═══════════════════════════════════════════╝\n");
+	// Set a test exit status
+	exit_status = 42;
+	// ============ TEST 1: Basic $VAR ============
+	printf("\n✓ Test 1: Basic $VAR expansion\n");
+	printf("Input: \"Hello $USER\"\n");
+	result = expand_variables("Hello $USER", env, QUOTE_NONE, exit_status);
+	printf("Output: '%s'\n", result);
+	printf("Expected: 'Hello %s'\n", get_env_value(env, "USER"));
+	free(result);
+	// ============ TEST 2: $? (exit status) ============
+	printf("\n✓ Test 2: $? expansion (exit status)\n");
+	printf("Input: \"Last exit: $?\"\n");
+	printf("Exit status: %d\n", exit_status);
+	result = expand_variables("Last exit: $?", env, QUOTE_NONE, exit_status);
+	printf("Output: '%s'\n", result);
+	printf("Expected: 'Last exit: 42'\n");
+	free(result);
+	// ============ TEST 3: $$ (process id) ============
+	printf("\n✓ Test 3: $$ expansion (process id)\n");
+	printf("Input: \"PID: $$\"\n");
+	printf("Actual PID: %d\n", getpid());
+	result = expand_variables("PID: $$", env, QUOTE_NONE, exit_status);
+	printf("Output: '%s'\n", result);
+	printf("Expected: 'PID: %d'\n", getpid());
+	free(result);
+	// ============ TEST 4: Multiple expansions ============
+	printf("\n✓ Test 4: Multiple expansions in one string\n");
+	printf("Input: \"$USER got $? errors (pid:$$)\"\n");
+	result = expand_variables("$USER got $? errors (pid:$$)", env, QUOTE_NONE,
+			exit_status);
+	printf("Output: '%s'\n", result);
+	printf("Expected: '%s got 42 errors (pid:%d)'\n", get_env_value(env,
+			"USER"), getpid());
+	free(result);
+	// ============ TEST 5: Single quotes (no expansion) ============
+	printf("\n✓ Test 5: Single quotes - no expansion\n");
+	printf("Input: '$USER $? $$' (single quotes)\n");
+	result = expand_variables("$USER $? $$", env, QUOTE_SINGLE, exit_status);
+	printf("Output: '%s'\n", result);
+	printf("Expected: '$USER $? $$' (unchanged)\n");
+	free(result);
+	// ============ TEST 6: Double quotes (expansion) ============
+	printf("\n✓ Test 6: Double quotes - with expansion\n");
+	printf("Input: \"User: $USER, Status: $?\" (double quotes)\n");
+	result = expand_variables("User: $USER, Status: $?", env, QUOTE_DOUBLE,
+			exit_status);
+	printf("Output: '%s'\n", result);
+	printf("Expected: 'User: %s, Status: 42'\n", get_env_value(env, "USER"));
+	free(result);
+	// ============ TEST 7: Undefined variable ============
+	printf("\n✓ Test 7: Undefined variable (expands to empty)\n");
+	printf("Input: \"Value: $UNDEFINED_VAR_XYZ\"\n");
+	result = expand_variables("Value: $UNDEFINED_VAR_XYZ", env, QUOTE_NONE,
+			exit_status);
+	printf("Output: '%s'\n", result);
+	printf("Expected: 'Value: ' (empty expansion)\n");
+	free(result);
+	// ============ TEST 8: $? with different exit codes ============
+	printf("\n✓ Test 8: $? with exit code 0\n");
+	exit_status = 0;
+	printf("Input: \"Status: $?\"\n");
+	printf("Exit status: %d\n", exit_status);
+	result = expand_variables("Status: $?", env, QUOTE_NONE, exit_status);
+	printf("Output: '%s'\n", result);
+	printf("Expected: 'Status: 0'\n");
+	free(result);
+	printf("\n✓ Test 9: $? with exit code 127\n");
+	exit_status = 127;
+	printf("Input: \"Error $?\"\n");
+	printf("Exit status: %d\n", exit_status);
+	result = expand_variables("Error $?", env, QUOTE_NONE, exit_status);
+	printf("Output: '%s'\n", result);
+	printf("Expected: 'Error 127'\n");
+	free(result);
+	// ============ TEST 10: Edge case - just $ ============
+	printf("\n✓ Test 10: Lone $ character\n");
+	printf("Input: \"Price: $100\"\n");
+	result = expand_variables("Price: $100", env, QUOTE_NONE, exit_status);
+	printf("Output: '%s'\n", result);
+	printf("Expected: 'Price: 100' ($ treated as literal)\n");
+	free(result);
+	// ============ TEST 11: $$ multiple times ============
+	printf("\n✓ Test 11: $$ appearing multiple times\n");
+	printf("Input: \"$$ and $$ are same\"\n");
+	result = expand_variables("$$ and $$ are same", env, QUOTE_NONE,
+			exit_status);
+	printf("Output: '%s'\n", result);
+	printf("Expected: '%d and %d are same'\n", getpid(), getpid());
+	free(result);
+	// ============ TEST 12: Mixed $VAR, $?, $$ ============
+	printf("\n✓ Test 12: Complex mix\n");
+	printf("Input: \"[$?] $USER($$) at $HOME\"\n");
+	exit_status = 1;
+	result = expand_variables("[$?] $USER($$) at $HOME", env, QUOTE_NONE,
+			exit_status);
+	printf("Output: '%s'\n", result);
+	printf("Expected: '[1] %s(%d) at %s'\n", get_env_value(env, "USER"),
+		getpid(), get_env_value(env, "HOME"));
+	free(result);
+	printf("\n╔═══════════════════════════════════════════╗\n");
+	printf("║   EXPANSION TESTS COMPLETE               ║\n");
+	printf("╚═══════════════════════════════════════════╝\n");
 }
 
 // ============ DEBUG ===========
@@ -853,55 +965,6 @@ void	test_quotes(void)
 	free_token_list(tokens);
 }
 
-void	test_expansion(t_env *env)
-{
-	char	*result;
-
-	printf("\n╔════════════════════════════════════════╗\n");
-	printf("║   VARIABLE EXPANSION TESTS             ║\n");
-	printf("╚════════════════════════════════════════╝\n");
-	printf("\n✓ Test 1: Variable expansion (double quotes context)\n");
-	printf("Input: Hello ham\"$USER\"\n");
-	result = expand_variables("Hello ham\"$USER\" ", env, QUOTE_DOUBLE);
-	printf("Output: %s\n", result);
-	free(result);
-	printf("\n✓ Test 2: No expansion (single quotes context)\n");
-	printf("Input: 'Hello $USER'\n");
-	result = expand_variables("Hello $USER", env, QUOTE_SINGLE);
-	printf("Output: '%s'\n", result);
-	free(result);
-	printf("\n✓ Test 3: Multiple variables (unquoted)\n");
-	printf("Input: $USER at $HOME\n");
-	result = expand_variables("$USER at $HOME", env, QUOTE_NONE);
-	printf("Output: '%s'\n", result);
-	free(result);
-	printf("\n✓ Test 4: Variable mixed with text (double quotes)\n");
-	printf("Input: \"User: $USER, Home: $HOME\"\n");
-	result = expand_variables("User: $USER, Home: $HOME", env, QUOTE_DOUBLE);
-	printf("Output: '%s'\n", result);
-	free(result);
-	printf("\n✓ Test 5: Non-existent variable (double quotes)\n");
-	printf("Input: \"$NONEXISTENT\"\n");
-	result = expand_variables("$NONEXISTENT", env, QUOTE_DOUBLE);
-	printf("Output: '%s'\n", result);
-	free(result);
-	printf("\n✓ Test 6: Lone $ character (double quotes)\n");
-	printf("Input: \"Price: $100\"\n");
-	result = expand_variables("Price: $100", env, QUOTE_DOUBLE);
-	printf("Output: '%s'\n", result);
-	free(result);
-	printf("\n✓ Test 7: Empty string (double quotes)\n");
-	printf("Input: \"\"\n");
-	result = expand_variables("", env, QUOTE_DOUBLE);
-	printf("Output: '%s'\n", result);
-	free(result);
-	printf("\n✓ Test 8: Hami\"d\" \n");
-	printf("Input: hamid \n");
-	result = expand_variables("Hami\"d\" ", env, QUOTE_DOUBLE);
-	printf("Output: '%s'\n", result);
-	free(result);
-}
-
 void	test_edge_cases(void)
 {
 	t_token	*tokens;
@@ -977,10 +1040,11 @@ int	main(int ac, char **av, char **envp)
 	// printf("\n\n\n\n\n\n"); // testing exec external
 	// test_exec_external(&shell.env);
 	//	test_executor(&shell);
-	//	test_redirection_debug(&shell);
+	// test_redirection_debug(&shell);
 	//	test_tokenizer_only();
 	// DEBUG :
-	test_count_words();
+	// test_count_words();
+	test_variable_expansion(shell.env);
 	free_env_list(&shell.env);
 	return (0);
 }

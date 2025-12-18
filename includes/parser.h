@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:17:12 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/18 04:54:23 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/18 15:39:41 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,7 @@ char	**collect_args(t_token **tokens, int *argc);
 int		print_syntax_error(t_syntax_error err);
 int		is_redirection(t_token_type type);
 int		validate_syntax(t_token *tokens);
+
+int		count_word_tokens(t_token *tokens);
 
 #endif

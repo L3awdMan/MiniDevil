@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:58:03 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 06:37:53 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/18 19:25:31 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief Check if the received delimiter is quoted
- * 
+ *
  * If the delimiter was quoted ('EOF' or "EOF") then no expansion occurs
  * @param delimiter The delimiter string
  * @return 1 if quoted and 0 if not
@@ -30,7 +30,7 @@ static int	is_delimiter_quoted(char *delimiter)
 
 /**
  * @brief Remove quotes from delimiter if they exist
- * 
+ *
  * Transforming 'EOF' or "EOF" to EOF
  * @param delimiter The original delimiter
  * @return A newly allocated unquoted delimiter
@@ -53,7 +53,7 @@ static char	*clean_delimiter(char *delimiter)
 
 /**
  * @brief Write one line to the heredoc pipe
- * 
+ *
  * Expand variables if the delimiter was not quoted
  * @param fd The write end of the pipe
  * @param line The line to write
@@ -67,7 +67,7 @@ static void	write_heredoc_line(int fd, char *line, t_env *env, int expand)
 
 	if (expand && line)
 	{
-		expanded = expand_variables(line, env, QUOTE_NONE);
+		expanded = expand_variables(line, env, QUOTE_NONE, 0);
 		ft_putendl_fd(expanded, fd);
 		free(expanded);
 	}
@@ -77,7 +77,7 @@ static void	write_heredoc_line(int fd, char *line, t_env *env, int expand)
 
 /**
  * @brief Read heredoc input until delimiter
- * 
+ *
  * @param fd The write end of the pipe
  * @param delimiter The cleaned delimiter
  * @param env The environment list for variable expansion
@@ -112,7 +112,7 @@ static int	read_heredoc_lines(int fd, char *delimiter, t_env *env, int expand)
 
 /**
  * @brief Main handler for heredoc
- * 
+ *
  * 1. Check quote status of delimiter and decide on expansion or not
  * 2. Clean the delimiter (unquote it)
  * 3. Create a pipe

@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:14:10 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 21:46:15 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/18 19:18:41 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,8 @@ char			*append_str(char *s1, char *s2);
  * @param in_quotes <----- !!!!!!!!!! REPLACE
  * @return Expanded string (allocated!)
  */
+
 char			*expand_variables(char *str, t_env *env_list,
-					t_quote_type quote_type);
+					t_quote_type quote_type, int exit_status);
 
 #endif
