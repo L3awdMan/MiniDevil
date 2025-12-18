@@ -6,110 +6,156 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/15 02:23:19 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/18 20:56:41 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
 #include "minishell.h"
-#include "structs.h"
-#include "token.h"
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <signal.h>
-#include <stdio.h>
 
-//--------- Implementation Steps: ---------------------------------
+//==================== FUNCTION: process_input ===========================
 //
-// STEP 1: Print newline
-//    write(1, "\n", 1);
-//    → Moves cursor to next line (like pressing Enter)
+// PURPOSE:
+//    Process user input through the full pipeline:
+//    tokenize → parse → execute
 //
-// STEP 2: Tell readline we're on a new line
-//    rl_on_new_line();
-//    → Readline function: "hey, cursor moved to new line"
+// RETURN:
+//    int - Exit status from execution
 //
-// STEP 3: Clear the current input buffer
-//    rl_replace_line("", 0);
-//    → Replace whatever user typed with empty string
+// PARAMETERS:
+//    char *input     - User input string
+//    t_shell *shell  - Shell state
 //
-// STEP 4: Redraw the prompt
-//    rl_redisplay();
-//    → Shows "minishell$ " again, ready for new input
+// VARIABLES:
+//    t_token *tokens - Token list from lexer
+//    t_ast *ast      - Abstract syntax tree from parser
+//    int status      - Exit status from execution
 //
-// Visual example:
-//    minishell$ hello worl^C    <- User presses Ctrl+C here
-//
-//    minishell$                 <- Fresh prompt appears
-// void	handle_sigint(int sig)
-// {
-// 	(void)sig;
-// 	write(1, "\n", 1);
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// }
+// ALGORITHM:
+//    1. Tokenize input string
+//    2. If tokenization fails: return error
+//    3. Parse tokens into AST
+//    4. Free tokens (no longer needed)
+//    5. If parsing fails: return error
+//    6. Execute AST
+//    7. Free AST
+//    8. Return exit status
 
-//--------- Setup to follow for implementation : --------------------------
-// 1. INFINITE LOOP START
-//    Initiate a `while` loop that runs as long as the shell state is running.
-//
-// 2. CAPTURE INPUT
-//    call `input = readline("minishell$ ");`
-//
-// 3. CHECK FOR EOF (Ctrl+D)
-//    IF `input` is NULL:
-//       - This means Ctrl+D was pressed.
-//       - Print "exit\n" to mimic Bash.
-//       - Break the loop (or clean_exit).
-//
-// 4. CHECK FOR EMPTY INPUT
-//    IF `input` is not NULL but points to an empty string (""):
-//       - Free `input`.
-//    - Continue to the next iteration (don't add to history, don't execute).
-//
-// 5. HISTORY MANAGEMENT
-//    IF `input` contains text:
-//       - Call `add_history(input)`.
-//       - This allows the Up/Down arrow keys to work immediately.
-//
-// 6. EXECUTION (Future Step)
-//    - This is where you'd send `input` to your parser/executor.
-//
-// 7. CLEANUP
-//    - `free(input)` at the end of every loop iteration.
-//
-
-int	main(int ac, char **av, char **envp)
+static int	process_input(char *input, t_shell *shell)
 {
-	t_shell	shell;
+	t_token	*tokens;
+	t_ast	*ast;
+	int		status;
+
+	tokens = tokenize(input);
+	if (!tokens)
+		return (1);
+	ast = parse(tokens);
+	free_token_list(tokens);
+	if (!ast)
+		return (1);
+	status = executor(ast, shell);
+	free_ast(ast);
+	return (status);
+}
+
+//==================== FUNCTION: handle_input ============================
+//
+// PURPOSE:
+//    Handle user input: add to history and execute
+//
+// RETURN:
+//    void
+//
+// PARAMETERS:
+//    char *input    - User input string
+//    t_shell *shell - Shell state
+//
+// ALGORITHM:
+//    1. Check if input is empty
+//    2. If not empty: add to history
+//    3. Process through pipeline
+//    4. Update shell exit status
+
+static void	handle_input(char *input, t_shell *shell)
+{
+	if (!input || input[0] == '\0')
+		return ;
+	add_history(input);
+	shell->exit_status = process_input(input, shell);
+}
+
+//==================== FUNCTION: main_loop ===============================
+//
+// PURPOSE:
+//    Main REPL loop: Read-Eval-Print Loop
+//
+// RETURN:
+//    void
+//
+// PARAMETERS:
+//    t_shell *shell - Shell state
+//
+// VARIABLES:
+//    char *input - User input from readline
+//
+// ALGORITHM:
+//    1. Setup signal handlers
+//    2. Read line from user
+//    3. If NULL (Ctrl+D): print exit and break
+//    4. Handle the input
+//    5. Free input
+//    6. Repeat
+
+static void	main_loop(t_shell *shell)
+{
 	char	*input;
 
-	(void)ac;
-	(void)av;
-	// Initialize environment
-	shell.env = init_env(envp);
-	shell.exit_status = 0;
-	shell.running = 1;
 	while (1)
 	{
 		setup_interactive_signals();
 		input = readline("MiniDevil $> ");
-		if (input == NULL)
+		if (!input)
 		{
-			ft_printf("exit\n");
-				// could just use ft_putstr_fd() and no need to include ft_printf to the project then (regular printf wouldn't work but our libft version just works with write() so its the same)
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
 			break ;
 		}
-		if (input[0] != '\0')
-			// could write it as ft_strlen(input) > 0 for better clarity
-		{
-			add_history(input);
-			// HACK : we will parse and excute here
-			// ft_printf("I have typed : %s\n", input);
-		}
+		handle_input(input, shell);
 		free(input);
 	}
-	free_env_list(&shell.env); // we need to free this at the end
+}
+
+//==================== FUNCTION: main ====================================
+//
+// PURPOSE:
+//    Entry point - initialize shell and start main loop
+//
+// RETURN:
+//    int - Final exit status
+//
+// PARAMETERS:
+//    int ac          - Argument count (unused)
+//    char **av       - Argument vector (unused)
+//    char **envp     - Environment variables
+//
+// VARIABLES:
+//    t_shell shell - Shell state structure
+//
+// ALGORITHM:
+//    1. Initialize environment from envp
+//    2. Initialize exit status to 0
+//    3. Start main loop
+//    4. Cleanup: free environment
+//    5. Return final exit status
+
+int	main(int ac, char **av, char **envp)
+{
+	t_shell	shell;
+
+	(void)ac;
+	(void)av;
+	shell.env = init_env(envp);
+	shell.exit_status = 0;
+	main_loop(&shell);
+	free_env_list(&shell.env);
 	return (shell.exit_status);
 }
