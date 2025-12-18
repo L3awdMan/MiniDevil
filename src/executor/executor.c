@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:48:52 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/18 22:39:59 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2025/12/18 23:15:15 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ int	executor(t_ast *node, t_shell *shell)
 {
 	if (!node)
 		return (0);
+	printf("node type : %d\n", node->type);
 	if (node->type == NODE_COMMAND)
 		return (exec_command_node(node, shell));
 	if (node->type == NODE_PIPE)
