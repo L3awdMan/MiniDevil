@@ -179,7 +179,7 @@ int	executor(t_ast *node, t_shell *shell)
 {
 	if (!node)
 		return (0);
-	printf("node type : %d\n", node->type);
+	// printf("node type : %d\n", node->type); debug 
 	if (node->type == NODE_COMMAND)
 		return (exec_command_node(node, shell));
 	if (node->type == NODE_PIPE)
