@@ -235,6 +235,7 @@ typedef struct s_shell
 	t_env	*env;
 	int		exit_status;
 	int		running;
+	int		interactive;
 }	t_shell;
 
 //==================================================
