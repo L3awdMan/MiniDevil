@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 08:25:52 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 06:17:46 by baelgadi         ###   ########.fr       */
+/*   Updated: 2025/12/23 17:19:06 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,6 @@ static int	is_valid_unset_identifier(char *str)
 		i++;
 	}
 	return (1);
-}
-
-/**
- * @brief Print an error message for invalid unset identifiers
- * 
- * Matches standard POSIX bash error format, although on recent versions
- * the error is silent, so we'll see if we keep this or not
- * (i'd say it's always better to notify the user of their error)
- * @param arg The invalid argument
- */
-static void	print_unset_error(char *arg)
-{
-	ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
-	ft_putstr_fd(arg, STDERR_FILENO);
-	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 }
 
 /**
@@ -96,32 +81,23 @@ static void	remove_env_node(t_env **env, char *key)
  * - Iterate through all the arguments
  * - Validate the identifier syntax (print error if invalid)
  * - Call remove_env_node (does nothing when key not found)
- * @warning STRICT BEHAVIOR
- * This implementation uses strict identifier validation (POSIX/standard)
- * Newer bash versions (5+) may silently ignore invalid identifiers
- * (like 123 or var=val) and return 0, but this function strictly returns 1
- * and prints an error message to ensure explicit behavior
+ * @warning STRICT BASH BEHAVIOR
+ * This implementation silently ignores invalid identifiers and returns 0
+ * We only handle unsets variables with valid identifier names
  * @param args Null terminated array (args[0] is "unset")
  * @param env Double pointer to the environment list
- * @return 0 or 1 if an invalid identifier was found
+ * @return Always 0 (bash compatible)
  */
 int	builtin_unset(char **args, t_env **env)
 {
 	int	i;
-	int	status;
 
-	status = 0;
 	i = 1;
 	while (args[i])
 	{
-		if (!is_valid_unset_identifier(args[i]))
-		{
-			print_unset_error(args[i]);
-			status = 1;
-		}
-		else
+		if (is_valid_unset_identifier(args[i]))
 			remove_env_node(env, args[i]);
 		i++;
 	}
-	return (status);
+	return (0);
 }

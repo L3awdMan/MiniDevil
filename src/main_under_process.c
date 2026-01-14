@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/19 00:03:32 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:13:48 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,13 @@ static int	process_input(char *input, t_shell *shell)
 	t_ast	*ast;
 	int		status;
 
-	t_token *tmp; // for debug
 	tokens = tokenize(input);
 	if (!tokens)
-		return (1);
-	// for debug
-	printf("\n===================\n");
-	tmp = tokens;
-	while (tmp)
-	{
-		printf("type : %d -- value : %s\n", tmp->type, tmp->value);
-		tmp = tmp->next;
-	}
-	printf("\n===================\n");
+		return (2);
 	ast = parse(tokens);
 	free_token_list(tokens);
 	if (!ast)
-		return (1);
+		return (2);
 	status = executor(ast, shell);
 	free_ast(ast);
 	return (status);
@@ -158,6 +148,7 @@ static void	main_loop(t_shell *shell)
 	{
 		if (shell->interactive)
 			setup_interactive_signals();
+		g_signal = 0;
 		input = read_input(shell);
 		if (!input)
 		{
@@ -201,7 +192,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	shell.env = init_env(envp);
 	shell.exit_status = 0;
-	shell.interactive = isatty(STDIN_FILENO);
+	shell.interactive = isatty(STDIN_FILENO) && isatty(STDOUT_FILENO);
 	main_loop(&shell);
 	free_env_list(&shell.env);
 	return (shell.exit_status);
