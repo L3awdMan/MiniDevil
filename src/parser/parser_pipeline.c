@@ -50,13 +50,13 @@ t_ast	*parse_pipeline(t_token **tokens)
 	t_ast	*left;
 	t_ast	*right;
 
-	left = parse_simple_command(tokens);
+	left = parse_command(tokens);
 	if (!left)
 		return (NULL);
 	while (*tokens && (*tokens)->type == TOKEN_PIPE)
 	{
 		*tokens = (*tokens)->next;
-		right = parse_simple_command(tokens);
+		right = parse_command(tokens);
 		if (!right)
 		{
 			free_ast(left);

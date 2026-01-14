@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:11:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/18 23:55:51 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:08:26 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,50 +202,16 @@ t_ast	*parse_command(t_token **tokens)
 
 	if (!tokens || !*tokens)
 		return (NULL);
-	printf("DEBUG parse_command: START\n");
 	cmd = parse_simple_command(tokens);
 	if (!cmd)
 		return (NULL);
-	printf("DEBUG: After parse_simple_command, cmd->type=%d, cmd->argc=%d\n",
-		cmd->type, cmd->data.cmd.argc);
-	if (*tokens)
-		printf("DEBUG: Next token: type=%d, value='%s'\n", (*tokens)->type,
-			(*tokens)->value);
-	else
-		printf("DEBUG: No more tokens\n");
-	printf("DEBUG: is_redirection=%d\n",
-		*tokens ? is_redirection((*tokens)->type) : 0);
 	while (*tokens && is_redirection((*tokens)->type))
 	{
-		printf("DEBUG: ENTERING while loop for redirection\n");
 		cmd = parse_one_redirection(tokens, cmd);
 		if (!cmd)
 			return (NULL);
-		printf("DEBUG: After parse_one_redirection, cmd->type=%d\n", cmd->type);
 		cmd_node = get_command_node(cmd);
 		collect_and_merge_remaining_argc(cmd_node, tokens);
 	}
-	printf("DEBUG: FINAL cmd->type=%d\n", cmd->type);
 	return (cmd);
 }
-
-/*  t_ast	*parse_command(t_token **tokens)
-{
-	t_ast	*cmd;
-	t_ast	*cmd_node;
-
-	if (!tokens || !*tokens)
-		return (NULL);
-	cmd = parse_simple_command(tokens); // collects only argc before operator
-	if (!cmd)
-		return (NULL);
-	while (*tokens && is_redirection((*tokens)->type))
-	{
-		cmd = parse_one_redirection(tokens, cmd);
-		if (!cmd)
-			return (NULL);
-		cmd_node = get_command_node(cmd);
-		collect_and_merge_remaining_argc(cmd_node, tokens);
-	}
-	return (cmd);
-}  */

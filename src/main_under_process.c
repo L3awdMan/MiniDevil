@@ -68,6 +68,39 @@ static int	process_input(char *input, t_shell *shell)
 	return (status);
 }
 
+//==================== FUNCTION: read_input ==============================
+//
+// PURPOSE:
+//    Read input based on whether shell is in interactive mode
+//
+// RETURN:
+//    char* - Input line or NULL on EOF
+//
+// PARAMETERS:
+//    t_shell *shell - Shell state
+//
+// ALGORITHM:
+//    1. If interactive: use readline with prompt
+//    2. If non-interactive: use get_next_line and strip newline
+//    3. Return line or NULL on EOF
+
+static char	*read_input(t_shell *shell)
+{
+	char	*line;
+	int		len;
+
+	if (shell->interactive)
+		return (readline("MiniDevil $> "));
+	line = get_next_line(STDIN_FILENO);
+	if (line)
+	{
+		len = ft_strlen(line);
+		if (len > 0 && line[len - 1] == '\n')
+			line[len - 1] = '\0';
+	}
+	return (line);
+}
+
 //==================== FUNCTION: handle_input ============================
 //
 // PURPOSE:
@@ -90,7 +123,8 @@ static void	handle_input(char *input, t_shell *shell)
 {
 	if (!input || input[0] == '\0')
 		return ;
-	add_history(input);
+	if (shell->interactive)
+		add_history(input);
 	shell->exit_status = process_input(input, shell);
 }
 
@@ -122,11 +156,13 @@ static void	main_loop(t_shell *shell)
 
 	while (1)
 	{
-		setup_interactive_signals();
-		input = readline("MiniDevil $> ");
+		if (shell->interactive)
+			setup_interactive_signals();
+		input = read_input(shell);
 		if (!input)
 		{
-			ft_putstr_fd("exit\n", STDOUT_FILENO);
+			if (shell->interactive)
+				ft_putstr_fd("exit\n", STDOUT_FILENO);
 			break ;
 		}
 		handle_input(input, shell);
@@ -165,6 +201,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	shell.env = init_env(envp);
 	shell.exit_status = 0;
+	shell.interactive = isatty(STDIN_FILENO);
 	main_loop(&shell);
 	free_env_list(&shell.env);
 	return (shell.exit_status);
