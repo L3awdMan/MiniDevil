@@ -53,7 +53,7 @@
 //    → opens output.txt for writing
 //    → returns fd 3
 
-int	open_redir_file(char *file, t_node_type type)
+int	open_redir_file(char *file, t_node_type type, t_env *env)
 {
 	int	fd;
 
@@ -64,7 +64,9 @@ int	open_redir_file(char *file, t_node_type type)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (type == NODE_REDIR_APPEND)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
+	else if (type == NODE_REDIR_HEREDOC)
+		fd = handle_heredoc(file, env);
+	if (fd == -1 && type != NODE_REDIR_HEREDOC)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		perror(file);
@@ -119,7 +121,7 @@ int	setup_redirection(int fd, t_node_type type)
 	int	saved_fd;
 	int	target;
 
-	if (type == NODE_REDIR_IN)
+	if (type == NODE_REDIR_IN || type == NODE_REDIR_HEREDOC)
 		target = STDIN_FILENO;
 	else
 		target = STDOUT_FILENO;
@@ -170,7 +172,7 @@ void	restore_fd(int saved_fd, t_node_type type)
 
 	if (saved_fd == -1)
 		return ;
-	if (type == NODE_REDIR_IN)
+	if (type == NODE_REDIR_IN || type == NODE_REDIR_HEREDOC)
 		target = STDIN_FILENO;
 	else
 		target = STDOUT_FILENO;
@@ -228,7 +230,7 @@ int	handle_redir(t_ast *node, t_shell *shell)
 	int	saved_fd;
 	int	status;
 
-	fd = open_redir_file(node->data.redir.file, node->type);
+	fd = open_redir_file(node->data.redir.file, node->type, shell->env);
 	if (fd == -1)
 		return (1);
 	saved_fd = setup_redirection(fd, node->type);

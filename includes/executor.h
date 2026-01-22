@@ -41,7 +41,7 @@ int		handle_pipe(t_ast *node, t_shell *shell);
 int		executor(t_ast *node, t_shell *shell);
 
 // execute redir
-int		open_redir_file(char *file, t_node_type type);
+int		open_redir_file(char *file, t_node_type type, t_env *env);
 int		setup_redirection(int fd, t_node_type type);
 void	restore_fd(int saved_fd, t_node_type type);
 int		handle_redir(t_ast *node, t_shell *shell);
