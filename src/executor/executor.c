@@ -88,46 +88,13 @@ char	**expand_args(char **args, t_shell *shell)
 // PURPOSE:
 //    Execute a COMMAND node (base case of recursion)
 //    This is where actual command execution happens
-//
-// RETURN:
-//    int - Exit status of the command
-//
-// PARAMETERS:
-//    t_ast *node      - The COMMAND node to execute
-//    t_shell *shell   - Shell state (env, exit_status)
-//
-// VARIABLES:
-//   char **args
-//
-// ALGORITHM:
-//    1. Extract args from node->data.cmd.args
-//    2. Call exec_simple_command (handles builtin vs external)
-//    3. Return the exit status
-//
-// PSEUDO-CODE:
-//    args = node.data.cmd.args
-//    status = exec_simple_command(args, &shell.env, shell.exit_status)
-//    return status
-//
-// EXAMPLE:
-//    node = COMMAND(args=["echo", "hello"])
-//    → calls exec_simple_command
-//    → returns 0 (success)
 
 static int	exec_command_node(t_ast *node, t_shell *shell)
 {
 	char	**args;
-	char	**expanded_args;
-	int		status;
 
 	args = node->data.cmd.args;
-	expanded_args = expand_args(args, shell);
-	if (!expanded_args)
-		return (1);
-	status = exec_simple_command(expanded_args, &shell->env,
-			shell->exit_status);
-	ft_free_strarray(expanded_args);
-	return (status);
+	return (exec_simple_command(args, &shell->env, shell->exit_status));
 }
 
 //==================== FUNCTION: executor =============================

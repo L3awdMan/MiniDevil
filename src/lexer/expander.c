@@ -207,3 +207,47 @@ char	*expand_variables(char *str, t_env *env_list, t_quote_type quote_type,
 	}
 	return (result);
 }
+
+//==================== FUNCTION: expand_all_tokens =======================
+//
+// PURPOSE:
+//    Expand all token values BEFORE parsing
+//    Each token is expanded according to its own quote_type
+//
+// RETURN:
+//    int - 0 on success, -1 on error
+//
+// PARAMETERS:
+//    t_token *tokens - Token list from tokenizer
+//    t_shell *shell  - Shell state (env, exit_status)
+//
+// ALGORITHM:
+//    1. Loop through all tokens
+//    2. If token is TOKEN_WORD:
+//       a. If QUOTE_SINGLE: just duplicate (no expansion)
+//       b. Else: expand variables
+//       c. Replace old value with new value
+//    3. Return 0 on success
+
+int	expand_all_tokens(t_token *tokens, t_shell *shell)
+{
+	char	*expanded;
+
+	while (tokens)
+	{
+		if (tokens->type == TOKEN_WORD)
+		{
+			if (tokens->quote_type == QUOTE_SINGLE)
+				expanded = ft_strdup(tokens->value);
+			else
+				expanded = expand_variables(tokens->value, shell->env,
+						tokens->quote_type, shell->exit_status);
+			if (!expanded)
+				return (-1);
+			free(tokens->value);
+			tokens->value = expanded;
+		}
+		tokens = tokens->next;
+	}
+	return (0);
+}

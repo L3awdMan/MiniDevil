@@ -54,7 +54,8 @@ t_token	*create_token(t_token_type type, char *value)
 		return (NULL);
 	}
 	token->quote_type = QUOTE_NONE;
-	token->next = NULL;
+  token->connected = 0; // FLAG ← if 1 means it should be merged with the next token 
+  token->next = NULL;
 	return (token);
 }
 

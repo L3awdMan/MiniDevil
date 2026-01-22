@@ -12,6 +12,23 @@
 
 #include "minishell.h"
 
+// temporarily code to debug
+void	debug_print_tokens(t_token *tokens)
+{
+	int	i;
+
+	i = 0;
+	printf("\n=== TOKENS DEBUG ===\n");
+	while (tokens)
+	{
+		printf("[%d] value=\"%s\" quote=%d connected=%d\n",
+			i, tokens->value, tokens->quote_type, tokens->connected);
+		tokens = tokens->next;
+		i++;
+	}
+	printf("====================\n\n");
+}
+
 //==================== FUNCTION: process_input ===========================
 //
 // PURPOSE:
@@ -47,8 +64,11 @@ static int	process_input(char *input, t_shell *shell)
 	int		status;
 
 	tokens = tokenize(input);
+	// debug_print_tokens(tokens);
 	if (!tokens)
 		return (2);
+	if (expand_all_tokens(tokens, shell) < 0) // <-- ADDED THIS
+		return (free_token_list(tokens), 1);    // <-- ADDED THIS 
 	ast = parse(tokens);
 	free_token_list(tokens);
 	if (!ast)

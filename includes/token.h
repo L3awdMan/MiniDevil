@@ -257,4 +257,13 @@ char			*append_str(char *s1, char *s2);
 char			*expand_variables(char *str, t_env *env_list,
 					t_quote_type quote_type, int exit_status);
 
+/**
+ * @brief Expand all tokens in a token list
+ *
+ * @param tokens Token list to expand
+ * @param shell Shell state containing environment
+ * @return 0 on success, -1 on failure
+ */
+int				expand_all_tokens(t_token *tokens, t_shell *shell);
+
 #endif
