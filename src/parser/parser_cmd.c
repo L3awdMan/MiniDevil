@@ -13,24 +13,6 @@
 #include "parser.h"
 #include "structs.h"
 
-//==================== FUNCTION: count_word_tokens =======================
-//
-// PURPOSE:
-//    Count how many consecutive WORD tokens exist
-//
-// RETURN:
-//    int - Number of consecutive WORD tokens
-//
-// PARAMETERS:
-//    t_token *tokens - Current token position
-//
-// ALGORITHM:
-//    1. Initialize count to 0
-//    2. While token exists AND is TOKEN_WORD:
-//       - Increment count
-//       - Move to next token
-//    3. Return count
-
 int	count_word_tokens(t_token *tokens)
 {
 	int	count;
@@ -39,7 +21,10 @@ int	count_word_tokens(t_token *tokens)
 	while (tokens && tokens->type == TOKEN_WORD)
 	{
 		count++;
-		tokens = tokens->next;
+		while (tokens && tokens->connected)
+			tokens = tokens->next;
+		if (tokens)
+			tokens = tokens->next;
 	}
 	return (count);
 }
@@ -47,7 +32,7 @@ int	count_word_tokens(t_token *tokens)
 //==================== FUNCTION: fill_args_array =========================
 //
 // PURPOSE:
-//    Fill argument array with token values
+//    Fill argument array, expanding and merging connected tokens
 //
 // RETURN:
 //    void
@@ -55,23 +40,38 @@ int	count_word_tokens(t_token *tokens)
 // PARAMETERS:
 //    char **args      - Array to fill
 //    t_token **tokens - Token list (advanced as we read)
-//    int count        - Number of args to collect
+//    int count        - Number of words to collect
+//    t_shell *shell   - Shell context (for env_list and exit_status)
 //
 // ALGORITHM:
 //    1. Loop count times:
-//       - Duplicate current token's value
-//       - Store in args array
-//       - Advance to next token
+//       a. Expand current token's value (respecting quote_type)
+//       b. While current token is connected:
+//          - Move to next token
+//          - Expand next token's value (respecting its quote_type)
+//          - Join expanded value to word
+//       c. Store completed word in args[i]
+//       d. Move to next token
 //    2. Add NULL terminator at end
 
 static void	fill_args_array(char **args, t_token **tokens, int count)
 {
-	int	i;
+	int		i;
+	char	*word;
+	char	*temp;
 
 	i = 0;
 	while (i < count)
 	{
-		args[i] = ft_strdup((*tokens)->value);
+		word = ft_strdup((*tokens)->value);
+		while ((*tokens)->connected && (*tokens)->next)
+		{
+			*tokens = (*tokens)->next;
+			temp = ft_strjoin(word, (*tokens)->value);
+			free(word);
+			word = temp;
+		}
+		args[i] = word;
 		*tokens = (*tokens)->next;
 		i++;
 	}
