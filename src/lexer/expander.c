@@ -153,7 +153,8 @@ static int	handle_dollar_sign(char *str, char **result, t_env *env_list,
 		return (skip);
 	if (is_var_char(str[1]))
 		return (process_dollar(str, 0, result, env_list));
-	return (1);
+	*result = append_char(*result, '$');
+  return (1);
 }
 
 //===================== FUNCTION: expand_variables =======================
