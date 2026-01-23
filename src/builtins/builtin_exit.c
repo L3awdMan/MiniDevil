@@ -25,15 +25,16 @@
  * @param last_status The exit code of the last executed command
  * @return 1 if too many arguments, otherwise doesn't return but exits
  */
-int	builtin_exit(char **args, int last_status)
+int	builtin_exit(char **args, t_shell *shell)
 {
 	int	argc;
 	int	exit_code;
 
-	ft_putstr_fd("exit\n", 1);
+	if (shell->interactive)
+		ft_putstr_fd("exit\n", 1);
 	argc = ft_arrlen(args);
 	if (argc == 1)
-		exit(last_status);
+		exit(shell->exit_status);
 	if (!ft_str_is_numeric(args[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);

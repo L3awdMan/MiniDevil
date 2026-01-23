@@ -62,24 +62,24 @@ int	is_builtin(char *cmd)
  * @param last_status The last exit status (needed by the exit builtin)
  * @return Exit status of the builtin or 0
  */
-int	exec_builtin(char **args, t_env **env, int last_status)
+int	exec_builtin(char **args, t_shell *shell)
 {
 	if (!args || !args[0])
 		return (0);
 	if (ft_strncmp(args[0], "echo", 5) == 0)
 		return (builtin_echo(args));
 	if (ft_strncmp(args[0], "cd", 3) == 0)
-		return (builtin_cd(args, env));
+		return (builtin_cd(args, &shell->env));
 	if (ft_strncmp(args[0], "pwd", 4) == 0)
 		return (builtin_pwd());
 	if (ft_strncmp(args[0], "export", 7) == 0)
-		return (builtin_export(args, env));
+		return (builtin_export(args, &shell->env));
 	if (ft_strncmp(args[0], "unset", 6) == 0)
-		return (builtin_unset(args, env));
+		return (builtin_unset(args, &shell->env));
 	if (ft_strncmp(args[0], "env", 4) == 0)
-		return (builtin_env(*env));
+		return (builtin_env(shell->env));
 	if (ft_strncmp(args[0], "exit", 5) == 0)
-		return (builtin_exit(args, last_status));
+		return (builtin_exit(args, shell));
 	return (0);
 }
 
@@ -95,11 +95,11 @@ int	exec_builtin(char **args, t_env **env, int last_status)
  * state (in export and unset) but external commands only receive the list head
  * because they run in a separate process and can't affect the parent shell
  */
-int	exec_simple_command(char **args, t_env **env, int last_status)
+int	exec_simple_command(char **args, t_shell *shell)
 {
 	if (!args || !args[0])
 		return (0);
 	if (is_builtin(args[0]))
-		return (exec_builtin(args, env, last_status));
-	return (exec_external(args, *env));
+		return (exec_builtin(args, shell));
+	return (exec_external(args, shell->env));
 }

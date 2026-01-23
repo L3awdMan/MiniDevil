@@ -94,7 +94,7 @@ static int	exec_command_node(t_ast *node, t_shell *shell)
 	char	**args;
 
 	args = node->data.cmd.args;
-	return (exec_simple_command(args, &shell->env, shell->exit_status));
+	return (exec_simple_command(args, shell));
 }
 
 //==================== FUNCTION: executor =============================

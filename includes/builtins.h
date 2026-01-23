@@ -19,7 +19,7 @@ int		builtin_pwd(void);
 
 int		builtin_cd(char **args, t_env **env);
 
-int		builtin_exit(char **args, int last_status);
+int		builtin_exit(char **args, t_shell *shell);
 
 int		builtin_env(t_env *env);
 

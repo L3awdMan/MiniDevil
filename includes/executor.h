@@ -29,8 +29,8 @@ char	*find_cmd_path(char *cmd, t_env *env);
 int		exec_external(char **args, t_env *env);
 int		exec_cmd_not_found(char *cmd);
 int		is_builtin(char *cmd);
-int		exec_builtin(char **args, t_env **env, int last_status);
-int		exec_simple_command(char **args, t_env **env, int last_status);
+int		exec_builtin(char **args, t_shell *shell);
+int		exec_simple_command(char **args, t_shell *shell);
 
 // exec pipe
 void	exec_right_pipe_child(t_ast *right, int pipe_fd[2], t_shell *shell);
