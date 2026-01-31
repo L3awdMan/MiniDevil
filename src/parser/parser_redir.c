@@ -203,15 +203,14 @@ t_ast	*parse_command(t_token **tokens)
 	if (!tokens || !*tokens)
 		return (NULL);
 	cmd = parse_simple_command(tokens);
-	if (!cmd)
-		return (NULL);
 	while (*tokens && is_redirection((*tokens)->type))
 	{
 		cmd = parse_one_redirection(tokens, cmd);
 		if (!cmd)
 			return (NULL);
 		cmd_node = get_command_node(cmd);
-		collect_and_merge_remaining_argc(cmd_node, tokens);
+		if (cmd_node)
+			collect_and_merge_remaining_argc(cmd_node, tokens);
 	}
 	return (cmd);
 }
