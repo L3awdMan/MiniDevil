@@ -103,3 +103,20 @@ int	exec_simple_command(char **args, t_shell *shell)
 		return (exec_builtin(args, shell));
 	return (exec_external(args, shell->env));
 }
+
+/**
+ * @brief Cleanup pipe and child on fork failure
+ *
+ * @param pipe_fd The pipe file descriptors to close
+ * @param left_pid The left child pid to wait for (0 if no child spawned yet)
+ * @return 1 (error status)
+ */
+int	pipe_fork_error(int pipe_fd[2], pid_t left_pid)
+{
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	if (left_pid > 0)
+		waitpid(left_pid, NULL, 0);
+	perror("minishell: fork");
+	return (1);
+}

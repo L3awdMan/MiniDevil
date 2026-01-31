@@ -36,6 +36,7 @@ int		exec_simple_command(char **args, t_shell *shell);
 void	exec_right_pipe_child(t_ast *right, int pipe_fd[2], t_shell *shell);
 void	exec_left_pipe_child(t_ast *left, int pipe_fd[2], t_shell *shell);
 int		handle_pipe(t_ast *node, t_shell *shell);
+int		pipe_fork_error(int pipe_fd[2], pid_t left_pid);
 
 // executor
 int		executor(t_ast *node, t_shell *shell);

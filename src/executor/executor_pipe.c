@@ -328,15 +328,15 @@ int	handle_pipe(t_ast *node, t_shell *shell)
 	pid_t	right_pid;
 
 	if (pipe(pipe_fd) == -1)
-		return (perror("Error on creating minishell pipe"), 1);
+		return (perror("minishell: pipe"), 1);
 	left_pid = fork();
 	if (left_pid == -1)
-		return (perror("Fork failed on minishell"), 1);
+		return (pipe_fork_error(pipe_fd, 0));
 	if (left_pid == 0)
 		exec_left_pipe_child(node->data.binary.left, pipe_fd, shell);
 	right_pid = fork();
 	if (right_pid == -1)
-		return (perror("Fork failed on minishell"), 1);
+		return (pipe_fork_error(pipe_fd, left_pid));
 	if (right_pid == 0)
 		exec_right_pipe_child(node->data.binary.right, pipe_fd, shell);
 	close(pipe_fd[0]);
