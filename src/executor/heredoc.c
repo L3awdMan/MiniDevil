@@ -15,9 +15,17 @@
 /**
  * @brief Check if the received delimiter is quoted
  *
- * If the delimiter was quoted ('EOF' or "EOF") then no expansion occurs
- * @param delimiter The delimiter string
- * @return 1 if quoted and 0 if not
+ * Determines whether heredoc content should be expanded.
+ * Per POSIX: if delimiter has ANY quotes, content is NOT expanded.
+ *
+ * @param delimiter The raw delimiter string from tokenizer
+ * @return 1 if quoted (content NOT expanded), 0 if unquoted (content expanded)
+ *
+ * @note Examples:
+ *       - `<< EOF`    -> unquoted, content IS expanded
+ *       - `<< $VAR`   -> unquoted, content IS expanded
+ *       - `<< "EOF"`  -> quoted, content NOT expanded
+ *       - `<< '$VAR'` -> quoted, content NOT expanded
  */
 static int	is_delimiter_quoted(char *delimiter)
 {
@@ -29,11 +37,19 @@ static int	is_delimiter_quoted(char *delimiter)
 }
 
 /**
- * @brief Remove quotes from delimiter if they exist
+ * @brief Remove quotes from delimiter without variable expansion
  *
- * Transforming 'EOF' or "EOF" to EOF
- * @param delimiter The original delimiter
- * @return A newly allocated unquoted delimiter
+ * Per POSIX, the heredoc delimiter is NEVER expanded, regardless of
+ * quote type. This function only removes surrounding quotes.
+ *
+ * @param delimiter The raw delimiter string from tokenizer
+ * @return Newly allocated delimiter with quotes removed, NULL on error
+ *
+ * @note Examples:
+ *       - `$VAR`   -> `$VAR` (unchanged, literal)
+ *       - `"$VAR"` -> `$VAR` (quotes removed, NOT expanded)
+ *       - `'$VAR'` -> `$VAR` (quotes removed, NOT expanded)
+ *       - `EOF`    -> `EOF` (unchanged)
  */
 static char	*clean_delimiter(char *delimiter)
 {
@@ -143,10 +159,6 @@ int	handle_heredoc(char *received_delimiter, t_env *env)
 	close(pipe_fd[1]);
 	free(delimiter);
 	if (interrupted)
-	{
-		close(pipe_fd[0]);
-		restore_stdin();
-		return (-1);
-	}
+		return (close(pipe_fd[0]), restore_stdin(), -1);
 	return (pipe_fd[0]);
 }

@@ -55,7 +55,9 @@ void	export_assign(t_env **env, char *arg)
 
 	equal_pos = ft_strchr(arg, '=');
 	key = ft_substr(arg, 0, equal_pos - arg);
-	value = ft_strdup(equal_pos + 1);
+  if (!key)
+    return ;
+  value = ft_strdup(equal_pos + 1);
 	set_env_value(env, key, value);
 	free(key);
 	free(value);
