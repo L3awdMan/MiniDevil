@@ -228,6 +228,14 @@ char			*append_char(char *str, char c);
 char			*append_str(char *s1, char *s2);
 
 /**
+ * @brief Check if token is $ before a quoted token ($"..." or $'...')
+ *
+ * @param tok Token to check
+ * @return 1 if $ before quote, 0 otherwise
+ */
+int				is_dollar_quote(t_token *tok);
+
+/**
  * @brief
  *
  * @param str

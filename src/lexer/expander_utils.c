@@ -12,6 +12,16 @@
 
 #include "structs.h"
 #include "token.h"
+#include "libft.h"
+
+int	is_dollar_quote(t_token *tok)
+{
+	if (!tok->connected || !tok->next)
+		return (0);
+	if (ft_strncmp(tok->value, "$", 2) != 0)
+		return (0);
+	return (tok->next->quote_type != QUOTE_NONE);
+}
 
 //======================== FUNCTION: is_var_char ============================
 	//

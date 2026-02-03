@@ -239,6 +239,8 @@ int	expand_all_tokens(t_token *tokens, t_shell *shell)
 				expanded = ft_strdup(tokens->value);
 			else if (prev && prev->type == TOKEN_HEREDOC)
 				expanded = ft_strdup(tokens->value);
+			else if (is_dollar_quote(tokens))
+				expanded = ft_strdup("");
 			else
 				expanded = expand_variables(tokens->value, shell->env,
 						tokens->quote_type, shell->exit_status);
