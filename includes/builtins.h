@@ -21,7 +21,7 @@ int		builtin_cd(char **args, t_env **env);
 
 int		builtin_exit(char **args, t_shell *shell);
 
-int		builtin_env(t_env *env);
+int		builtin_env(char **args, t_env *env);
 
 int		builtin_export(char **args, t_env **env);
 void	print_sorted_export(t_env *env);

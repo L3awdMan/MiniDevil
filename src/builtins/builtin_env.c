@@ -14,17 +14,25 @@
 
 /**
  * @brief Implement the env builtin command
- * 
+ *
  * Iterates through the env linked list and prints "KEY=VALUE" for every
  * variable that has a valid value (non NULL)
  * Variables with null values (created by export without value) are ignored
+ * @param args Command arguments (args[0] is "env")
  * @param env Pointer to the head of the environment list
- * @return Always 0 (success)
+ * @return 0 on success, 127 if arguments are provided
  */
-int	builtin_env(t_env *env)
+int	builtin_env(char **args, t_env *env)
 {
 	t_env	*current;
 
+	if (args && args[1])
+	{
+		ft_putstr_fd("env: '", STDERR_FILENO);
+		ft_putstr_fd(args[1], STDERR_FILENO);
+		ft_putstr_fd("': No such file or directory\n", STDERR_FILENO);
+		return (127);
+	}
 	current = env;
 	while (current)
 	{

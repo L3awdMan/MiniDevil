@@ -77,7 +77,7 @@ int	exec_builtin(char **args, t_shell *shell)
 	if (ft_strncmp(args[0], "unset", 6) == 0)
 		return (builtin_unset(args, &shell->env));
 	if (ft_strncmp(args[0], "env", 4) == 0)
-		return (builtin_env(shell->env));
+		return (builtin_env(args, shell->env));
 	if (ft_strncmp(args[0], "exit", 5) == 0)
 		return (builtin_exit(args, shell));
 	return (0);
