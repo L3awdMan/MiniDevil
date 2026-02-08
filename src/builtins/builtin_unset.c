@@ -76,17 +76,10 @@ static void	remove_env_node(t_env **env, char *key)
 
 /**
  * @brief Implement the unset builtin command
- * 
- * Remove environment variables from the list
- * - Iterate through all the arguments
- * - Validate the identifier syntax (print error if invalid)
- * - Call remove_env_node (does nothing when key not found)
- * @warning STRICT BASH BEHAVIOR
- * This implementation silently ignores invalid identifiers and returns 0
- * We only handle unsets variables with valid identifier names
+ *
  * @param args Null terminated array (args[0] is "unset")
  * @param env Double pointer to the environment list
- * @return Always 0 (bash compatible)
+ * @return 0 on success, 2 for invalid option
  */
 int	builtin_unset(char **args, t_env **env)
 {
@@ -95,6 +88,13 @@ int	builtin_unset(char **args, t_env **env)
 	i = 1;
 	while (args[i])
 	{
+		if (args[i][0] == '-' && args[i][1])
+		{
+			ft_putstr_fd("minishell: unset: -", STDERR_FILENO);
+			ft_putchar_fd(args[i][1], STDERR_FILENO);
+			ft_putstr_fd(": invalid option\n", STDERR_FILENO);
+			return (2);
+		}
 		if (is_valid_unset_identifier(args[i]))
 			remove_env_node(env, args[i]);
 		i++;

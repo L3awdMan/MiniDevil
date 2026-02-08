@@ -35,16 +35,21 @@ static char	*get_home_path(t_env *env)
  * @param env Pointer to the environment list
  * @return The path to change to or NULL on error
  */
-static char	*get_cd_path(char **args, t_env *env)
+static char	*get_cd_path(char **args, t_env *env, int *err)
 {
 	char	*path;
 
+	*err = 0;
 	if (!args[1] || ft_strncmp(args[1], "--", 3) == 0)
 	{
+		if (args[1] && args[2] && args[3])
+			return (*err = 1, NULL);
 		if (args[1] && args[2])
 			return (args[2]);
 		return (get_home_path(env));
 	}
+	if (args[2])
+		return (*err = 1, NULL);
 	if (ft_strncmp(args[1], "-", 2) == 0)
 	{
 		path = get_env_value(env, "OLDPWD");
@@ -90,10 +95,13 @@ int	builtin_cd(char **args, t_env **env)
 {
 	char	*path;
 	char	old_pwd[PATH_MAX];
+	int		too_many;
 
 	if (!getcwd(old_pwd, PATH_MAX))
 		old_pwd[0] = '\0';
-	path = get_cd_path(args, *env);
+	path = get_cd_path(args, *env, &too_many);
+	if (too_many)
+		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
 	if (!path)
 		return (1);
 	if (chdir(path) == -1)
