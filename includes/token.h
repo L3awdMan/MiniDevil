@@ -266,6 +266,29 @@ char			*expand_variables(char *str, t_env *env_list,
 					t_quote_type quote_type, int exit_status);
 
 /**
+ * @brief Expand tilde at the start of an unquoted word
+ *
+ * @param str The string to expand
+ * @param env_list Environment list to get HOME value
+ * @param quote_type Quote context of the token
+ * @return Expanded string (allocated) or copy of original
+ */
+char			*expand_tilde(char *str, t_env *env_list,
+					t_quote_type quote_type);
+
+/**
+ * @brief Chain variable expansion followed by tilde expansion
+ *
+ * @param str The string to expand
+ * @param env Environment list
+ * @param qt Quote type of the token
+ * @param exit_status Last command exit status
+ * @return Fully expanded string (allocated) or NULL on error
+ */
+char			*expand_full(char *str, t_env *env, t_quote_type qt,
+					int exit_status);
+
+/**
  * @brief Expand all tokens in a token list
  *
  * @param tokens Token list to expand

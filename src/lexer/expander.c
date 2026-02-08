@@ -242,7 +242,7 @@ int	expand_all_tokens(t_token *tokens, t_shell *shell)
 			else if (is_dollar_quote(tokens))
 				expanded = ft_strdup("");
 			else
-				expanded = expand_variables(tokens->value, shell->env,
+				expanded = expand_full(tokens->value, shell->env,
 						tokens->quote_type, shell->exit_status);
 			if (!expanded)
 				return (-1);

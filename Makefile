@@ -20,6 +20,7 @@ SRC = $(SRC_DIR)/main_under_process.c \
 			$(SRC_DIR)/lexer/tokenizer.c \
 			$(SRC_DIR)/lexer/expander_utils.c \
 			$(SRC_DIR)/lexer/expander.c \
+			$(SRC_DIR)/lexer/tilde_expand.c \
 			$(SRC_DIR)/parser/ast_utils.c \
 			$(SRC_DIR)/parser/ast.c \
 			$(SRC_DIR)/parser/parser_cmd.c \
@@ -41,7 +42,6 @@ SRC = $(SRC_DIR)/main_under_process.c \
 	$(SRC_DIR)/signals/heredoc_signals.c \
 	$(SRC_DIR)/executor/heredoc.c \
 	$(SRC_DIR)/executor/path.c \
-	$(SRC_DIR)/test.c \
 	$(SRC_DIR)/env/env_conversion.c \
 	$(SRC_DIR)/executor/exec_cmd.c \
 	$(SRC_DIR)/executor/exec_utils.c \
