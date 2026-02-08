@@ -93,13 +93,6 @@ static void	write_heredoc_line(int fd, char *line, t_env *env, int expand)
 
 /**
  * @brief Read heredoc input until delimiter
- *
- * @param fd The write end of the pipe
- * @param delimiter The cleaned delimiter
- * @param env The environment list for variable expansion
- * @param expand Flag to know whether we expand variables or not
- * (0 of delimiter was quoted)
- * @return 0 on success and 1 on CTRL C interrupt
  */
 static int	read_heredoc_lines(int fd, char *delimiter, t_env *env, int expand)
 {
@@ -107,23 +100,23 @@ static int	read_heredoc_lines(int fd, char *delimiter, t_env *env, int expand)
 
 	while (1)
 	{
-		line = readline("> ");
+		if (isatty(STDIN_FILENO))
+			line = readline("> ");
+		else
+		{
+			line = get_next_line(STDIN_FILENO);
+			if (line && ft_strlen(line) && line[ft_strlen(line) - 1] == '\n')
+				line[ft_strlen(line) - 1] = '\0';
+		}
 		if (g_signal == SIGINT)
 			return (1);
 		if (!line)
-		{
-			ft_putstr_fd("minishell: warning: heredoc delimited by EOF\n", 2);
-			break ;
-		}
-		if (ft_strncmp(line, delimiter, -1) == 0)
-		{
-			free(line);
-			break ;
-		}
+			return (ft_putstr_fd("minishell: warning: heredoc delimited by EOF\n", 2), 0);
+		if (!ft_strncmp(line, delimiter, -1))
+			return (free(line), 0);
 		write_heredoc_line(fd, line, env, expand);
 		free(line);
 	}
-	return (0);
 }
 
 /**
