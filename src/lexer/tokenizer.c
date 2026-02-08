@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 22:33:43 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/13 06:29:56 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/08 20:03:21 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static char	*extract_unquoted(char *str, int *len, t_quote_type *qtype)
 	int	i;
 
 	i = 0;
-	while (str[i] && !is_whitespace(str[i]) && !is_operator(str[i]) 
-    && str[i] != '\'' && str[i] != '"')
+	while (str[i] && !is_whitespace(str[i]) && !is_operator(str[i])
+		&& str[i] != '\'' && str[i] != '"')
 		i++;
 	*len = i;
 	*qtype = QUOTE_NONE;
@@ -49,10 +49,10 @@ static char	*extract_quoted(char *str, int *len, t_quote_type *qtype)
 	if (!str[end])
 		return (ft_putstr_fd("minishell: unclosed quote\n", 2), NULL);
 	if (quote == '\'')
-    *qtype = QUOTE_SINGLE;
-  else 
-    *qtype = QUOTE_DOUBLE;
-  *len = end + 1;
+		*qtype = QUOTE_SINGLE;
+	else
+		*qtype = QUOTE_DOUBLE;
+	*len = end + 1;
 	return (ft_substr(str, 1, end - 1));
 }
 
@@ -60,9 +60,11 @@ static char	*extract_quoted(char *str, int *len, t_quote_type *qtype)
 ** =============================================
 ** WORD TOKEN PROCESSING
 ** =============================================
+**
+** @TIPS i changed input varibale to s for norm
 */
 
-int	process_word_token(char *input, t_token **head)
+int	process_word_token(char *s, t_token **head)
 {
 	int				i;
 	int				len;
@@ -71,12 +73,12 @@ int	process_word_token(char *input, t_token **head)
 	t_token			*token;
 
 	i = 0;
-	while (input[i] && !is_whitespace(input[i]) && !is_operator(input[i]))
+	while (s[i] && !is_whitespace(s[i]) && !is_operator(s[i]))
 	{
-		if (input[i] == '\'' || input[i] == '"')
-			chunk = extract_quoted(input + i, &len, &qtype);
+		if (s[i] == '\'' || s[i] == '"')
+			chunk = extract_quoted(s + i, &len, &qtype);
 		else
-			chunk = extract_unquoted(input + i, &len, &qtype);
+			chunk = extract_unquoted(s + i, &len, &qtype);
 		if (!chunk)
 			return (-1);
 		token = create_token(TOKEN_WORD, chunk);
@@ -84,8 +86,7 @@ int	process_word_token(char *input, t_token **head)
 			return (free(chunk), -1);
 		token->quote_type = qtype;
 		i += len;
-		token->connected = (input[i] && !is_whitespace(input[i])
-				&& !is_operator(input[i]));
+		token->connected = (s[i] && !is_whitespace(s[i]) && !is_operator(s[i]));
 		add_token(head, token);
 		free(chunk);
 	}

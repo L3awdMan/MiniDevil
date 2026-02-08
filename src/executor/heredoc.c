@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:58:03 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/18 19:25:31 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/08 18:00:40 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ static int	read_heredoc_lines(int fd, char *delimiter, t_env *env, int expand)
 		if (g_signal == SIGINT)
 			return (1);
 		if (!line)
-			return (ft_putstr_fd("minishell: warning: heredoc delimited by EOF\n", 2), 0);
+			return (ft_putstr_fd("minishell: warning: heredoc delim by EOF\n",
+					2), 0);
 		if (!ft_strncmp(line, delimiter, -1))
 			return (free(line), 0);
 		write_heredoc_line(fd, line, env, expand);

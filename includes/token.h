@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:14:10 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/18 19:18:41 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/08 20:05:49 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ int				process_operator_token(char *input, t_token **head);
  * @param head The token list to add to
  * @return Number of characters consumed
  */
-int				process_word_token(char *input, t_token **head);
+int				process_word_token(char *s, t_token **head);
 
 /**
  * @brief Main tokenizer

@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 16:47:17 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/18 19:18:46 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/08 20:12:34 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ static int	handle_dollar_sign(char *str, char **result, t_env *env_list,
 	if (is_var_char(str[1]))
 		return (process_dollar(str, 0, result, env_list));
 	*result = append_char(*result, '$');
-  return (1);
+	return (1);
 }
 
 //===================== FUNCTION: expand_variables =======================
@@ -227,8 +227,8 @@ char	*expand_variables(char *str, t_env *env_list, t_quote_type quote_type,
  */
 int	expand_all_tokens(t_token *tokens, t_shell *shell)
 {
-	char		*expanded;
-	t_token		*prev;
+	char	*expanded;
+	t_token	*prev;
 
 	prev = NULL;
 	while (tokens)

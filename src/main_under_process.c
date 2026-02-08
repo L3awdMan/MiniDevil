@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/01/14 18:13:48 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/08 20:15:59 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	debug_print_tokens(t_token *tokens)
 	printf("\n=== TOKENS DEBUG ===\n");
 	while (tokens)
 	{
-		printf("[%d] value=\"%s\" quote=%d connected=%d\n",
-			i, tokens->value, tokens->quote_type, tokens->connected);
+		printf("[%d] value=\"%s\" quote=%d connected=%d\n", i, tokens->value,
+			tokens->quote_type, tokens->connected);
 		tokens = tokens->next;
 		i++;
 	}
@@ -68,7 +68,7 @@ static int	process_input(char *input, t_shell *shell)
 	if (!tokens)
 		return (2);
 	if (expand_all_tokens(tokens, shell) < 0) // <-- ADDED THIS
-		return (free_token_list(tokens), 1);    // <-- ADDED THIS 
+		return (free_token_list(tokens), 1);  // <-- ADDED THIS
 	ast = parse(tokens);
 	free_token_list(tokens);
 	if (!ast)
@@ -212,7 +212,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	shell.env = init_env(envp);
 	shell.exit_status = 0;
-	shell.interactive = isatty(STDIN_FILENO) && isatty(STDOUT_FILENO);
+	shell.interactive = (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO));
 	main_loop(&shell);
 	free_env_list(&shell.env);
 	return (shell.exit_status);

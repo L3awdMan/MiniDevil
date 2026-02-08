@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer_quote.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/08 20:11:15 by zotaj-di          #+#    #+#             */
+/*   Updated: 2026/02/09 00:04:16 by zotaj-di         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	*extract_quoted(char *str, int *len)
@@ -8,7 +20,7 @@ static char	*extract_quoted(char *str, int *len)
 
 	quote = str[0];
 	end = 1;
-	while (str[end] && str[end] != quote) // find closing quote
+	while (str[end] && str[end] != quote)
 		end++;
 	if (str[end] != quote)
 	{
@@ -16,14 +28,14 @@ static char	*extract_quoted(char *str, int *len)
 		return (NULL);
 	}
 	content = ft_substr(str, 0, end + 1);
-	*len = end + 1; // go the next character (right after the closing quote)
+	*len = end + 1;
 	return (content);
 }
 
 /**
  * @brief extract normal text until a separator (space, operator or quote)
  */
-static char *extract_unquoted(char *str, int *len)
+static char	*extract_unquoted(char *str, int *len)
 {
 	int	i;
 

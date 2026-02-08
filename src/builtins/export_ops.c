@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 05:43:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/12 22:50:51 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/08 17:54:49 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief Handle "export KEY" (no value)
- * 
+ *
  * If the key already exists, do nothing
  * If the key is new create a node with value = NULL (hidden)
  * @param env Double pointer to the environment list
@@ -42,7 +42,7 @@ void	export_no_value(t_env **env, char *key)
 
 /**
  * @brief Handle "export KEY=VALUE"
- * 
+ *
  * Extract key and value and use set_env_value to create or update the variable
  * @param env Double pointer to the environment list
  * @param arg The argument string that contains the assignment
@@ -55,9 +55,9 @@ void	export_assign(t_env **env, char *arg)
 
 	equal_pos = ft_strchr(arg, '=');
 	key = ft_substr(arg, 0, equal_pos - arg);
-  if (!key)
-    return ;
-  value = ft_strdup(equal_pos + 1);
+	if (!key)
+		return ;
+	value = ft_strdup(equal_pos + 1);
 	set_env_value(env, key, value);
 	free(key);
 	free(value);
@@ -65,7 +65,7 @@ void	export_assign(t_env **env, char *arg)
 
 /**
  * @brief Construct the new value for the append operation
- * 
+ *
  * @param env Head of the environment list
  * @param key The variable name
  * @param append_str The string to append
@@ -86,7 +86,7 @@ static char	*get_append_value(t_env *env, char *key, char *append_str)
 
 /**
  * @brief Handle "export KEY+=VALUE"
- * 
+ *
  * 1. Find the position of "+="
  * 2. Extract the key (excluding +)
  * 3. Calculate the new merged value
