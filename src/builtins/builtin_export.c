@@ -74,6 +74,8 @@ static int	export_one(char *arg, t_env **env)
 	if (!is_valid_identifier(arg))
 	{
 		print_export_error(arg);
+		if (arg[0] == '-')
+			return (2);
 		return (1);
 	}
 	if (ft_strnstr(arg, "+=", ft_strlen(arg)))
@@ -99,19 +101,17 @@ int	builtin_export(char **args, t_env **env)
 {
 	int	i;
 	int	status;
+	int	tmp;
 
 	if (!args[1])
-	{
-		print_sorted_export(*env);
-		return (0);
-	}
+		return (print_sorted_export(*env), 0);
 	status = 0;
 	i = 1;
 	while (args[i])
 	{
-		if (export_one(args[i], env) != 0)
-			status = 1;
-		i++;
+		tmp = export_one(args[i++], env);
+		if (tmp > status)
+			status = tmp;
 	}
 	return (status);
 }

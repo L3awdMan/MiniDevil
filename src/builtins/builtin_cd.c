@@ -13,9 +13,23 @@
 #include "minishell.h"
 
 /**
+ * @brief Get HOME path with error message if not set
+ */
+static char	*get_home_path(t_env *env)
+{
+	char	*path;
+
+	path = get_env_value(env, "HOME");
+	if (!path)
+		ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
+	return (path);
+}
+
+/**
  * @brief Get the target path for the cd command
  * Handles special cases
  * - No arguments => default to HOME
+ * - "--" => end of options marker, default to HOME or use next arg
  * - "-" => default to OLDPWD (and print the path)
  * @param args Command arguments
  * @param env Pointer to the environment list
@@ -25,12 +39,11 @@ static char	*get_cd_path(char **args, t_env *env)
 {
 	char	*path;
 
-	if (!args[1])
+	if (!args[1] || ft_strncmp(args[1], "--", 3) == 0)
 	{
-		path = get_env_value(env, "HOME");
-		if (!path)
-			ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
-		return (path);
+		if (args[1] && args[2])
+			return (args[2]);
+		return (get_home_path(env));
 	}
 	if (ft_strncmp(args[1], "-", 2) == 0)
 	{
