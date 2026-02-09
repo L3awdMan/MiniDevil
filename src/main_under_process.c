@@ -6,28 +6,11 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/08 20:15:59 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/08 15:02:59 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// temporarily code to debug
-void	debug_print_tokens(t_token *tokens)
-{
-	int	i;
-
-	i = 0;
-	printf("\n=== TOKENS DEBUG ===\n");
-	while (tokens)
-	{
-		printf("[%d] value=\"%s\" quote=%d connected=%d\n", i, tokens->value,
-			tokens->quote_type, tokens->connected);
-		tokens = tokens->next;
-		i++;
-	}
-	printf("====================\n\n");
-}
 
 //==================== FUNCTION: process_input ===========================
 //
@@ -64,11 +47,10 @@ static int	process_input(char *input, t_shell *shell)
 	int		status;
 
 	tokens = tokenize(input);
-	// debug_print_tokens(tokens);
 	if (!tokens)
 		return (2);
-	if (expand_all_tokens(tokens, shell) < 0) // <-- ADDED THIS
-		return (free_token_list(tokens), 1);  // <-- ADDED THIS
+	if (expand_all_tokens(tokens, shell) < 0)
+		return (free_token_list(tokens), 1);
 	ast = parse(tokens);
 	free_token_list(tokens);
 	if (!ast)

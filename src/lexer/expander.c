@@ -197,7 +197,12 @@ char	*expand_variables(char *str, t_env *env_list, t_quote_type quote_type,
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1])
+		if (str[i] == '\\' && str[i + 1] && quote_type == QUOTE_NONE)
+		{
+			result = append_char(result, str[i + 1]);
+			i += 2;
+		}
+		else if (str[i] == '$' && str[i + 1])
 			i += handle_dollar_sign(str + i, &result, env_list, exit_status);
 		else
 		{
@@ -235,9 +240,8 @@ int	expand_all_tokens(t_token *tokens, t_shell *shell)
 	{
 		if (tokens->type == TOKEN_WORD)
 		{
-			if (tokens->quote_type == QUOTE_SINGLE)
-				expanded = ft_strdup(tokens->value);
-			else if (prev && prev->type == TOKEN_HEREDOC)
+			if (tokens->quote_type == QUOTE_SINGLE
+        ||(prev && prev->type == TOKEN_HEREDOC))
 				expanded = ft_strdup(tokens->value);
 			else if (is_dollar_quote(tokens))
 				expanded = ft_strdup("");
