@@ -1,0 +1,43 @@
+#include "minishell_ui.h"
+
+/*
+** Get terminal size using ioctl
+*/
+void	get_term_size(t_term *term)
+{
+	struct winsize	ws;
+
+	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == 0)
+	{
+		term->width = ws.ws_col;
+		term->height = ws.ws_row;
+	}
+	else
+	{
+		term->width = 80;
+		term->height = 24;
+	}
+}
+
+/*
+** Enable raw mode for char-by-char input
+*/
+void	set_raw_mode(t_term *term)
+{
+	struct termios	raw;
+
+	tcgetattr(STDIN_FILENO, &term->orig);
+	raw = term->orig;
+	raw.c_lflag &= ~(ECHO | ICANON);
+	raw.c_cc[VMIN] = 1;
+	raw.c_cc[VTIME] = 0;
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
+}
+
+/*
+** Restore original terminal mode
+*/
+void	restore_term_mode(t_term *term)
+{
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term->orig);
+}

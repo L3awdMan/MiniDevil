@@ -49,6 +49,32 @@ SRC = $(SRC_DIR)/main_under_process.c \
 			$(SRC_DIR)/executor/executor_pipe.c \
 			$(SRC_DIR)/executor/executor_redir.c
 
+# UI Source files
+UI_SRC = $(SRC_DIR)/ui/core/ui_main.c \
+         $(SRC_DIR)/ui/core/terminal.c \
+         $(SRC_DIR)/ui/core/terminal_init.c \
+         $(SRC_DIR)/ui/core/signals.c \
+         $(SRC_DIR)/ui/core/output.c \
+         $(SRC_DIR)/ui/core/waifu.c \
+         $(SRC_DIR)/ui/core/waifu_art.c \
+         $(SRC_DIR)/ui/input/input.c \
+         $(SRC_DIR)/ui/input/command.c \
+         $(SRC_DIR)/ui/input/execute.c \
+         $(SRC_DIR)/ui/input/execute_utils.c \
+         $(SRC_DIR)/ui/draw/drawing.c \
+         $(SRC_DIR)/ui/draw/drawing_box.c \
+         $(SRC_DIR)/ui/draw/drawing_output.c \
+         $(SRC_DIR)/ui/draw/drawing_text.c \
+         $(SRC_DIR)/ui/draw/drawing_utils.c \
+         $(SRC_DIR)/ui/welcome/welcome.c \
+         $(SRC_DIR)/ui/welcome/welcome_demon.c \
+         $(SRC_DIR)/ui/welcome/welcome_effects.c \
+         $(SRC_DIR)/ui/welcome/welcome_loading.c \
+         $(SRC_DIR)/ui/welcome/welcome_utils.c
+
+# Add UI sources to main sources
+SRC += $(UI_SRC)
+
 
 # Object files (with subdirectory structure)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
