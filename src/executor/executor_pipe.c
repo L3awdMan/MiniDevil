@@ -63,6 +63,14 @@ void	exec_left_pipe_child(t_ast *left, int pipe_fd[2], t_shell *shell)
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(pipe_fd[1]);
 	status = executor(left, shell);
+	/**
+	 * @note Cleanup inherited (fork) memory before exit to avoid
+	 *       "still reachable" leaks reported by valgrind
+	 */
+	free(shell->current_input);
+	free_ast(shell->current_ast);
+	free_env_list(&shell->env);
+	get_next_line(-42);
 	exit(status);
 }
 
@@ -111,6 +119,14 @@ void	exec_right_pipe_child(t_ast *right, int pipe_fd[2], t_shell *shell)
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
 	status = executor(right, shell);
+	/**
+	 * @note Cleanup inherited (fork) memory before exit to avoid
+	 *       "still reachable" leaks reported by valgrind
+	 */
+	free(shell->current_input);
+	free_ast(shell->current_ast);
+	free_env_list(&shell->env);
+	get_next_line(-42);
 	exit(status);
 }
 

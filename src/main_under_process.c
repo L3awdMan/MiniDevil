@@ -56,6 +56,7 @@ static int	process_input(char *input, t_shell *shell)
 	free_token_list(tokens);
 	if (!ast)
 		return (2);
+	/** @note Store AST root so pipe children (fork) can free it */
 	shell->current_ast = ast;
 	status = executor(ast, shell);
 	free_ast(ast);
@@ -149,6 +150,7 @@ static void	main_loop(t_shell *shell)
 {
 	char	*input;
 
+	/** @note running is set to 0 by builtin_exit to break the loop */
 	shell->running = 1;
 	while (shell->running)
 	{
@@ -162,6 +164,7 @@ static void	main_loop(t_shell *shell)
 				ft_putstr_fd("exit\n", STDOUT_FILENO);
 			break ;
 		}
+		/** @note Store input so pipe children (fork) can free it */
 		shell->current_input = input;
 		handle_input(input, shell);
 		free(input);
@@ -216,6 +219,7 @@ int	main(int ac, char **av, char **envp)
 		main_loop(&shell);
 	}
 	
+	/** @note Full cleanup: env list + GNL stash to avoid leaks */
 	free_env_list(&shell.env);
 	get_next_line(-42);
 	return (shell.exit_status);

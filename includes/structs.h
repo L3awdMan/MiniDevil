@@ -230,13 +230,22 @@ typedef struct s_ast
  * @brief Main shell state container
  *
  * Stores all shell state in one place for easy parameter parsing
+ *
+ * @var current_ast   Tracks the AST root during execution so forked
+ *                    child processes (pipes) can free it before exit()
+ * @var current_input Tracks the current input line so forked child
+ *                    processes (pipes) can free it before exit()
  */
 typedef struct s_shell
 {
-	t_env	*env;
-	int		exit_status;
-	int		running;
-	int		interactive;
+	t_env			*env;
+	int				exit_status;
+	int				running;
+	int				interactive;
+	int				ui_mode;
+	struct s_ui		*ui;
+	struct s_ast	*current_ast;
+	char			*current_input;
 }	t_shell;
 
 //==================================================

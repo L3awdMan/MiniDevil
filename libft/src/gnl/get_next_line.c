@@ -104,8 +104,14 @@ char	*get_next_line(int fd)
 	static t_fdnode	*fd_list = NULL;
 	t_fdnode		*node;
 	char			*line;
-	char			*tmp;
 
+	/** @note Sentinel: get_next_line(-42) frees all stashed fd nodes */
+	if (fd == -42)
+	{
+		while (fd_list)
+			free_fdnode(&fd_list, fd_list->fd);
+		return (NULL);
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	node = get_fdnode(&fd_list, fd);
@@ -117,9 +123,8 @@ char	*get_next_line(int fd)
 	line = extract_line(node->stash);
 	if (!line)
 		return (free_fdnode(&fd_list, fd), NULL);
-	tmp = update_stash(node->stash);
-	node->stash = tmp;
-	if (!tmp)
+	node->stash = update_stash(node->stash);
+	if (!node->stash)
 		free_fdnode(&fd_list, fd);
 	return (line);
 }
