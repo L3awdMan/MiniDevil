@@ -1,5 +1,8 @@
 #include "minishell_ui.h"
 
+/* External global from main project's signals.c */
+extern volatile sig_atomic_t	g_signal;
+
 /*
 ** Adds the welcome message box to the output panel.
 */
@@ -60,6 +63,19 @@ static void	init_ui(t_shell *shell)
 }
 
 /*
+** Check for SIGWINCH (terminal resize) and redraw if needed.
+*/
+static void	check_resize(t_shell *shell)
+{
+	if (g_signal == SIGWINCH)
+	{
+		g_signal = 0;
+		get_term_size(&shell->ui->term);
+		draw_ui(shell->ui);
+	}
+}
+
+/*
 ** Main UI loop - handles input and drawing.
 */
 static void	ui_loop(t_shell *shell)
@@ -74,6 +90,7 @@ static void	ui_loop(t_shell *shell)
 	draw_ui(shell->ui);
 	while (shell->ui->running)
 	{
+		check_resize(shell);
 		key = read_key();
 		if (key == KEY_ENTER)
 		{
