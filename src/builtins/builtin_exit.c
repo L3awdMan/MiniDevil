@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:53:47 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 06:35:28 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:56:52 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	builtin_exit(char **args, t_shell *shell)
 		return (2);
 	}
 	if (argc > 2)
-		return (ft_putstr_fd("minishell: exit: to many args\n", STDERR_FILENO), 1);   
+		return (ft_putstr_fd("minishell: exit: to many args\n", STDERR_FILENO),
+			1);
 	exit_code = (unsigned char)ft_atoi(args[1]);
 	shell->running = 0;
 	return (exit_code);

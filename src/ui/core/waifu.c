@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   waifu.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/17 17:48:29 by zotaj-di          #+#    #+#             */
+/*   Updated: 2026/02/17 17:48:29 by zotaj-di         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_ui.h"
 
 /* Forward declarations for waifu_art.c functions */
-void	draw_happy(int y, int x);
-void	draw_upset(int y, int x);
-void	draw_proud(int y, int x);
+void		draw_happy(int y, int x);
+void		draw_upset(int y, int x);
+void		draw_proud(int y, int x);
 
 /*
 ** Updates the waifu's current mood state.

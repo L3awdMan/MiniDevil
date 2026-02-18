@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   welcome_loading.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/17 17:50:06 by zotaj-di          #+#    #+#             */
+/*   Updated: 2026/02/18 17:08:06 by zotaj-di         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "welcome_ui.h"
 
 /*
@@ -12,7 +24,7 @@ void	animate_credits(t_welcome_term *t)
 	row = t->center_y + 9;
 	print_centered(t, row, DIM C_AURA4, 0);
 	print_at_pos(row, (t->width - 29) / 2, "");
-	ft_printf("%s%s%s%s", DIM, C_MYSTIC3, credits, RESET);
+	ft_printf("%s%s%s%s", DIM, C_M3, credits, RESET);
 	fflush(stdout);
 }
 
@@ -21,17 +33,15 @@ void	animate_credits(t_welcome_term *t)
 */
 void	animate_loading(t_welcome_term *t)
 {
-	int			row;
-	int			i;
+	int	row;
+	int	i;
 
 	row = t->center_y + 11;
-	print_centered(t, row,
-		C_AURA2 "░░░░░░░░░░░░░░░░░░░░" RESET, 20);
+	print_centered(t, row, C_AURA2 "░░░░░░░░░░░░░░░░░░░░" RESET, 20);
 	i = -1;
 	while (++i < 20)
 	{
-		print_at_pos(row, (t->width - 20) / 2 + i,
-			C_MYSTIC3 "▓" RESET);
+		print_at_pos(row, (t->width - 20) / 2 + i, C_M3 "▓" RESET);
 		ft_msleep(50);
 	}
 	ft_msleep(200);

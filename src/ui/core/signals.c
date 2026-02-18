@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: L3awd <L3awd@student.42.fr>                +#+  +:+       +#+        */
+/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/02 00:00:00 by L3awd             #+#    #+#             */
-/*   Updated: 2025/01/02 00:00:00 by L3awd            ###   ########.fr       */
+/*   Created: 2026/02/18 17:11:06 by zotaj-di          #+#    #+#             */
+/*   Updated: 2026/02/18 17:15:36 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,11 @@ void	setup_ui_signals(t_shell *shell)
 	struct sigaction	sa_int;
 
 	(void)shell;
-	/* Set up SIGWINCH handler for terminal resize */
 	ft_memset(&sa_winch, 0, sizeof(sa_winch));
 	sa_winch.sa_handler = handle_ui_sigwinch;
 	sigemptyset(&sa_winch.sa_mask);
 	sa_winch.sa_flags = SA_RESTART;
 	sigaction(SIGWINCH, &sa_winch, NULL);
-
-	/* Ignore SIGINT in UI mode - raw mode handles Ctrl+C differently */
 	ft_memset(&sa_int, 0, sizeof(sa_int));
 	sa_int.sa_handler = SIG_IGN;
 	sigemptyset(&sa_int.sa_mask);

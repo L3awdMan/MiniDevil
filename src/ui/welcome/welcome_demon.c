@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   welcome_demon.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/18 17:04:37 by zotaj-di          #+#    #+#             */
+/*   Updated: 2026/02/18 17:06:32 by zotaj-di         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "welcome_ui.h"
 
 /*
@@ -94,12 +106,12 @@ void	flash_demon_eyes(t_welcome_term *t)
 
 	row = t->center_y - 4 + 5;
 	col = (t->width - DEMON_WIDTH) / 2 + 26;
-	print_at_pos(row, col, C_MYSTIC1 BOLD "_" RESET);
-	print_at_pos(row, col + 8, C_MYSTIC1 BOLD "_" RESET);
+	print_at_pos(row, col, C_M1 BOLD "_" RESET);
+	print_at_pos(row, col + 8, C_M1 BOLD "_" RESET);
 	ft_msleep(100);
-	print_at_pos(row, col, C_MYSTIC5 BOLD "*" RESET);
-	print_at_pos(row, col + 8, C_MYSTIC5 BOLD "*" RESET);
+	print_at_pos(row, col, C_M5 BOLD "*" RESET);
+	print_at_pos(row, col + 8, C_M5 BOLD "*" RESET);
 	ft_msleep(150);
-	print_at_pos(row, col, C_MYSTIC1 BOLD "_" RESET);
-	print_at_pos(row, col + 8, C_MYSTIC1 BOLD "_" RESET);
+	print_at_pos(row, col, C_M1 BOLD "_" RESET);
+	print_at_pos(row, col + 8, C_M1 BOLD "_" RESET);
 }

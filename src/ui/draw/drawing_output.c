@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   drawing_output.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/17 17:49:01 by zotaj-di          #+#    #+#             */
+/*   Updated: 2026/02/17 17:49:01 by zotaj-di         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_ui.h"
 
 /*
@@ -32,7 +44,7 @@ static void	draw_line_content(t_ui *ui, int line_idx, int w)
 */
 void	draw_out_line(t_ui *ui, int y, int i, int w)
 {
-	int		line_idx;
+	int	line_idx;
 
 	line_idx = ui->out.scroll + i;
 	print_at(y + 1 + i, 2, C_FIRE2);
@@ -73,10 +85,10 @@ void	draw_out_box(t_ui *ui)
 */
 void	redraw_output_only(t_ui *ui)
 {
-	int		y;
-	int		w;
-	int		h;
-	int		i;
+	int	y;
+	int	w;
+	int	h;
+	int	i;
 
 	y = 5;
 	w = ui->term.width - WAIFU_BOX_W - 4;

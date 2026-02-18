@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ui_main.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/18 17:11:54 by zotaj-di          #+#    #+#             */
+/*   Updated: 2026/02/18 17:19:01 by zotaj-di         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_ui.h"
 
 /* External global from main project's signals.c */
@@ -9,24 +21,15 @@ extern volatile sig_atomic_t	g_signal;
 static void	add_welcome_msg(t_ui *ui)
 {
 	out_add_line(&ui->out, "");
-	out_add_line(&ui->out,
-		"  ╔══════════════════════════════════════════╗");
-	out_add_line(&ui->out,
-		"  ║  Welcome to Minishell UI!                ║");
-	out_add_line(&ui->out,
-		"  ║                                          ║");
-	out_add_line(&ui->out,
-		"  ║  • Type commands and press Enter         ║");
-	out_add_line(&ui->out,
-		"  ║  • Use ↑/↓ to scroll output              ║");
-	out_add_line(&ui->out,
-		"  ║  • Press Ctrl-D to exit                  ║");
-	out_add_line(&ui->out,
-		"  ║  • Type 'clear' to clear output          ║");
-	out_add_line(&ui->out,
-		"  ║                                          ║");
-	out_add_line(&ui->out,
-		"  ╚══════════════════════════════════════════╝");
+	out_add_line(&ui->out, "  ╔══════════════════════════════════════════╗");
+	out_add_line(&ui->out, "  ║  Welcome to Minishell UI!                ║");
+	out_add_line(&ui->out, "  ║                                          ║");
+	out_add_line(&ui->out, "  ║  • Type commands and press Enter         ║");
+	out_add_line(&ui->out, "  ║  • Use ↑/↓ to scroll output              ║");
+	out_add_line(&ui->out, "  ║  • Press Ctrl-D to exit                  ║");
+	out_add_line(&ui->out, "  ║  • Type 'clear' to clear output          ║");
+	out_add_line(&ui->out, "  ║                                          ║");
+	out_add_line(&ui->out, "  ╚══════════════════════════════════════════╝");
 	out_add_line(&ui->out, "");
 }
 
@@ -84,7 +87,6 @@ static void	ui_loop(t_shell *shell)
 
 	draw_welcome();
 	ft_msleep(2000);
-	/* Hide cursor again after welcome animation showed it */
 	write(STDOUT_FILENO, CURSOR_HIDE, ft_strlen(CURSOR_HIDE));
 	add_welcome_msg(shell->ui);
 	draw_ui(shell->ui);
@@ -114,15 +116,9 @@ void	run_ui_mode(t_shell *shell)
 {
 	if (!shell)
 		return ;
-	
-	/* Initialize UI mode */
 	shell->ui_mode = 1;
 	init_ui(shell);
-	
-	/* Run UI loop */
 	ui_loop(shell);
-	
-	/* Cleanup - note: out_free() is already called in cleanup_term() */
 	cleanup_term(shell->ui);
 	free(shell->ui);
 	shell->ui = NULL;

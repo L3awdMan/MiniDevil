@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/17 17:49:28 by zotaj-di          #+#    #+#             */
+/*   Updated: 2026/02/17 17:49:28 by zotaj-di         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_ui.h"
 
 /*
@@ -80,7 +92,7 @@ static void	handle_scroll(t_ui *ui, int key)
 void	handle_key(t_shell *shell, int key)
 {
 	t_ui	*ui;
-	
+
 	if (!shell || !shell->ui)
 		return ;
 	ui = shell->ui;

@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 16:47:17 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/08 20:12:34 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/11 19:34:32 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,8 +240,8 @@ int	expand_all_tokens(t_token *tokens, t_shell *shell)
 	{
 		if (tokens->type == TOKEN_WORD)
 		{
-			if (tokens->quote_type == QUOTE_SINGLE
-        ||(prev && prev->type == TOKEN_HEREDOC))
+			if (tokens->quote_type == QUOTE_SINGLE || (prev
+					&& prev->type == TOKEN_HEREDOC))
 				expanded = ft_strdup(tokens->value);
 			else if (is_dollar_quote(tokens))
 				expanded = ft_strdup("");

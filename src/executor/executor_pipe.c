@@ -6,7 +6,7 @@
 /*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:25:03 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/17 19:53:00 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:58:15 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@
 //    Left child: echo hello
 //    → stdout goes to pipe instead of terminal
 //    → cat (right child) reads from pipe
-// TODO : NOT YET crystal clear ..
+/**
+ * @note Cleanup inherited (fork) memory before exit to avoid
+ *       "still reachable" leaks reported by valgrind
+ */
 
 void	exec_left_pipe_child(t_ast *left, int pipe_fd[2], t_shell *shell)
 {
@@ -63,10 +66,6 @@ void	exec_left_pipe_child(t_ast *left, int pipe_fd[2], t_shell *shell)
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(pipe_fd[1]);
 	status = executor(left, shell);
-	/**
-	 * @note Cleanup inherited (fork) memory before exit to avoid
-	 *       "still reachable" leaks reported by valgrind
-	 */
 	free(shell->current_input);
 	free_ast(shell->current_ast);
 	free_env_list(&shell->env);
@@ -110,6 +109,10 @@ void	exec_left_pipe_child(t_ast *left, int pipe_fd[2], t_shell *shell)
 //    Right child: cat
 //    → stdin comes from pipe (echo's output)
 //    → cat reads from pipe and prints
+/**
+ * @note Cleanup inherited (fork) memory before exit to avoid
+ *       "still reachable" leaks reported by valgrind
+ */
 
 void	exec_right_pipe_child(t_ast *right, int pipe_fd[2], t_shell *shell)
 {
@@ -119,10 +122,6 @@ void	exec_right_pipe_child(t_ast *right, int pipe_fd[2], t_shell *shell)
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
 	status = executor(right, shell);
-	/**
-	 * @note Cleanup inherited (fork) memory before exit to avoid
-	 *       "still reachable" leaks reported by valgrind
-	 */
 	free(shell->current_input);
 	free_ast(shell->current_ast);
 	free_env_list(&shell->env);

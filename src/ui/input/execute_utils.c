@@ -1,7 +1,19 @@
-#include "minishell_ui.h"
-#include "token.h"
-#include "parser.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/17 17:49:23 by zotaj-di          #+#    #+#             */
+/*   Updated: 2026/02/17 17:49:23 by zotaj-di         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "executor.h"
+#include "minishell_ui.h"
+#include "parser.h"
+#include "token.h"
 
 static void	process_output_char(t_ui *ui, char c, char *line, int *line_len)
 {

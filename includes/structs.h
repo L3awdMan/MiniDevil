@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 02:24:43 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/14 01:20:00 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:53:48 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT,
 	TOKEN_APPEND,
 	TOKEN_HEREDOC
-}						t_token_type;
+}					t_token_type;
 
 /**
  * @brief Quote types (for variable expansion control)
@@ -61,7 +61,7 @@ typedef enum e_quote_type
 	QUOTE_NONE,
 	QUOTE_SINGLE,
 	QUOTE_DOUBLE
-}						t_quote_type;
+}					t_quote_type;
 
 /**
  * @brief AST Node types
@@ -83,7 +83,7 @@ typedef enum e_node_type
 	NODE_REDIR_OUT,
 	NODE_REDIR_APPEND,
 	NODE_REDIR_HEREDOC
-}						t_node_type;
+}					t_node_type;
 
 //==================================================
 //================ TOKEN STRUCTURES ================
@@ -101,12 +101,12 @@ typedef enum e_node_type
 // Type of token (word, pipe, redirection, ...)
 typedef struct s_token
 {
-	t_token_type		type;
-	char				*value;
-	t_quote_type		quote_type;
-  int             connected;
-  struct s_token		*next;
-}						t_token;
+	t_token_type	type;
+	char			*value;
+	t_quote_type	quote_type;
+	int				connected;
+	struct s_token	*next;
+}					t_token;
 
 //==================================================
 //============= ENVIRONMENT STRUCTURE ==============
@@ -126,11 +126,11 @@ typedef struct s_token
  */
 typedef struct s_env
 {
-	char				*key;
-	char				*value;
-	struct s_env		*next;
-	struct s_env		*prev;
-}						t_env;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+	struct s_env	*prev;
+}					t_env;
 
 //==================================================
 //================= AST STRUCTURES =================
@@ -148,9 +148,9 @@ typedef struct s_env
  */
 typedef struct s_cmd_node
 {
-	char	**args;
-	int		argc;
-}						t_cmd_node;
+	char			**args;
+	int				argc;
+}					t_cmd_node;
 
 /**
  * @brief Redirection node data
@@ -168,7 +168,7 @@ typedef struct s_redir_node
 	char			*file;
 	struct s_ast	*cmd;
 	t_node_type		redir_type;
-}						t_redir_node;
+}					t_redir_node;
 
 /**
  * @brief Binary operation node data (for pipes)
@@ -184,11 +184,11 @@ typedef struct s_binary_node
 {
 	struct s_ast	*left;
 	struct s_ast	*right;
-}						t_binary_node;
+}					t_binary_node;
 
 /**
  * @brief Union for the AST node
- * 
+ *
  * This union stores the data for exactly one AST node type
  * Members are:
  * - cmd (data for a command node)
@@ -201,7 +201,7 @@ typedef union u_ast_data
 	t_cmd_node		cmd;
 	t_redir_node	redir;
 	t_binary_node	binary;
-}	t_ast_data;
+}					t_ast_data;
 
 /**
  * @brief AST node - main tree structure
@@ -218,9 +218,9 @@ typedef union u_ast_data
  */
 typedef struct s_ast
 {
-	t_node_type	type; // Determines which union member is valid
-	t_ast_data	data; // The actual data (only ONE is valid based on type)
-}						t_ast;
+	t_node_type		type;
+	t_ast_data		data;
+}					t_ast;
 
 //==================================================
 //================ SHELL STRUCTURE =================
@@ -246,7 +246,7 @@ typedef struct s_shell
 	struct s_ui		*ui;
 	struct s_ast	*current_ast;
 	char			*current_input;
-}	t_shell;
+}					t_shell;
 
 //==================================================
 //================ SYNTAX ERROR CODES ==============
@@ -256,7 +256,7 @@ typedef struct s_shell
  * @brief Enum for specific syntax error types
  *
  * Allows precise error tracking and better testing
- * 
+ *
  * - **EMPTY_INPUT**		Empty input string
  * - **PIPE_START**			Pipe at start: | cat
  * - **PIPE_END**			Pipe at end: cat |
@@ -275,6 +275,6 @@ typedef enum e_syntax_error
 	ERR_PIPE_NO_CMD,
 	ERR_REDIR_NO_FILE,
 	ERR_REDIR_AFTER_PIPE
-}	t_syntax_error;
+}					t_syntax_error;
 
 #endif

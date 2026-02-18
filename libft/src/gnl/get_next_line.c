@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 21:12:00 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/07/29 21:27:13 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:51:52 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ char	*get_next_line(int fd)
 	t_fdnode		*node;
 	char			*line;
 
-	/** @note Sentinel: get_next_line(-42) frees all stashed fd nodes */
 	if (fd == -42)
 	{
 		while (fd_list)

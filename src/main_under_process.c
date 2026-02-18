@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/08 15:02:59 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:56:39 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static int	process_input(char *input, t_shell *shell)
 	free_token_list(tokens);
 	if (!ast)
 		return (2);
-	/** @note Store AST root so pipe children (fork) can free it */
 	shell->current_ast = ast;
 	status = executor(ast, shell);
 	free_ast(ast);
@@ -150,7 +149,6 @@ static void	main_loop(t_shell *shell)
 {
 	char	*input;
 
-	/** @note running is set to 0 by builtin_exit to break the loop */
 	shell->running = 1;
 	while (shell->running)
 	{
@@ -164,7 +162,6 @@ static void	main_loop(t_shell *shell)
 				ft_putstr_fd("exit\n", STDOUT_FILENO);
 			break ;
 		}
-		/** @note Store input so pipe children (fork) can free it */
 		shell->current_input = input;
 		handle_input(input, shell);
 		free(input);
@@ -199,27 +196,20 @@ int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
 
-	/* Initialize shell structure */
 	ft_memset(&shell, 0, sizeof(t_shell));
 	shell.env = init_env(envp);
 	shell.exit_status = 0;
 	shell.interactive = (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO));
 	shell.ui_mode = 0;
 	shell.ui = NULL;
-	
-	/* Check for UI mode flag */
 	if (ac > 1 && ft_strncmp(av[1], "--ui", 5) == 0)
-	{
 		run_ui_mode(&shell);
-	}
 	else
 	{
 		(void)ac;
 		(void)av;
 		main_loop(&shell);
 	}
-	
-	/** @note Full cleanup: env list + GNL stash to avoid leaks */
 	free_env_list(&shell.env);
 	get_next_line(-42);
 	return (shell.exit_status);
