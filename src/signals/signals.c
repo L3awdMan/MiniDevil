@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 23:44:56 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/19 07:42:04 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/19 08:00:40 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,21 @@ void	reset_child_signals(void)
 	struct sigaction	sa;
 
 	sa.sa_handler = SIG_DFL;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
+/**
+ * @brief Ignore signals in the parent shell during execution
+ * 
+ */
+void	setup_execution_signals(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = SIG_IGN;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
