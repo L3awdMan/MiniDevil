@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 05:00:41 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 06:16:29 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/19 06:54:30 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static int	is_n_flag(char *arg)
 	if (!arg || arg[0] != '-')
 		return (0);
 	i = 1;
+	if (!arg[i])
+		return (0);
 	while (arg[i])
 	{
 		if (arg[i] != 'n')

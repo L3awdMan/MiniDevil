@@ -10,7 +10,7 @@ INC_DIR = includes
 LIBFT_DIR = libft
 
 # Source files
-SRC = $(SRC_DIR)/main_under_process.c \
+SRC = $(SRC_DIR)/main.c \
       $(SRC_DIR)/env/env_init.c \
       $(SRC_DIR)/env/env_operations.c \
       $(SRC_DIR)/env/env_utils.c \
