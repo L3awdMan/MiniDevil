@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_redir.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 18:56:14 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/17 23:31:06 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/19 07:26:54 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@
 //    → opens output.txt for writing
 //    → returns fd 3
 
-int	open_redir_file(char *file, t_node_type type, t_env *env)
+int	open_redir_file(char *file, t_node_type type, int quoted, t_env *env)
 {
 	int	fd;
 
@@ -65,7 +65,7 @@ int	open_redir_file(char *file, t_node_type type, t_env *env)
 	else if (type == NODE_REDIR_APPEND)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (type == NODE_REDIR_HEREDOC)
-		fd = handle_heredoc(file, env);
+		fd = handle_heredoc(file, quoted, env);
 	if (fd == -1 && type != NODE_REDIR_HEREDOC)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -226,17 +226,19 @@ void	restore_fd(int saved_fd, t_node_type type)
 
 int	handle_redir(t_ast *node, t_shell *shell)
 {
-	int	fd;
-	int	saved_fd;
-	int	status;
+	t_redir_node	*redir;
+	int				fd;
+	int				saved_fd;
+	int				status;
 
-	fd = open_redir_file(node->data.redir.file, node->type, shell->env);
+	redir = &node->data.redir;
+	fd = open_redir_file(redir->file, node->type, redir->quote, shell->env);
 	if (fd == -1)
 		return (1);
 	saved_fd = setup_redirection(fd, node->type);
 	if (saved_fd == -1)
 		return (1);
-	status = executor(node->data.redir.cmd, shell);
+	status = executor(redir->cmd, shell);
 	restore_fd(saved_fd, node->type);
 	return (status);
 }

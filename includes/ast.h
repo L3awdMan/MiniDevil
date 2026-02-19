@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:19:21 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 02:15:43 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/19 07:18:04 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_ast	*create_pipe_node(t_ast *left, t_ast *right);
  * @param cmd Command to redirect (can be NULL if chained redirection)
  * @return New redirection node or NULL on failure
  */
-t_ast	*create_redir_node(t_node_type type, char *file, t_ast *cmd);
+t_ast	*create_redir_node(t_node_type type, char *file, t_ast *cmd, int quote);
 
 //==================================================
 //=================== CLEANUP ======================

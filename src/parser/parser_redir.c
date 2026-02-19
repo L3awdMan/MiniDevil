@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:11:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/01/14 17:08:26 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/19 07:20:19 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static t_ast	*parse_one_redirection(t_token **tokens, t_ast *cmd)
 {
 	t_node_type	type;
 	char		*file;
+	int			quoted;
 
 	type = get_redir_node_type((*tokens)->type);
 	*tokens = (*tokens)->next;
@@ -81,8 +82,9 @@ static t_ast	*parse_one_redirection(t_token **tokens, t_ast *cmd)
 	file = ft_strdup((*tokens)->value);
 	if (!file)
 		return (free_ast(cmd), NULL);
+	quoted = ((*tokens)->quote_type != QUOTE_NONE);
 	*tokens = (*tokens)->next;
-	return (create_redir_node(type, file, cmd));
+	return (create_redir_node(type, file, cmd, quoted));
 }
 
 //================== FUNCTION: collect_and_merge_remaining_argc ===============

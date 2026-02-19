@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 02:24:43 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/17 17:53:48 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/19 07:33:47 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ typedef struct s_redir_node
 	char			*file;
 	struct s_ast	*cmd;
 	t_node_type		redir_type;
+	int				quote;
 }					t_redir_node;
 
 /**
