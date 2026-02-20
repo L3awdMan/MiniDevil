@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:11:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/19 07:20:19 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/20 07:57:19 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	collect_and_merge_remaining_argc(t_ast *cmd, t_token **tokens)
 		return ;
 	merged = malloc(sizeof(char *) * (cmd->data.cmd.argc + new_argc + 1));
 	if (!merged)
-		return ;
+		return (ft_free_strarray(new_args));
 	i = -1;
 	while (++i < cmd->data.cmd.argc)
 		merged[i] = cmd->data.cmd.args[i];
