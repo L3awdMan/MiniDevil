@@ -18,7 +18,6 @@
 static void	init_screen(void)
 {
 	ft_printf("%s%s", CLEAR_SCREEN, HIDE_CURSOR);
-	fflush(stdout);
 }
 
 /*
@@ -29,7 +28,6 @@ static void	cleanup_screen(t_welcome_term *t)
 	ft_msleep(800);
 	print_at_pos(t->height, 1, SHOW_CURSOR);
 	ft_printf("%s", CLEAR_SCREEN);
-	fflush(stdout);
 }
 
 /*

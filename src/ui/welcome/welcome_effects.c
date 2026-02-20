@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   welcome_effects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:50:02 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/18 17:19:01 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/20 23:56:24 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void	print_mystic_char(char c, int idx)
 	const char	*mystic[] = {C_M1, C_M2, C_M3, C_M4, C_M5};
 
 	ft_printf("%s%s%c", BOLD, mystic[idx % 5], c);
-	fflush(stdout);
 }
 
 /*
@@ -47,7 +46,6 @@ void	animate_title(t_welcome_term *t)
 		ft_msleep(40);
 	}
 	ft_printf("%s", RESET);
-	fflush(stdout);
 }
 
 /*

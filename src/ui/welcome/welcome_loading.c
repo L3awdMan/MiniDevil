@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   welcome_loading.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:50:06 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/18 17:08:06 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/20 23:56:24 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	animate_credits(t_welcome_term *t)
 	print_centered(t, row, DIM C_AURA4, 0);
 	print_at_pos(row, (t->width - 29) / 2, "");
 	ft_printf("%s%s%s%s", DIM, C_M3, credits, RESET);
-	fflush(stdout);
 }
 
 /*

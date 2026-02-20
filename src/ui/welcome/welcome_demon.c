@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   welcome_demon.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:04:37 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/18 17:06:32 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/21 00:01:08 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static void	print_demon_line(t_welcome_term *t, int line, int row)
 		col = 1;
 	print_at_pos(row, col, color);
 	ft_printf("%s%s", art_line, RESET);
-	fflush(stdout);
 }
 
 /*

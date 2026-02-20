@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ui_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:11:54 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/19 12:00:00 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/20 23:53:06 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
-
-/* External global from main project's signals.c */
-extern volatile sig_atomic_t	g_signal;
+#include "minishell.h"
 
 static void	init_ui(t_shell *shell)
 {

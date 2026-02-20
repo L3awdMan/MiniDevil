@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   welcome_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:50:10 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 17:50:10 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/20 23:56:25 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	get_welcome_term_size(t_welcome_term *t)
 void	print_at_pos(int row, int col, const char *str)
 {
 	ft_printf("\033[%d;%dH%s", row, col, str);
-	fflush(stdout);
 }
 
 /*
