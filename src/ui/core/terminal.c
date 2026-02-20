@@ -53,3 +53,14 @@ void	restore_term_mode(t_term *term)
 {
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term->orig);
 }
+
+/* Prints the goodbye message when exiting the UI */
+void	print_goodbye(void)
+{
+	ft_printf("\n" PURPLE BOLD);
+	ft_printf("╔════════════════════════════════════════╗\n");
+	ft_printf("║                                        ║\n");
+	ft_printf("║           See you next time !          ║\n");
+	ft_printf("║                                        ║\n");
+	ft_printf("╚════════════════════════════════════════╝\n" RESET "\n");
+}

@@ -44,3 +44,19 @@ void	out_free(t_out *out)
 	out_clear(out);
 	free(out->lines);
 }
+
+/* Adds the welcome message box to the output panel */
+void	add_welcome_msg(t_ui *ui)
+{
+	out_add_line(&ui->out, "");
+	out_add_line(&ui->out, "  ╔══════════════════════════════════════════╗");
+	out_add_line(&ui->out, "  ║  Welcome to Minishell UI!                ║");
+	out_add_line(&ui->out, "  ║                                          ║");
+	out_add_line(&ui->out, "  ║  • Type commands and press Enter         ║");
+	out_add_line(&ui->out, "  ║  • Use ↑/↓ to scroll output              ║");
+	out_add_line(&ui->out, "  ║  • Press Ctrl-D to exit                  ║");
+	out_add_line(&ui->out, "  ║  • Type 'clear' to clear output          ║");
+	out_add_line(&ui->out, "  ║                                          ║");
+	out_add_line(&ui->out, "  ╚══════════════════════════════════════════╝");
+	out_add_line(&ui->out, "");
+}

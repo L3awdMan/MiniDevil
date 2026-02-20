@@ -174,6 +174,7 @@ void				cleanup_term(t_ui *ui);
 void				get_term_size(t_term *term);
 void				set_raw_mode(t_term *term);
 void				restore_term_mode(t_term *term);
+void				print_goodbye(void);
 
 /* Signal handling */
 void				setup_ui_signals(t_shell *shell);
@@ -216,6 +217,7 @@ void				cmd_execute(t_shell *shell);
 void				out_add_line(t_out *out, const char *line);
 void				out_clear(t_out *out);
 void				out_free(t_out *out);
+void				add_welcome_msg(t_ui *ui);
 
 /* Utils */
 void				ft_msleep(int ms);
