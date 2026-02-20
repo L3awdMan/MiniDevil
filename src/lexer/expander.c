@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 16:47:17 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/11 19:34:32 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/20 06:33:18 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,6 @@ static int	handle_special_var(char *str, char **result, int exit_status)
 	if (str[1] == '?')
 	{
 		value = ft_itoa(exit_status);
-		*result = append_str(*result, value);
-		return (free(value), 2);
-	}
-	if (str[1] == '$')
-	{
-		value = ft_itoa(getpid());
 		*result = append_str(*result, value);
 		return (free(value), 2);
 	}
