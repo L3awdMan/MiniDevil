@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:58:03 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/19 07:34:09 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/20 07:43:31 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@
  * @param expand Flag to know whether we expand variables or not
  * (0 of delimiter was quoted)
  */
-static void	write_heredoc_line(int fd, char *line, t_env *env, int expand)
+static void	write_heredoc_line(int fd, char *line, t_shell *shell, int expand)
 {
 	char	*expanded;
 
 	if (expand && line)
 	{
-		expanded = expand_variables(line, env, QUOTE_NONE, 0);
+		expanded = expand_variables(line, shell->env, QUOTE_NONE,
+				shell->exit_status);
 		ft_putendl_fd(expanded, fd);
 		free(expanded);
 	}
@@ -39,7 +40,7 @@ static void	write_heredoc_line(int fd, char *line, t_env *env, int expand)
 /**
  * @brief Read heredoc input until delimiter
  */
-static int	read_heredoc_lines(int fd, char *delimiter, t_env *env, int expand)
+static int	read_heredoc_lines(int fd, char *delim, t_shell *shell, int expand)
 {
 	char	*line;
 
@@ -58,9 +59,9 @@ static int	read_heredoc_lines(int fd, char *delimiter, t_env *env, int expand)
 		if (!line)
 			return (ft_putstr_fd("minishell: warning: heredoc delim by EOF\n",
 					2), 0);
-		if (!ft_strncmp(line, delimiter, -1))
+		if (!ft_strncmp(line, delim, -1))
 			return (free(line), 0);
-		write_heredoc_line(fd, line, env, expand);
+		write_heredoc_line(fd, line, shell, expand);
 		free(line);
 	}
 }
@@ -78,7 +79,7 @@ static int	read_heredoc_lines(int fd, char *delimiter, t_env *env, int expand)
  * @param env The environment list for variable expansion
  * @return File descriptor of the read end of pipe or -1 on error
  */
-int	handle_heredoc(char *delimiter, int quoted, t_env *env)
+int	handle_heredoc(char *delimiter, int quoted, t_shell *shell)
 {
 	int		pipe_fd[2];
 	int		expand;
@@ -89,7 +90,7 @@ int	handle_heredoc(char *delimiter, int quoted, t_env *env)
 		return (perror("minishell: pipe"), -1);
 	setup_heredoc_signals();
 	g_signal = 0;
-	interrupted = read_heredoc_lines(pipe_fd[1], delimiter, env, expand);
+	interrupted = read_heredoc_lines(pipe_fd[1], delimiter, shell, expand);
 	setup_interactive_signals();
 	close(pipe_fd[1]);
 	if (interrupted)

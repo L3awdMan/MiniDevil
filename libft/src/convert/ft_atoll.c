@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 06:46:57 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/20 07:01:18 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/20 07:37:17 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static int	check_overflow(long long result, int digit, int sign)
 	return (0);
 }
 
-long long	ft_atoll(const char *str, int *overflow)
+long long	ft_atoll(const char *str, int *is_overflow)
 {
 	long long	result;
 	int			sign;
 
 	result = 0;
 	sign = 1;
-	*overflow = 0;
+	*is_overflow = 0;
 	while (ft_isspace(*str))
 		str++;
 	if (*str == '-' || *str == '+')
@@ -41,7 +41,7 @@ long long	ft_atoll(const char *str, int *overflow)
 	{
 		if (check_overflow(result, *str - '0', sign))
 		{
-			*overflow = 1;
+			*is_overflow = 1;
 			return (0);
 		}
 		result = result * 10 + (*str - '0');

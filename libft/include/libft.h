@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:54:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/20 07:00:57 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/20 07:37:30 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_list
 int			ft_atoi(const char *str);
 char		*ft_itoa(int n);
 double		ft_atof(const char *s);
-long long	ft_atoll(const char *str, int *overflow);
+long long	ft_atoll(const char *str, int *is_overflow);
 
 int			ft_isalnum(int c);
 int			ft_isalpha(int c);

@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 03:16:21 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/19 07:32:43 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/20 07:44:33 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include "minishell.h"
 # include "structs.h"
 
-int		handle_heredoc(char *delimiter, int quoted, t_env *env);
+int		handle_heredoc(char *delimiter, int quoted, t_shell *shell);
 
 char	*find_cmd_path(char *cmd, t_env *env);
 
@@ -42,7 +42,8 @@ int		pipe_fork_error(int pipe_fd[2], pid_t left_pid);
 int		executor(t_ast *node, t_shell *shell);
 
 // execute redir
-int		open_redir_file(char *file, t_node_type type, int quoted, t_env *env);
+int		open_redir_file(
+					char *file, t_node_type type, int quoted, t_shell *shell);
 int		setup_redirection(int fd, t_node_type type);
 void	restore_fd(int saved_fd, t_node_type type);
 int		handle_redir(t_ast *node, t_shell *shell);

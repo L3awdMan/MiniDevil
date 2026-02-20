@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 18:56:14 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/19 07:26:54 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/20 07:45:02 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@
 //    → opens output.txt for writing
 //    → returns fd 3
 
-int	open_redir_file(char *file, t_node_type type, int quoted, t_env *env)
+int	open_redir_file(char *file, t_node_type type, int quoted, t_shell *shell)
 {
 	int	fd;
 
@@ -65,7 +65,7 @@ int	open_redir_file(char *file, t_node_type type, int quoted, t_env *env)
 	else if (type == NODE_REDIR_APPEND)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (type == NODE_REDIR_HEREDOC)
-		fd = handle_heredoc(file, quoted, env);
+		fd = handle_heredoc(file, quoted, shell);
 	if (fd == -1 && type != NODE_REDIR_HEREDOC)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -232,7 +232,7 @@ int	handle_redir(t_ast *node, t_shell *shell)
 	int				status;
 
 	redir = &node->data.redir;
-	fd = open_redir_file(redir->file, node->type, redir->quote, shell->env);
+	fd = open_redir_file(redir->file, node->type, redir->quote, shell);
 	if (fd == -1)
 		return (1);
 	saved_fd = setup_redirection(fd, node->type);
