@@ -6,11 +6,26 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:53:47 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/17 17:56:52 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/20 07:18:49 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief Checks if the given argument overflows
+ * 
+ * @return 1 if overflow, 0 if not
+ */
+static int	is_overflow(char *str)
+{
+	long long	val;
+	int			overflow;
+
+	val = ft_atoll(str, &overflow);
+	(void)val;
+	return (overflow);
+}
 
 /**
  * @brief Exit the shell with specific status code
@@ -26,29 +41,28 @@
  */
 int	builtin_exit(char **args, t_shell *shell)
 {
-	int	argc;
-	int	exit_code;
+	long long	exit_code;
+	int			overflow;
 
 	if (shell->interactive)
 		ft_putstr_fd("exit\n", 1);
-	argc = ft_arrlen(args);
-	if (argc == 1)
+	if (ft_arrlen(args) == 1)
 	{
 		shell->running = 0;
 		return (shell->exit_status);
 	}
-	if (!ft_str_is_numeric(args[1]))
+	if (!ft_str_is_numeric(args[1]) || is_overflow(args[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(args[1], STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		shell->running = 0;
 		return (2);
 	}
-	if (argc > 2)
-		return (ft_putstr_fd("minishell: exit: to many args\n", STDERR_FILENO),
-			1);
-	exit_code = (unsigned char)ft_atoi(args[1]);
+	if (ft_arrlen(args) > 2)
+		return (ft_putstr_fd("minishell: exit: too many arguments\n",
+				STDERR_FILENO), 1);
+	exit_code = ft_atoll(args[1], &overflow);
 	shell->running = 0;
-	return (exit_code);
+	return ((unsigned char)exit_code);
 }
