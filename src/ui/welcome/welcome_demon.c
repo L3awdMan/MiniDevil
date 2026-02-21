@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:04:37 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/21 00:01:08 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/21 00:34:22 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	animate_demon(t_welcome_term *t)
 	while (++i < DEMON_LINES)
 	{
 		print_demon_line(t, i, start_row + i);
-		ft_msleep(60);
+		ft_msleep(100);
 	}
 }
 

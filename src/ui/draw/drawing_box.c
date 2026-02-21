@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing_box.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:48:56 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 17:48:56 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/21 02:10:32 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	draw_box(t_box *b)
 	draw_box_top(b);
 	draw_box_sides(b);
 	draw_box_bottom(b);
-	fflush(stdout);
+
 }
 
 /*
@@ -85,5 +85,4 @@ void	draw_box_title(t_box *b, const char *title)
 	draw_hline(b->w - 2 - title_len - pad, b->color);
 	write(STDOUT_FILENO, BOX_TR, 3);
 	ft_printf("%s", RESET);
-	fflush(stdout);
 }
