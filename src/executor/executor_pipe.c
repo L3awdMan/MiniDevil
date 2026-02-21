@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:25:03 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 17:58:15 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/21 07:49:52 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	exec_left_pipe_child(t_ast *left, int pipe_fd[2], t_shell *shell)
 {
 	int	status;
 
+	reset_child_signals();
 	close(pipe_fd[0]);
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(pipe_fd[1]);
@@ -118,6 +119,7 @@ void	exec_right_pipe_child(t_ast *right, int pipe_fd[2], t_shell *shell)
 {
 	int	status;
 
+	reset_child_signals();
 	close(pipe_fd[1]);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
