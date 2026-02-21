@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:34:13 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/18 15:39:06 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/21 07:56:27 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ static void	fill_args_array(char **args, t_token **tokens, int count)
 			*tokens = (*tokens)->next;
 			temp = ft_strjoin(word, (*tokens)->value);
 			free(word);
+			if (!temp)
+				return ;
 			word = temp;
 		}
 		args[i] = word;

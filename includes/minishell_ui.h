@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_ui.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: L3awd <L3awd@student.42.fr>                +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:00:00 by L3awd             #+#    #+#             */
-/*   Updated: 2026/02/17 17:54:42 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/21 07:57:53 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
 # include <sys/ioctl.h>
 # include <sys/wait.h>
 # include <termios.h>
