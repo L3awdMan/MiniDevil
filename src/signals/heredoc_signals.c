@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 22:35:52 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 03:43:42 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/21 08:07:43 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,24 @@ void	heredoc_sigint_handler(int sig)
 /**
  * @brief Configure signals for heredoc execution
  * 
- * - For SIGINT we use custom handler to close SSTDIN (thus breaking readline)
- * - For SIGQUIT we ignore (it should do nothing in heredoc)
+ * No SA_RESTART because it would make readline silently retry after the signal,
+ * preventing heredoc from stopping on CTRL C
  */
 void	setup_heredoc_signals(void)
 {
-	signal(SIGINT, heredoc_sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
+
+	ft_memset(&sa_int, 0, sizeof(sa_int));
+	sa_int.sa_handler = heredoc_sigint_handler;
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_flags = 0;
+	sigaction(SIGINT, &sa_int, NULL);
+	ft_memset(&sa_quit, 0, sizeof(sa_quit));
+	sa_quit.sa_handler = SIG_IGN;
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_flags = 0;
+	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
 /**
