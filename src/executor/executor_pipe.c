@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:25:03 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/21 07:49:52 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/22 03:35:16 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,12 @@ static int	wait_for_pipe_children(pid_t left_pid, pid_t right_pid)
 
 	waitpid(left_pid, &status, 0);
 	waitpid(right_pid, &status, 0);
-	right_status = WEXITSTATUS(status);
+	if (WIFEXITED(status))
+		right_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		right_status = 128 + WTERMSIG(status);
+	else
+		right_status = 1;
 	return (right_status);
 }
 
