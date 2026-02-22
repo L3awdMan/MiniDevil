@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 16:47:17 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/20 06:33:18 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/22 06:39:45 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,12 +191,7 @@ char	*expand_variables(char *str, t_env *env_list, t_quote_type quote_type,
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\\' && str[i + 1] && quote_type == QUOTE_NONE)
-		{
-			result = append_char(result, str[i + 1]);
-			i += 2;
-		}
-		else if (str[i] == '$' && str[i + 1])
+		if (str[i] == '$' && str[i + 1])
 			i += handle_dollar_sign(str + i, &result, env_list, exit_status);
 		else
 		{
