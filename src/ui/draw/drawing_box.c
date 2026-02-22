@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:48:56 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/21 02:10:32 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/22 07:04:53 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	draw_box(t_box *b)
 	draw_box_top(b);
 	draw_box_sides(b);
 	draw_box_bottom(b);
-
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:50:10 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/21 02:48:51 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/22 06:59:52 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@ void	ft_msleep(int ms)
 
 	if (ms <= 0)
 		return ;
-
 	tcgetattr(STDIN_FILENO, &old);
 	tmp = old;
 	tmp.c_cc[VMIN] = 0;
-	tmp.c_cc[VTIME] = ms/ 100;
+	tmp.c_cc[VTIME] = ms / 100;
 	tcsetattr(STDIN_FILENO, TCSANOW, &tmp);
 	read(STDIN_FILENO, &buf, 1);
 	tcsetattr(STDIN_FILENO, TCSANOW, &old);

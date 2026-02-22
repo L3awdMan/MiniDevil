@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 07:43:01 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/22 01:08:33 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/22 07:01:19 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static void	close_heredoc_fds(t_ast *node)
 		if (node->type == NODE_REDIR_HEREDOC
 			&& node->data.redir.heredoc_fd >= 0)
 		{
-				close(node->data.redir.heredoc_fd);
-				node->data.redir.heredoc_fd = -1;
+			close(node->data.redir.heredoc_fd);
+			node->data.redir.heredoc_fd = -1;
 		}
 		close_heredoc_fds(node->data.redir.cmd);
 	}

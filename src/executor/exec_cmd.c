@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 23:16:35 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/21 02:59:36 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/22 07:04:31 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ static int	prepare_exec(char **args, t_env *env, char **path, char ***envp)
 {
 	if (ft_strncmp(args[0], ".", 2) == 0)
 	{
-		ft_putstr_fd("minishell: .: filename argument required\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: .: filename argument required\n",
+			STDERR_FILENO);
 		ft_putstr_fd(".: usage: . filename [arguments]\n", STDERR_FILENO);
 		return (2);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_grammar_error.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 18:18:08 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/11 23:42:05 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/22 07:00:48 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@
 static const char	*get_error_msg(t_syntax_error err)
 {
 	if (err == ERR_EMPTY_INPUT)
-		return ("syntax error: empty input\n");
+		return ("minishell: syntax error: empty input\n");
 	if (err == ERR_PIPE_START || err == ERR_PIPE_END || err == ERR_PIPE_DOUBLE)
-		return ("syntax error near unexpected token `|'\n");
+		return ("minishell: syntax error near unexpected token `|'\n");
 	if (err == ERR_PIPE_NO_CMD)
-		return ("syntax error: missing command after pipe\n");
+		return ("minishell: syntax error: missing command after pipe\n");
 	if (err == ERR_REDIR_NO_FILE)
-		return ("syntax error: missing filename after redirection\n");
+		return ("minishell: syntax error: missing filename "
+			"after redirection\n");
 	if (err == ERR_REDIR_AFTER_PIPE)
-		return ("syntax error: redirection after pipe\n");
+		return ("minishell: syntax error: redirection after pipe\n");
 	return (NULL);
 }
 
