@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 06:22:28 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 06:40:34 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/22 07:26:24 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	builtin_cd(char **args, t_env **env)
 	if (chdir(path) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-		perror(args[1]);
+		perror(path);
 		return (1);
 	}
 	update_pwd_vars(env, old_pwd);
