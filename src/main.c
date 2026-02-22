@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/21 08:31:27 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/22 02:59:28 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,11 +159,14 @@ static void	main_loop(t_shell *shell)
 			setup_interactive_signals();
 		g_signal = 0;
 		input = read_input(shell);
+		if (!input && shell->interactive)
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
 		if (!input)
-		{
-			if (shell->interactive)
-				ft_putstr_fd("exit\n", STDOUT_FILENO);
 			break ;
+		if (g_signal == SIGINT)
+		{
+			shell->exit_status = 130;
+			g_signal = 0;
 		}
 		setup_execution_signals();
 		shell->current_input = input;
