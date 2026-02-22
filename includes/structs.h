@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 02:24:43 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/19 07:33:47 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/22 01:08:32 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ typedef struct s_cmd_node
  * 	- file = "output.txt"
  * 	- cmd = [node for "cat"]
  * 	- redir_type = NODE_REDIR_OUT
+ * 	- heredoc_fd = pipe read-end from handle_heredoc()
  */
 typedef struct s_redir_node
 {
@@ -169,6 +170,7 @@ typedef struct s_redir_node
 	struct s_ast	*cmd;
 	t_node_type		redir_type;
 	int				quote;
+	int				heredoc_fd;
 }					t_redir_node;
 
 /**

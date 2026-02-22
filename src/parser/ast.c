@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:42:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/19 07:18:57 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/22 01:10:07 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,5 +140,6 @@ t_ast	*create_redir_node(t_node_type type, char *file, t_ast *cmd, int quote)
 	node->data.redir.cmd = cmd;
 	node->data.redir.redir_type = type;
 	node->data.redir.quote = quote;
+	node->data.redir.heredoc_fd = -1;
 	return (node);
 }

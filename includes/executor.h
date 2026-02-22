@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 03:16:21 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/21 07:22:54 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/21 08:32:19 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,8 @@ int		setup_redirection(int fd, t_node_type type);
 void	restore_fd(int saved_fd, t_node_type type);
 int		handle_redir(t_ast *node, t_shell *shell);
 
-/// TEMPORARY
-void	test_heredoc(t_env *env);
-void	test_path_finder(t_env *env);
-void	test_exec_external(t_env **env);
+// heredoc collect
+int		walk_heredocs(t_ast *node, t_shell *shell);
+int		collect_heredocs(t_ast *node, t_shell *shell);
 
 #endif

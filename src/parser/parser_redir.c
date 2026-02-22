@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:11:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/20 07:57:19 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/22 01:08:29 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,5 +214,5 @@ t_ast	*parse_command(t_token **tokens)
 		if (cmd_node)
 			collect_and_merge_remaining_argc(cmd_node, tokens);
 	}
-	return (cmd);
+	return (reverse_redir_chain(cmd));
 }

@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 18:56:14 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/20 07:45:02 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/21 08:29:14 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,13 @@ int	handle_redir(t_ast *node, t_shell *shell)
 	int				status;
 
 	redir = &node->data.redir;
-	fd = open_redir_file(redir->file, node->type, redir->quote, shell);
+	if (node->type == NODE_REDIR_HEREDOC && redir->heredoc_fd >= 0)
+	{
+		fd = redir->heredoc_fd;
+		redir->heredoc_fd = -1;
+	}
+	else
+		fd = open_redir_file(redir->file, node->type, redir->quote, shell);
 	if (fd == -1)
 		return (1);
 	saved_fd = setup_redirection(fd, node->type);

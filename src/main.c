@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/21 00:40:55 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/21 08:31:27 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ static int	process_input(char *input, t_shell *shell)
 	if (!ast)
 		return (2);
 	shell->current_ast = ast;
-	status = executor(ast, shell);
+	if (collect_heredocs(ast, shell) == -1)
+		status = 130;
+	else
+		status = executor(ast, shell);
 	free_ast(ast);
 	shell->current_ast = NULL;
 	return (status);

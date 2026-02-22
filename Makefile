@@ -10,10 +10,10 @@ INC_DIR = includes
 LIBFT_DIR = libft
 
 # Source files
-SRC = $(SRC_DIR)/main.c \
-      $(SRC_DIR)/env/env_init.c \
-      $(SRC_DIR)/env/env_operations.c \
-      $(SRC_DIR)/env/env_utils.c \
+SRC = 		$(SRC_DIR)/main.c \
+      		$(SRC_DIR)/env/env_init.c \
+      		$(SRC_DIR)/env/env_operations.c \
+      		$(SRC_DIR)/env/env_utils.c \
  			$(SRC_DIR)/lexer/token.c \
 			$(SRC_DIR)/lexer/quote_handler.c \
 			$(SRC_DIR)/lexer/tokenizer_utils.c \
@@ -29,25 +29,27 @@ SRC = $(SRC_DIR)/main.c \
 			$(SRC_DIR)/parser/parser_grammar.c \
 			$(SRC_DIR)/parser/parser_grammar_error.c \
 			$(SRC_DIR)/parser/parser_redir.c \
-	$(SRC_DIR)/builtins/builtin_echo.c \
-	$(SRC_DIR)/builtins/builtin_pwd.c \
-	$(SRC_DIR)/builtins/builtin_cd.c \
-	$(SRC_DIR)/builtins/builtin_exit.c \
-	$(SRC_DIR)/builtins/builtin_env.c \
-	$(SRC_DIR)/builtins/builtin_export.c \
-	$(SRC_DIR)/builtins/export_utils.c \
-	$(SRC_DIR)/builtins/export_ops.c \
-	$(SRC_DIR)/builtins/builtin_unset.c \
-	$(SRC_DIR)/signals/signals.c \
-	$(SRC_DIR)/signals/heredoc_signals.c \
-	$(SRC_DIR)/executor/heredoc.c \
-	$(SRC_DIR)/executor/path.c \
-	$(SRC_DIR)/env/env_conversion.c \
-	$(SRC_DIR)/executor/exec_cmd.c \
-	$(SRC_DIR)/executor/exec_utils.c \
+			$(SRC_DIR)/parser/parser_redir_utils.c \
+			$(SRC_DIR)/builtins/builtin_echo.c \
+			$(SRC_DIR)/builtins/builtin_pwd.c \
+			$(SRC_DIR)/builtins/builtin_cd.c \
+			$(SRC_DIR)/builtins/builtin_exit.c \
+			$(SRC_DIR)/builtins/builtin_env.c \
+			$(SRC_DIR)/builtins/builtin_export.c \
+			$(SRC_DIR)/builtins/export_utils.c \
+			$(SRC_DIR)/builtins/export_ops.c \
+			$(SRC_DIR)/builtins/builtin_unset.c \
+			$(SRC_DIR)/signals/signals.c \
+			$(SRC_DIR)/signals/heredoc_signals.c \
+			$(SRC_DIR)/executor/heredoc.c \
+			$(SRC_DIR)/executor/path.c \
+			$(SRC_DIR)/env/env_conversion.c \
+			$(SRC_DIR)/executor/exec_cmd.c \
+			$(SRC_DIR)/executor/exec_utils.c \
 			$(SRC_DIR)/executor/executor.c \
 			$(SRC_DIR)/executor/executor_pipe.c \
-			$(SRC_DIR)/executor/executor_redir.c
+			$(SRC_DIR)/executor/executor_redir.c \
+			$(SRC_DIR)/executor/heredoc_collect.c
 
 # UI Source files
 UI_SRC = $(SRC_DIR)/ui/core/ui_main.c \

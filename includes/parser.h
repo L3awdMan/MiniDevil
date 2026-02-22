@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:17:12 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/18 15:39:41 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/22 01:08:30 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,9 @@ int		is_redirection(t_token_type type);
 int		validate_syntax(t_token *tokens);
 
 int		count_word_tokens(t_token *tokens);
+
+// Reversal for REDIR(B) -> REDIR(A) -> CMD
+
+t_ast	*reverse_redir_chain(t_ast *node);
 
 #endif

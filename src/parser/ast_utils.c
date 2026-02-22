@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 21:02:54 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/10 20:40:41 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/21 08:30:24 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void	free_ast(t_ast *node)
 	}
 	else if (node->type >= NODE_REDIR_IN && node->type <= NODE_REDIR_HEREDOC)
 	{
+		if (node->data.redir.heredoc_fd >= 0)
+			close(node->data.redir.heredoc_fd);
 		free(node->data.redir.file);
 		free_ast(node->data.redir.cmd);
 	}
