@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 18:56:14 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/21 08:29:14 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/22 03:58:02 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,10 @@ int	handle_redir(t_ast *node, t_shell *shell)
 		return (1);
 	saved_fd = setup_redirection(fd, node->type);
 	if (saved_fd == -1)
+	{
+		close(fd);
 		return (1);
+	}
 	status = executor(redir->cmd, shell);
 	restore_fd(saved_fd, node->type);
 	return (status);
