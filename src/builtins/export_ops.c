@@ -6,20 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 05:43:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/08 17:54:49 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 21:38:32 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Handle "export KEY" (no value)
- *
- * If the key already exists, do nothing
- * If the key is new create a node with value = NULL (hidden)
- * @param env Double pointer to the environment list
- * @param key The variable name to export
- */
 void	export_no_value(t_env **env, char *key)
 {
 	t_env	*new_node;
@@ -40,13 +32,6 @@ void	export_no_value(t_env **env, char *key)
 	add_env_node(env, new_node);
 }
 
-/**
- * @brief Handle "export KEY=VALUE"
- *
- * Extract key and value and use set_env_value to create or update the variable
- * @param env Double pointer to the environment list
- * @param arg The argument string that contains the assignment
- */
 void	export_assign(t_env **env, char *arg)
 {
 	char	*key;
@@ -63,14 +48,6 @@ void	export_assign(t_env **env, char *arg)
 	free(value);
 }
 
-/**
- * @brief Construct the new value for the append operation
- *
- * @param env Head of the environment list
- * @param key The variable name
- * @param append_str The string to append
- * @return A newly allocated string value
- */
 static char	*get_append_value(t_env *env, char *key, char *append_str)
 {
 	char	*old_value;
@@ -84,16 +61,6 @@ static char	*get_append_value(t_env *env, char *key, char *append_str)
 	return (new_value);
 }
 
-/**
- * @brief Handle "export KEY+=VALUE"
- *
- * 1. Find the position of "+="
- * 2. Extract the key (excluding +)
- * 3. Calculate the new merged value
- * 4. Update the environment
- * @param env Double pointer to the environment list
- * @param arg The argument string that contains the assignment
- */
 void	export_append(t_env **env, char *arg)
 {
 	char	*key;

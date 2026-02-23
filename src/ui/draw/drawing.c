@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:48:52 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 17:48:52 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:29:04 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
-/*
-** Draws the command input box with prompt and cursor.
-*/
 void	draw_cmd_box(t_ui *ui)
 {
 	t_box	b;
@@ -36,9 +33,6 @@ void	draw_cmd_box(t_ui *ui)
 		write(STDOUT_FILENO, " ", 1);
 }
 
-/*
-** Draws the exit code box with color-coded status.
-*/
 void	draw_exit_box(t_ui *ui)
 {
 	t_box	b;
@@ -58,9 +52,6 @@ void	draw_exit_box(t_ui *ui)
 	ft_printf("%s Exit: %d %s", BOLD, ui->out.exit_code, RESET);
 }
 
-/*
-** Redraws the entire UI (clears screen first).
-*/
 void	draw_ui(t_ui *ui)
 {
 	write(STDOUT_FILENO, CLEAR_SCREEN, ft_strlen(CLEAR_SCREEN));
@@ -70,9 +61,6 @@ void	draw_ui(t_ui *ui)
 	draw_out_box(ui);
 }
 
-/*
-** Redraws only the command line (for fast typing updates).
-*/
 void	redraw_cmd_only(t_ui *ui)
 {
 	int	width;

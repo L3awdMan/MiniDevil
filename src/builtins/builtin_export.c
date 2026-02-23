@@ -6,22 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 22:35:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/13 06:18:16 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 21:39:00 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Check if a string is a valid env variable identifier
- * 
- * Rules are:
- * - Must start with a letter or an underscore
- * - All characters that come after must be alphanumeric or underscore
- * - '+' is allowed only when it's the last character before '=' (append)
- * @param str The string to check
- * @return 1 if valid, 0 if not
- */
 static int	is_valid_identifier(char *str)
 {
 	int	i;
@@ -47,10 +37,6 @@ static int	is_valid_identifier(char *str)
 	return (1);
 }
 
-/**
- * @brief Print an error message for invalid export identifiers
- * @param arg The invalid argument string
- */
 static void	print_export_error(char *arg)
 {
 	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
@@ -58,17 +44,6 @@ static void	print_export_error(char *arg)
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 }
 
-/**
- * @brief Decide on which export action to dispatch (in export_ops.c)
- * 
- * 1. Check validity of identifier
- * 2. If "+=" is found, call append function
- * 3. If "="  then call assign function
- * 4. Otherwise call no value function (export without arguments)
- * @param arg The argument string
- * @param env Double pointer to the environment list
- * @return 0 on success and 1 on error
- */
 static int	export_one(char *arg, t_env **env)
 {
 	if (!is_valid_identifier(arg))
@@ -87,16 +62,6 @@ static int	export_one(char *arg, t_env **env)
 	return (0);
 }
 
-/**
- * @brief Implement the export builtin command
- * 
- * - If no arguments: print all exported variables sorted in `declare -x` format
- * - If arguments: add or update variable in the environment list
- * Continue processing the following arguments even if one is invalid
- * @param args Null terminated array (args[0] is "export")
- * @param env Double pointer to the environment list
- * @return 0 if all exports succeed, 1 if at least one error occured
- */
 int	builtin_export(char **args, t_env **env)
 {
 	int	i;

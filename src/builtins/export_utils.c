@@ -6,18 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 01:41:07 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/14 05:22:46 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 21:38:18 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Count the number of nodes in the environment list
- * 
- * @param env Pointer to the head of the environment list
- * @return The total count of nodes 
- */
 static int	count_env(t_env *env)
 {
 	int	count;
@@ -31,15 +25,6 @@ static int	count_env(t_env *env)
 	return (count);
 }
 
-/**
- * @brief Create a temporary array of pointers to environment nodes
- * 
- * This allows sorting te pointer alphabetically without disruptin
- * the actual linked list structure
- * @param env Pointer to the head of the environment list
- * @param count The number of nodes
- * @return NULL terminated array of t_env pointers or NULL on fail
- */
 static t_env	**env_to_node_array(t_env *env, int count)
 {
 	t_env	**arr;
@@ -59,15 +44,6 @@ static t_env	**env_to_node_array(t_env *env, int count)
 	return (arr);
 }
 
-/**
- * @brief Bubble sort the environment array alphabetically by key
- * 
- * @note Uses the -1 trick with ft_strncmp() because passing -1 as a size_t
- * wraps it to SIZE_MAX and forces it to compare until the null terminator
- * (making it behave like ft_strcmp)
- * @param arr The array of t_env pointers to sort
- * @param count The size of the array
- */
 static void	sort_env_array(t_env **arr, int count)
 {
 	int		i;
@@ -92,13 +68,6 @@ static void	sort_env_array(t_env **arr, int count)
 	}
 }
 
-/**
- * @brief Print a single exported variable in Bash format
- * 
- * Format: declare -x KEY="VALUE"
- * - If the value is NULL (hidden) it prints declare -x KEY
- * @param var The environment variable node to print
- */
 static void	print_one_export(t_env *var)
 {
 	ft_putstr_fd("declare -x ", STDOUT_FILENO);
@@ -112,16 +81,6 @@ static void	print_one_export(t_env *var)
 	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-/**
- * @brief Main function to print environment variables sorted
- * 
- * 1. Count the nodes
- * 2. Create an array of pointers (temporary)
- * 3. Sort the array in alphabetical order
- * 4. Print each variable
- * 5. Free the temporary array (not the nodes)
- * @param env Pointer to the head of an environment list
- */
 void	print_sorted_export(t_env *env)
 {
 	t_env	**arr;

@@ -6,23 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 18:43:02 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/14 01:20:46 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:40:06 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-/**
- * @file minishell.h
- * @brief Main header file, includes all system libraries and project headers
- *
- * The central hub of the project
- */
-
-//==================================================
-//================ SYSTEM INCLUDES =================
-//==================================================
 
 # include <errno.h>
 # include <fcntl.h>
@@ -36,17 +25,9 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-//==================================================
-//================ LIBFT INCLUDES ==================
-//==================================================
-
 # include "ft_printf.h"
 # include "libft.h"
 # include "get_next_line.h"
-
-//==================================================
-//=============== PROJECT INCLUDES =================
-//==================================================
 
 # include "ast.h"
 # include "env.h"
@@ -57,17 +38,6 @@
 # include "builtins.h"
 # include "executor.h"
 
-//==================================================
-//=============== GLOBAL VARIABLES =================
-//==================================================
-
-/**
- * @brief Global signal indicator
- *
- * Used to communicate between signal handlers and main program
- * Only modified in signal handlers and read in main loop
- * sig_atomic_t ensures atomic read/write operations (@see WIP)
- */
 extern volatile sig_atomic_t	g_signal;
 
 #endif

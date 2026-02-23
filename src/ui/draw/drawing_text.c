@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   drawing_text.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:05 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 17:49:05 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:29:19 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
-/*
-** Truncates line to max width, returns static buffer.
-*/
 char	*truncate_line(const char *line, int max_width)
 {
 	static char	buf[1024];
@@ -30,9 +27,6 @@ char	*truncate_line(const char *line, int max_width)
 	return (buf);
 }
 
-/*
-** Returns byte length of UTF-8 character.
-*/
 static int	utf8_byte_len(unsigned char c)
 {
 	if (c >= 0xF0)
@@ -44,9 +38,6 @@ static int	utf8_byte_len(unsigned char c)
 	return (1);
 }
 
-/*
-** Returns visual width of string (handles UTF-8).
-*/
 int	visual_strlen(const char *s)
 {
 	int	len;

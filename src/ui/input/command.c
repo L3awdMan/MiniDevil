@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:16 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 18:01:30 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:29:38 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
-/*
-** Executes UI-specific built-in commands (exit, clear).
-** Returns 1 if handled.
-*/
 static int	exec_ui_builtin(t_shell *shell)
 {
 	t_ui	*ui;
@@ -36,10 +32,6 @@ static int	exec_ui_builtin(t_shell *shell)
 	return (0);
 }
 
-/*
-** Executes the current command in the buffer.
-** Now uses the integrated minishell execution.
-*/
 void	cmd_execute(t_shell *shell)
 {
 	t_ui	*ui;

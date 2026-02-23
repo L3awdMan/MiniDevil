@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:00:00 by L3awd             #+#    #+#             */
-/*   Updated: 2026/02/21 07:57:53 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 23:02:38 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,6 @@ void				setup_ui_signals(t_shell *shell);
 
 /* Drawing utilities */
 void				print_at(int row, int col, const char *str);
-void				print_color(const char *color, const char *str);
 void				draw_hline(int width, const char *color);
 char				*truncate_line(const char *line, int max_w);
 int					visual_strlen(const char *s);

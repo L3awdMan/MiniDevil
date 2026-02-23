@@ -6,18 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 01:16:34 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/14 05:32:10 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:21:14 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Print command not found and return 127
- * 
- * @param cmd The command that was not found
- * @return 127
- */
 int	exec_cmd_not_found(char *cmd)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -26,12 +20,6 @@ int	exec_cmd_not_found(char *cmd)
 	return (127);
 }
 
-/**
- * @brief Check if the command is a builtin
- * 
- * @param cmd The command name to check
- * @return 1 if builtin and 0 if not
- */
 int	is_builtin(char *cmd)
 {
 	if (!cmd)
@@ -53,15 +41,6 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-/**
- * @brief Execute a builtin command
- * 
- * Dispatche to the correct builtin function
- * @param args The command arguments
- * @param env Pointer to the environment list
- * @param last_status The last exit status (needed by the exit builtin)
- * @return Exit status of the builtin or 0
- */
 int	exec_builtin(char **args, t_shell *shell)
 {
 	if (!args || !args[0])
@@ -83,18 +62,6 @@ int	exec_builtin(char **args, t_shell *shell)
 	return (0);
 }
 
-/**
- * @brief Execute a simple command (can be builtin or external)
- * 
- * 
- * @param args The commands arguments
- * @param env Pointer to the environment list
- * @param last_status The last exit status (needed by the exit builtin)
- * @return The exit status of the command
- * @note Builtins receive double pointer to allow modification of the shell
- * state (in export and unset) but external commands only receive the list head
- * because they run in a separate process and can't affect the parent shell
- */
 int	exec_simple_command(char **args, t_shell *shell)
 {
 	if (!args || !args[0])
@@ -104,13 +71,6 @@ int	exec_simple_command(char **args, t_shell *shell)
 	return (exec_external(args, shell->env));
 }
 
-/**
- * @brief Cleanup pipe and child on fork failure
- *
- * @param pipe_fd The pipe file descriptors to close
- * @param left_pid The left child pid to wait for (0 if no child spawned yet)
- * @return 1 (error status)
- */
 int	pipe_fork_error(int pipe_fd[2], pid_t left_pid)
 {
 	close(pipe_fd[0]);

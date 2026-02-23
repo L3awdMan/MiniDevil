@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   output.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:13:48 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 17:13:48 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:26:57 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
-/* Add line to output */
 void	out_add_line(t_out *out, const char *line)
 {
 	if (out->count < MAX_LINES)
@@ -22,7 +21,6 @@ void	out_add_line(t_out *out, const char *line)
 	}
 }
 
-/* Clear output */
 void	out_clear(t_out *out)
 {
 	int	i;
@@ -38,14 +36,12 @@ void	out_clear(t_out *out)
 	out->scroll = 0;
 }
 
-/* Free output */
 void	out_free(t_out *out)
 {
 	out_clear(out);
 	free(out->lines);
 }
 
-/* Adds the welcome message box to the output panel */
 void	add_welcome_msg(t_ui *ui)
 {
 	out_add_line(&ui->out, "");

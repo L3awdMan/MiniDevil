@@ -6,16 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:04:37 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/21 00:34:22 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:30:12 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "welcome_ui.h"
 
-/*
-** Returns a specific line of the demon ASCII art.
-** This replaces the global variable with a function.
-*/
 const char	*get_demon_art_line(int line)
 {
 	static const char	*demon_art[] = {
@@ -42,9 +38,6 @@ const char	*get_demon_art_line(int line)
 	return (demon_art[line]);
 }
 
-/*
-** Returns color for demon line based on row.
-*/
 static const char	*get_demon_color(int line)
 {
 	if (line < 3)
@@ -58,9 +51,6 @@ static const char	*get_demon_color(int line)
 	return (C_AURA1);
 }
 
-/*
-** Prints a single line of demon art with color.
-*/
 static void	print_demon_line(t_welcome_term *t, int line, int row)
 {
 	int			col;
@@ -78,9 +68,6 @@ static void	print_demon_line(t_welcome_term *t, int line, int row)
 	ft_printf("%s%s", art_line, RESET);
 }
 
-/*
-** Animates the demon art appearing line by line.
-*/
 void	animate_demon(t_welcome_term *t)
 {
 	int	start_row;
@@ -95,9 +82,6 @@ void	animate_demon(t_welcome_term *t)
 	}
 }
 
-/*
-** Animates the demon's eyes flashing.
-*/
 void	flash_demon_eyes(t_welcome_term *t)
 {
 	int	row;

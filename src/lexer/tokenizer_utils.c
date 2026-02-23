@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 23:16:00 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/09 00:04:37 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 23:01:58 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	is_whitespace(char c)
 	return (c == ' ' || c == '\t' || c == '\n');
 }
 
-// is_word_end()
 int	is_word_end(char c)
 {
 	if (c == '\0')
@@ -58,17 +57,4 @@ t_token_type	get_operator_token_type(char *str, int *len)
 		return (TOKEN_REDIR_IN);
 	else
 		return (TOKEN_WORD);
-}
-
-char	*extract_word(char *str, int *len)
-{
-	int		i;
-	char	*result;
-
-	i = 0;
-	while (!is_word_end(str[i]))
-		i++;
-	*len = i;
-	result = ft_substr(str, 0, i);
-	return (result);
 }

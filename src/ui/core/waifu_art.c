@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   waifu_art.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:48:34 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 17:48:34 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:27:53 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
-/*
-** Draws the happy neko ASCII art.
-*/
 void	draw_happy(int y, int x)
 {
 	print_at(y + 1, x + 2, "  ✨ />  フ     ");
@@ -26,9 +23,6 @@ void	draw_happy(int y, int x)
 	print_at(y + 7, x + 2, " | ( ￣ヽ__ヽ_)");
 }
 
-/*
-** Draws the upset neko ASCII art.
-*/
 void	draw_upset(int y, int x)
 {
 	print_at(y + 1, x + 2, "     />  フ     ");
@@ -40,9 +34,6 @@ void	draw_upset(int y, int x)
 	print_at(y + 7, x + 2, " ~~( ￣ヽ__ヽ_)");
 }
 
-/*
-** Draws the proud neko ASCII art.
-*/
 void	draw_proud(int y, int x)
 {
 	print_at(y + 1, x + 2, "   ✨/>  フ ✨ ");

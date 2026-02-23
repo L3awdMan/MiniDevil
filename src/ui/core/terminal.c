@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:48:16 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 17:48:16 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:28:22 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
-/*
-** Get terminal size using ioctl
-*/
 void	get_term_size(t_term *term)
 {
 	struct winsize	ws;
@@ -31,9 +28,6 @@ void	get_term_size(t_term *term)
 	}
 }
 
-/*
-** Enable raw mode for char-by-char input
-*/
 void	set_raw_mode(t_term *term)
 {
 	struct termios	raw;
@@ -46,15 +40,11 @@ void	set_raw_mode(t_term *term)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
-/*
-** Restore original terminal mode
-*/
 void	restore_term_mode(t_term *term)
 {
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term->orig);
 }
 
-/* Prints the goodbye message when exiting the UI */
 void	print_goodbye(void)
 {
 	ft_printf("\n" PURPLE BOLD);

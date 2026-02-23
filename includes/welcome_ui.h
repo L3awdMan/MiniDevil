@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   welcome_ui.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Shawz <shawz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:00:00 by Shawz             #+#    #+#             */
-/*   Updated: 2026/02/17 18:16:43 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 23:02:49 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,5 @@ void		get_welcome_term_size(t_welcome_term *t);
 void		print_at_pos(int row, int col, const char *str);
 void		print_centered(t_welcome_term *t, int row, const char *str,
 				int len);
-int			ft_strlen_visible(const char *str);
 
 #endif

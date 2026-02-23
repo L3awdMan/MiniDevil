@@ -6,23 +6,17 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:34 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/21 00:39:42 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:35:31 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "welcome_ui.h"
 
-/*
-** Initializes screen for welcome animation.
-*/
 static void	init_screen(void)
 {
 	ft_printf("%s%s", CLEAR_SCREEN, HIDE_CURSOR);
 }
 
-/*
-** Cleans up screen after welcome animation.
-*/
 static void	cleanup_screen(t_welcome_term *t)
 {
 	ft_msleep(800);
@@ -30,9 +24,6 @@ static void	cleanup_screen(t_welcome_term *t)
 	ft_printf("%s", CLEAR_SCREEN);
 }
 
-/*
-** Draws animated border effect on top and bottom.
-*/
 static void	draw_border_effect(t_welcome_term *t)
 {
 	int	i;
@@ -56,9 +47,6 @@ static void	draw_border_effect(t_welcome_term *t)
 	}
 }
 
-/*
-** Main welcome screen - runs full animation sequence.
-*/
 void	draw_welcome(void)
 {
 	t_welcome_term	t;

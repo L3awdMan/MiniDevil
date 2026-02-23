@@ -6,40 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 07:21:59 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:36:13 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "minishell_ui.h"
-
-//==================== FUNCTION: process_input ===========================
-//
-// PURPOSE:
-//    Process user input through the full pipeline:
-//    tokenize → parse → execute
-//
-// RETURN:
-//    int - Exit status from execution
-//
-// PARAMETERS:
-//    char *input     - User input string
-//    t_shell *shell  - Shell state
-//
-// VARIABLES:
-//    t_token *tokens - Token list from lexer
-//    t_ast *ast      - Abstract syntax tree from parser
-//    int status      - Exit status from execution
-//
-// ALGORITHM:
-//    1. Tokenize input string
-//    2. If tokenization fails: return error
-//    3. Parse tokens into AST
-//    4. Free tokens (no longer needed)
-//    5. If parsing fails: return error
-//    6. Execute AST
-//    7. Free AST
-//    8. Return exit status
 
 static int	process_input(char *input, t_shell *shell)
 {
@@ -66,22 +38,6 @@ static int	process_input(char *input, t_shell *shell)
 	return (status);
 }
 
-//==================== FUNCTION: read_input ==============================
-//
-// PURPOSE:
-//    Read input based on whether shell is in interactive mode
-//
-// RETURN:
-//    char* - Input line or NULL on EOF
-//
-// PARAMETERS:
-//    t_shell *shell - Shell state
-//
-// ALGORITHM:
-//    1. If interactive: use readline with prompt
-//    2. If non-interactive: use get_next_line and strip newline
-//    3. Return line or NULL on EOF
-
 static char	*read_input(t_shell *shell)
 {
 	char	*line;
@@ -99,24 +55,6 @@ static char	*read_input(t_shell *shell)
 	return (line);
 }
 
-//==================== FUNCTION: handle_input ============================
-//
-// PURPOSE:
-//    Handle user input: add to history and execute
-//
-// RETURN:
-//    void
-//
-// PARAMETERS:
-//    char *input    - User input string
-//    t_shell *shell - Shell state
-//
-// ALGORITHM:
-//    1. Check if input is empty
-//    2. If not empty: add to history
-//    3. Process through pipeline
-//    4. Update shell exit status
-
 static void	handle_input(char *input, t_shell *shell)
 {
 	int	i;
@@ -132,28 +70,6 @@ static void	handle_input(char *input, t_shell *shell)
 		add_history(input);
 	shell->exit_status = process_input(input, shell);
 }
-
-//==================== FUNCTION: main_loop ===============================
-//
-// PURPOSE:
-//    Main REPL loop: Read-Eval-Print Loop
-//
-// RETURN:
-//    void
-//
-// PARAMETERS:
-//    t_shell *shell - Shell state
-//
-// VARIABLES:
-//    char *input - User input from readline
-//
-// ALGORITHM:
-//    1. Setup signal handlers
-//    2. Read line from user
-//    3. If NULL (Ctrl+D): print exit and break
-//    4. Handle the input
-//    5. Free input
-//    6. Repeat
 
 static void	main_loop(t_shell *shell)
 {
@@ -182,29 +98,6 @@ static void	main_loop(t_shell *shell)
 		shell->current_input = NULL;
 	}
 }
-
-//==================== FUNCTION: main ====================================
-//
-// PURPOSE:
-//    Entry point - initialize shell and start main loop
-//
-// RETURN:
-//    int - Final exit status
-//
-// PARAMETERS:
-//    int ac          - Argument count (unused)
-//    char **av       - Argument vector (unused)
-//    char **envp     - Environment variables
-//
-// VARIABLES:
-//    t_shell shell - Shell state structure
-//
-// ALGORITHM:
-//    1. Initialize environment from envp
-//    2. Initialize exit status to 0
-//    3. Start main loop
-//    4. Cleanup: free environment
-//    5. Return final exit status
 
 int	main(int ac, char **av, char **envp)
 {

@@ -6,22 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:58:03 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/20 07:43:31 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:20:34 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Write one line to the heredoc pipe
- *
- * Expand variables if the delimiter was not quoted
- * @param fd The write end of the pipe
- * @param line The line to write
- * @param env The environment list for variable expansion
- * @param expand Flag to know whether we expand variables or not
- * (0 of delimiter was quoted)
- */
 static void	write_heredoc_line(int fd, char *line, t_shell *shell, int expand)
 {
 	char	*expanded;
@@ -37,9 +27,6 @@ static void	write_heredoc_line(int fd, char *line, t_shell *shell, int expand)
 		ft_putendl_fd(line, fd);
 }
 
-/**
- * @brief Read heredoc input until delimiter
- */
 static int	read_heredoc_lines(int fd, char *delim, t_shell *shell, int expand)
 {
 	char	*line;
@@ -66,19 +53,6 @@ static int	read_heredoc_lines(int fd, char *delim, t_shell *shell, int expand)
 	}
 }
 
-/**
- * @brief Main handler for heredoc
- *
- * 1. Check quote status of delimiter and decide on expansion or not
- * 2. Clean the delimiter (unquote it)
- * 3. Create a pipe
- * 4. Set up signal handlers (SIGINT must close STDIN)
- * 5. Read input loop
- * 6. Restore signals and close the write end of the pipe
- * @param delimiter The raw delimiter received from the parser
- * @param env The environment list for variable expansion
- * @return File descriptor of the read end of pipe or -1 on error
- */
 int	handle_heredoc(char *delimiter, int quoted, t_shell *shell)
 {
 	int		pipe_fd[2];

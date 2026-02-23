@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:34:13 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/21 07:56:27 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:26:18 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,6 @@ int	count_word_tokens(t_token *tokens)
 	}
 	return (count);
 }
-
-//==================== FUNCTION: fill_args_array =========================
-//
-// PURPOSE:
-//    Fill argument array, expanding and merging connected tokens
-//
-// RETURN:
-//    void
-//
-// PARAMETERS:
-//    char **args      - Array to fill
-//    t_token **tokens - Token list (advanced as we read)
-//    int count        - Number of words to collect
-//    t_shell *shell   - Shell context (for env_list and exit_status)
-//
-// ALGORITHM:
-//    1. Loop count times:
-//       a. Expand current token's value (respecting quote_type)
-//       b. While current token is connected:
-//          - Move to next token
-//          - Expand next token's value (respecting its quote_type)
-//          - Join expanded value to word
-//       c. Store completed word in args[i]
-//       d. Move to next token
-//    2. Add NULL terminator at end
 
 static void	fill_args_array(char **args, t_token **tokens, int count)
 {
@@ -80,25 +55,6 @@ static void	fill_args_array(char **args, t_token **tokens, int count)
 	args[count] = NULL;
 }
 
-//==================== FUNCTION: collect_args ============================
-//
-// PURPOSE:
-//    Collect all consecutive WORD tokens into array
-//
-// RETURN:
-//    char ** - Array of arguments, NULL on error
-//
-// PARAMETERS:
-//    t_token **tokens - Current token (will be advanced)
-//    int *argc        - Output: number of args collected
-//
-// ALGORITHM:
-//    1. Count consecutive WORD tokens
-//    2. If count is 0: return NULL (no args)
-//    3. Allocate array (count + 1 for NULL)
-//    4. Fill array with token values
-//    5. Set argc and return array
-
 char	**collect_args(t_token **tokens, int *argc)
 {
 	char	**args;
@@ -114,24 +70,6 @@ char	**collect_args(t_token **tokens, int *argc)
 	*argc = count;
 	return (args);
 }
-
-//==================== FUNCTION: parse_simple_command ====================
-//
-// PURPOSE:
-//    Parse a simple command (words only, no operators)
-//
-// RETURN:
-//    t_ast * - Command node, NULL on error
-//
-// PARAMETERS:
-//    t_token **tokens - Pointer to current token
-//
-// ALGORITHM:
-//    1. Validate input
-//    2. Collect all consecutive WORD tokens
-//    3. If no args found: return NULL
-//    4. Create command node with collected args
-//    5. Return the node
 
 t_ast	*parse_simple_command(t_token **tokens)
 {

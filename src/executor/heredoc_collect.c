@@ -6,16 +6,11 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 07:43:01 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/22 07:01:19 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:20:40 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/**
- * @brief Walk the entire AST before execution and prefill every heredoc pipe
- * in left -> right order (like bash)
- */
 
 static int	collect_one(t_ast *node, t_shell *shell)
 {

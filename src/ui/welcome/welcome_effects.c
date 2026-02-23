@@ -6,15 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:50:02 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/21 00:39:56 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:35:58 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "welcome_ui.h"
 
-/*
-** Prints character with cycling fire gradient color.
-*/
 static void	print_mystic_char(char c, int idx)
 {
 	const char	*mystic[] = {C_M1, C_M2, C_M3, C_M4, C_M5};
@@ -22,9 +19,6 @@ static void	print_mystic_char(char c, int idx)
 	ft_printf("%s%s%c", BOLD, mystic[idx % 5], c);
 }
 
-/*
-** Animates the title text appearing char by char.
-*/
 void	animate_title(t_welcome_term *t)
 {
 	const char	*title = ">>> MINIHELL <<<";
@@ -48,9 +42,6 @@ void	animate_title(t_welcome_term *t)
 	ft_printf("%s", RESET);
 }
 
-/*
-** Helper function to print quote lines
-*/
 static void	print_quote_lines(t_welcome_term *t, int row)
 {
 	const char	*q1;
@@ -76,9 +67,6 @@ static void	print_quote_lines(t_welcome_term *t, int row)
 	ft_printf("%s%s", q3, RESET);
 }
 
-/*
-** Displays the inspirational quote.
-*/
 void	animate_quote(t_welcome_term *t)
 {
 	int	row;

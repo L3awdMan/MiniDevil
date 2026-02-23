@@ -6,24 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:53:47 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/20 07:24:54 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:16:56 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Exit the shell with specific status code
- *
- * Instead of calling exit() directly (which would skip all cleanup and
- * cause "still reachable" leaks), we set shell->running = 0 and return.
- * This lets the normal return path run: process_input frees the AST,
- * main_loop breaks, and main() frees the env list + GNL stash.
- *
- * @param args Null terminated array (args[0] is "exit")
- * @param shell Shell state (running flag is set to 0 to signal exit)
- * @return exit code, or 1 if too many arguments (without exiting)
- */
 int	builtin_exit(char **args, t_shell *shell)
 {
 	long long	exit_code;

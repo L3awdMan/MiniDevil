@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   drawing_output.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:01 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 17:49:01 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:29:30 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
-/*
-** Helper function to draw line content
-*/
 static void	draw_line_content(t_ui *ui, int line_idx, int w)
 {
 	char	*line;
@@ -39,9 +36,6 @@ static void	draw_line_content(t_ui *ui, int line_idx, int w)
 	}
 }
 
-/*
-** Draws a single line in the output panel.
-*/
 void	draw_out_line(t_ui *ui, int y, int i, int w)
 {
 	int	line_idx;
@@ -57,9 +51,6 @@ void	draw_out_line(t_ui *ui, int y, int i, int w)
 	write(STDOUT_FILENO, RESET, ft_strlen(RESET));
 }
 
-/*
-** Draws the complete output box with all lines.
-*/
 void	draw_out_box(t_ui *ui)
 {
 	t_box	b;
@@ -80,9 +71,6 @@ void	draw_out_box(t_ui *ui)
 	draw_box_bottom(&b);
 }
 
-/*
-** Redraws only the output lines (for scrolling).
-*/
 void	redraw_output_only(t_ui *ui)
 {
 	int	y;

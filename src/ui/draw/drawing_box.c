@@ -6,15 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:48:56 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/22 07:04:53 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:28:54 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
-/*
-** Draws the top border of a box.
-*/
 static void	draw_box_top(t_box *b)
 {
 	print_at(b->y, b->x, b->color);
@@ -24,9 +21,6 @@ static void	draw_box_top(t_box *b)
 	ft_printf("%s", RESET);
 }
 
-/*
-** Draws the bottom border of a box.
-*/
 void	draw_box_bottom(t_box *b)
 {
 	print_at(b->y + b->h - 1, b->x, b->color);
@@ -36,9 +30,6 @@ void	draw_box_bottom(t_box *b)
 	ft_printf("%s", RESET);
 }
 
-/*
-** Draws the left and right sides of a box.
-*/
 void	draw_box_sides(t_box *b)
 {
 	int	i;
@@ -56,9 +47,6 @@ void	draw_box_sides(t_box *b)
 	}
 }
 
-/*
-** Draws a complete box with all borders.
-*/
 void	draw_box(t_box *b)
 {
 	draw_box_top(b);
@@ -66,9 +54,6 @@ void	draw_box(t_box *b)
 	draw_box_bottom(b);
 }
 
-/*
-** Draws a box top border with centered title.
-*/
 void	draw_box_title(t_box *b, const char *title)
 {
 	int	title_len;

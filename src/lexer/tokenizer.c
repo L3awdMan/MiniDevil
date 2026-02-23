@@ -6,21 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 22:33:43 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/08 20:03:21 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:24:49 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-** =============================================
-** WORD CHUNK EXTRACTION
-** =============================================
-*/
-
-/*
-** Extract unquoted text until space, operator or quote
-*/
 static char	*extract_unquoted(char *str, int *len, t_quote_type *qtype)
 {
 	int	i;
@@ -34,9 +25,6 @@ static char	*extract_unquoted(char *str, int *len, t_quote_type *qtype)
 	return (ft_substr(str, 0, i));
 }
 
-/*
-** Extract quoted text (without quotes)
-*/
 static char	*extract_quoted(char *str, int *len, t_quote_type *qtype)
 {
 	char	quote;
@@ -55,14 +43,6 @@ static char	*extract_quoted(char *str, int *len, t_quote_type *qtype)
 	*len = end + 1;
 	return (ft_substr(str, 1, end - 1));
 }
-
-/*
-** =============================================
-** WORD TOKEN PROCESSING
-** =============================================
-**
-** @TIPS i changed input varibale to s for norm
-*/
 
 int	process_word_token(char *s, t_token **head)
 {
@@ -93,12 +73,6 @@ int	process_word_token(char *s, t_token **head)
 	return (i);
 }
 
-/*
-** =============================================
-** OPERATOR TOKEN
-** =============================================
-*/
-
 int	process_operator_token(char *input, t_token **head)
 {
 	int				len;
@@ -113,12 +87,6 @@ int	process_operator_token(char *input, t_token **head)
 	free(op);
 	return (len);
 }
-
-/*
-** =============================================
-** MAIN TOKENIZER
-** =============================================
-*/
 
 t_token	*tokenize(char *input)
 {

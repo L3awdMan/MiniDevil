@@ -3,31 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   waifu.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:48:29 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 17:48:29 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:27:09 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
-/* Forward declarations for waifu_art.c functions */
 void		draw_happy(int y, int x);
 void		draw_upset(int y, int x);
 void		draw_proud(int y, int x);
 
-/*
-** Updates the waifu's current mood state.
-*/
 void	update_waifu_mood(t_ui *ui, int mood)
 {
 	ui->waifu.mood = mood;
 }
 
-/*
-** Renders the waifu based on current mood.
-*/
 static void	render_waifu_mood(t_ui *ui, int y, int x)
 {
 	if (ui->waifu.mood == MOOD_UPSET)
@@ -38,9 +31,6 @@ static void	render_waifu_mood(t_ui *ui, int y, int x)
 		draw_happy(y, x);
 }
 
-/*
-** Draws the waifu box with current mood art.
-*/
 void	draw_waifu_box(t_ui *ui)
 {
 	t_box	b;

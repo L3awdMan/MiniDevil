@@ -6,22 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 23:16:35 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/22 07:04:31 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:20:11 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Handle permission denied OR is a directory error
- * 
- * Check if path is a directory or not executable and print appropriate error
- * with exit 126
- * @param path The path that caused the error
- * @note Normally open/execve/access/chdir are more than enough for Minishell
- * However, in this very specific case of printing a different error when the
- * file is directory/lacks permissions, stat() is needed
- */
 static void	handle_exec_error(char *path)
 {
 	struct stat	buf;
@@ -39,14 +29,6 @@ static void	handle_exec_error(char *path)
 	exit(126);
 }
 
-/**
- * @brief Execute the command in the child process
- * 
- * Called after fork(), resets signals and calls execve
- * @param path The full path to the executable
- * @param args The argument array
- * @param envp The environment array
- */
 static void	child_execute(char *path, char **args, char **envp)
 {
 	reset_child_signals();
@@ -54,19 +36,6 @@ static void	child_execute(char *path, char **args, char **envp)
 		handle_exec_error(path);
 }
 
-/**
- * @brief Wait for the child process and collect the exit stauts
- * 
- * Handle normal exit AND signal termination
- * @param pid The child process ID
- * @return The exit status of the child
- * @note Status interpretation:
- * - WIFEXITED/WEXITSTATUS are used when the child finishes normally
- * - WIFSIGNALED returns true if the child was terminated by a signal
- * - WTERMSIG returns the signal number that caused termination
- * (for example 2 for SIGINT)
- * In POSIX/Bash convention the final exit code is 128 + signal_number
- */
 static int	wait_for_child(pid_t pid)
 {
 	int	status;
@@ -87,17 +56,6 @@ static int	wait_for_child(pid_t pid)
 	return (exit_code);
 }
 
-/**
- * @brief Prepare command execution by finding the path
- * and building the env array
- * 
- * @param args The command arguments
- * @param env The environment list
- * @param path A pointer to store the found path
- * @param envp A pointer to store the env array
- * @return 0 on success and error code on failure
- * (1 = generic error, 127 = not found)
- */
 static int	prepare_exec(char **args, t_env *env, char **path, char ***envp)
 {
 	if (ft_strncmp(args[0], ".", 2) == 0)
@@ -121,14 +79,6 @@ static int	prepare_exec(char **args, t_env *env, char **path, char ***envp)
 	return (0);
 }
 
-/**
- * @brief Execute an external command
- * 
- * Fork/exec pattern implementation
- * @param args The command arguments (arg[0] being the command)
- * @param env The environment list
- * @return Exit status (0 on success, 127 not found & 126 permission denied)
- */
 int	exec_external(char **args, t_env *env)
 {
 	char	*path;

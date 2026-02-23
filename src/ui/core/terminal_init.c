@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   terminal_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:48:21 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 17:48:21 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:28:32 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
-/*
-** Initialize UI state components
-*/
 static void	init_ui_state(t_ui *ui)
 {
 	ft_memset(ui->cmd.buf, 0, MAX_CMD_LEN);
@@ -28,9 +25,6 @@ static void	init_ui_state(t_ui *ui)
 	ui->running = 1;
 }
 
-/*
-** Initialize terminal
-*/
 void	init_term(t_ui *ui)
 {
 	get_term_size(&ui->term);
@@ -40,9 +34,6 @@ void	init_term(t_ui *ui)
 	init_ui_state(ui);
 }
 
-/*
-** Cleanup terminal
-*/
 void	cleanup_term(t_ui *ui)
 {
 	write(STDOUT_FILENO, CLEAR_SCREEN, ft_strlen(CLEAR_SCREEN));

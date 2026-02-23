@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 23:44:56 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/19 08:00:40 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:26:44 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,6 @@
 
 volatile sig_atomic_t	g_signal = 0;
 
-/**
- * @brief Handler for SIGINT in interactive mode (waiting for input)
- * 
- * When the shell is waiting for user input (readline)
- * 1. Update the global signal status
- * 2. Move to a new line
- * 3. Clear current readline buffer
- * 4. Redisplay the prompt
- */
 void	interactive_sigint_handler(int sig)
 {
 	g_signal = sig;
@@ -32,15 +23,6 @@ void	interactive_sigint_handler(int sig)
 	rl_redisplay();
 }
 
-/**
- * @brief Set up signal handlers for the interactive mode
- * Rules:
- * - SIGQUIT = ignore completely
- * - SIGINT = use sigint_handler() to refresh the prompt
- * 
- * Uses SA_RESTART for SIGINT to ensure sys calls are restarted if interrupted
- * @note We could use only one struct, but this way is cleaner
- */
 void	setup_interactive_signals(void)
 {
 	struct sigaction	sa_int;
@@ -58,12 +40,6 @@ void	setup_interactive_signals(void)
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
-/**
- * @brief Restore default signal handling (SIG_DFL) for a child process
- * 
- * Called after fork() and before execve() to reset SIGINT and SIGQUIT to
- * SIG_DFL so that external commands receive Ctrl C and Ctrl \ normally
- */
 void	reset_child_signals(void)
 {
 	struct sigaction	sa;
@@ -75,10 +51,6 @@ void	reset_child_signals(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-/**
- * @brief Ignore signals in the parent shell during execution
- * 
- */
 void	setup_execution_signals(void)
 {
 	struct sigaction	sa;

@@ -6,21 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 08:25:52 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/12/23 17:19:06 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 21:38:44 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Check if a string is a valid identifier for unset
- * 
- * - Should start with a letter or underscore
- * - Next characters are alphanumeric or underscore
- * - Unlike export '+' is not allowed anywhere
- * @param str The string to check
- * @return 1 if valid, 0 if not
- */
 static int	is_valid_unset_identifier(char *str)
 {
 	int	i;
@@ -39,16 +30,6 @@ static int	is_valid_unset_identifier(char *str)
 	return (1);
 }
 
-/**
- * @brief Remove a node from the environment list
- * 
- * @note Uses the -1 trick with ft_strncmp() because passing -1 as a size_t
- * wraps it to SIZE_MAX and forces it to compare until the null terminator
- * (making it behave like ft_strcmp)
- * @param env Double pointer to the head of the env list
- * @param key The key to remove
- */
-// could be replaced by a helper from env_operations later ?
 static void	remove_env_node(t_env **env, char *key)
 {
 	t_env	*current;
@@ -74,13 +55,6 @@ static void	remove_env_node(t_env **env, char *key)
 	}
 }
 
-/**
- * @brief Implement the unset builtin command
- *
- * @param args Null terminated array (args[0] is "unset")
- * @param env Double pointer to the environment list
- * @return 0 on success, 2 for invalid option
- */
 int	builtin_unset(char **args, t_env **env)
 {
 	int	i;

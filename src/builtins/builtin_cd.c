@@ -6,15 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 06:22:28 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/22 07:26:24 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 21:37:53 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Get HOME path with error message if not set
- */
 static char	*get_home_path(t_env *env)
 {
 	char	*path;
@@ -25,16 +22,6 @@ static char	*get_home_path(t_env *env)
 	return (path);
 }
 
-/**
- * @brief Get the target path for the cd command
- * Handles special cases
- * - No arguments => default to HOME
- * - "--" => end of options marker, default to HOME or use next arg
- * - "-" => default to OLDPWD (and print the path)
- * @param args Command arguments
- * @param env Pointer to the environment list
- * @return The path to change to or NULL on error
- */
 static char	*get_cd_path(char **args, t_env *env, int *err)
 {
 	char	*path;
@@ -62,13 +49,6 @@ static char	*get_cd_path(char **args, t_env *env, int *err)
 	return (args[1]);
 }
 
-/**
- * @brief Update PWD and OLDPWD environment variables
- * 
- * @param env Double pointer to the environment list (needed by set_env_value())
- * @param old_pwd The previous working directory
- * @return always 0 (success)
- */
 static int	update_pwd_vars(t_env **env, char *old_pwd)
 {
 	char	cwd[PATH_MAX];
@@ -80,17 +60,6 @@ static int	update_pwd_vars(t_env **env, char *old_pwd)
 	return (0);
 }
 
-/**
- * @brief Implement the change directory builtin command
- * 
- * 1. Save the current directory
- * 2. Determine the target path
- * 3. Change directory using chdir()
- * 4. Update variables PWD and OLDPWD in the environment
- * @param args Arguments array (arg[1] being the path)
- * @param env Double pointer to the environment list
- * @return 0 on success and 1 on fail
- */
 int	builtin_cd(char **args, t_env **env)
 {
 	char	*path;

@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:28 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 17:49:28 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 22:29:47 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
-/*
-** Reads a single key from stdin, handling escape sequences for arrows.
-*/
 int	read_key(void)
 {
 	char	c;
@@ -44,9 +41,6 @@ int	read_key(void)
 	return (c);
 }
 
-/*
-** Adds a character to the command buffer.
-*/
 void	cmd_add_char(t_cmd *cmd, char c)
 {
 	if (cmd->len < MAX_CMD_LEN - 1)
@@ -57,9 +51,6 @@ void	cmd_add_char(t_cmd *cmd, char c)
 	}
 }
 
-/*
-** Deletes the last character from the command buffer.
-*/
 void	cmd_del_char(t_cmd *cmd)
 {
 	if (cmd->len > 0)
@@ -69,9 +60,6 @@ void	cmd_del_char(t_cmd *cmd)
 	}
 }
 
-/*
-** Handles up/down arrow keys for output scrolling.
-*/
 static void	handle_scroll(t_ui *ui, int key)
 {
 	if (key == KEY_UP && ui->out.scroll > 0)
@@ -86,9 +74,6 @@ static void	handle_scroll(t_ui *ui, int key)
 	}
 }
 
-/*
-** Main key handler - dispatches to appropriate action.
-*/
 void	handle_key(t_shell *shell, int key)
 {
 	t_ui	*ui;

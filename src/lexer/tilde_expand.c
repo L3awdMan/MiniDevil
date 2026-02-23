@@ -3,29 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tilde_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 16:48:52 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/09 00:03:51 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/23 23:06:14 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Expand tilde at the start of an unquoted word
- *
- * Rules:
- * - `~` alone → $HOME
- * - `~/path` → $HOME/path
- * - Only expands when unquoted (QUOTE_NONE)
- * - Returns original string if no expansion needed
- * @param str The string to expand
- * @param env_list Environment list to get HOME value
- * @param quote_type Quote context of the token
- * @return Expanded string (allocated) or copy of original
- */
-char	*expand_tilde(char *str, t_env *env_list, t_quote_type quote_type)
+static char	*expand_tilde(char *str, t_env *env_list, t_quote_type quote_type)
 {
 	char	*home;
 	char	*result;
@@ -45,15 +32,6 @@ char	*expand_tilde(char *str, t_env *env_list, t_quote_type quote_type)
 	return (result);
 }
 
-/**
- * @brief Chain variable expansion followed by tilde expansion
- *
- * @param str The string to expand
- * @param env Environment list
- * @param qt Quote type of the token
- * @param exit_status Last command exit status
- * @return Fully expanded string (allocated) or NULL on error
- */
 char	*expand_full(char *str, t_env *env, t_quote_type qt, int exit_status)
 {
 	char	*var_exp;
