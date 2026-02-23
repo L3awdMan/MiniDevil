@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/22 02:59:28 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 07:21:59 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,14 @@ static char	*read_input(t_shell *shell)
 
 static void	handle_input(char *input, t_shell *shell)
 {
+	int	i;
+
 	if (!input || input[0] == '\0')
+		return ;
+	i = 0;
+	while (input[i] && ft_isspace(input[i]))
+		i++;
+	if (input[i] == '\0')
 		return ;
 	if (shell->interactive)
 		add_history(input);
