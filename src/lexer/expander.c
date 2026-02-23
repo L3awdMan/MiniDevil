@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 16:47:17 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/22 07:18:00 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 07:27:30 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,8 @@ char	*expand_variables(char *str, t_env *env_list, t_quote_type quote_type,
 			result = append_char(result, str[i]);
 			i++;
 		}
+		if (!result)
+			return (NULL);
 	}
 	return (result);
 }
