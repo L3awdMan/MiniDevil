@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 22:35:52 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/21 08:07:43 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/23 07:08:42 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	restore_stdin(void)
 	int	tty_fd;
 
 	tty_fd = open("/dev/tty", O_RDONLY);
-	if (tty_fd != -1)
+	if (tty_fd != -1 && tty_fd != STDIN_FILENO)
 	{
 		dup2(tty_fd, STDIN_FILENO);
 		close(tty_fd);
