@@ -17,7 +17,9 @@
  * @section sig_global The global variable
  * 
  * @code {.c}
+ * ⠀
  * volatile sig_Atomic_t g_signal = 0;
+ * ⠀
  * @endcode
  * 
  * - Set inside signal handlers

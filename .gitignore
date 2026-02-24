@@ -56,4 +56,5 @@ dkms.conf
 minishell
 
 # Doxygen output
-# doc/html/
+/doc/html/
+/doc/html/**

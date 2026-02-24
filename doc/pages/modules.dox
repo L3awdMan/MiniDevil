@@ -95,11 +95,7 @@
 
  /**
   * @defgroup grp_signals Signal handling
-  * @brief 4 signal modes
-  * - Interactive
-  * - Execution
-  * - Child
-  * - Heredoc
+  * @brief 4 signal modes (interactive, execution, child and heredoc)
   * 
   * See @ref signals for the full strategy.
   * 
