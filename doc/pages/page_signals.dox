@@ -1,0 +1,45 @@
+/**
+ * @page signals Signal handling strategy
+ * 
+ * @section sig_modes 4 Signal modes
+ * 
+ * The shell switches between 4 signal configurations depending on context:
+ * 
+ * | Mode        | SIGINT                      | SIGQUIT   | Active while…                     | Setup                        |
+ * |-------------|-----------------------------|-----------|-----------------------------------|------------------------------|
+ * | interactive | `interactive_sigint_handler` | `SIG_IGN` | waiting on `readline()`           | `setup_interactive_signals()`|
+ * | exec        | `SIG_IGN`                   | `SIG_IGN` | parent waiting for child          | `setup_execution_signals()`  |
+ * | child       | `SIG_DFL`                   | `SIG_DFL` | after `fork()`, before `execve()` | `reset_child_signals()`      |
+ * | heredoc     | `heredoc_sigint_handler`     | `SIG_IGN` | heredoc `readline()` loop         | `setup_heredoc_signals()`    |
+ *
+ * Note: interactive uses `SA_RESTART` but heredoc does not.
+ * 
+ * @section sig_global The global variable
+ * 
+ * @code {.c}
+ * volatile sig_Atomic_t g_signal = 0;
+ * @endcode
+ * 
+ * - Set inside signal handlers
+ * - Checked in main_loop() after readline() returns\n
+ * If `g_signal == SIGINT` set exit_status = 130 and clear
+ * - Checked in read_heredoc_lines() after eache readline() call\n
+ * If `g_signal == SIGINT` return immediately (interrupted)
+ * 
+ * @section sig_flow Signal flow for CTRL C
+ * 
+ * __Idle prompt:__\n
+ * - interactive_sigint_handler() sets g_signal, prints newline and calls  rl_replace_line("") + rl_redisplay().
+ * - SA_RESTART ensures readline() retries transparently.
+ * - After readline returns the next input, main_loop sees that `g_signal == SIGINT` and sets exit_status = 130.
+ * 
+ * __During external command:__\n
+ * - Parent ignores SIGINT (SIG_IGN). Child has SIG_DFL and gets killed.
+ * - Parent's wait_for_child() sees WIFSIGNALED and returns 128 + WTERMSIG(status)
+ * 
+ * __DUring heredoc:__\n 
+ * - heredoc_sigint_handler() closes STDIN_FILENO in order to force readline() to return NULL.
+ * - No SA_RESTART so readline does not retry.
+ * - `g_signal == SIGINT` detected -> read_heredoc_lines() returns 1 (interrupted).
+ * - handle_heredoc() closes pipe fds & calls restore_stdin() to reopen /dev/tty on fd 0.
+ */

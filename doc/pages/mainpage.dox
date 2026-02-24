@@ -1,0 +1,46 @@
+/**
+ * @mainpage MiniDevil Documentation
+ * 
+ * @section intro What is MiniDevil?
+ * 
+ * MiniDevil is a POSIX inspired shell written in C as a 42 school project.
+ * It reads a line from terminal then breaks it into tokens and parses them
+ * into an AST (Abstract Syntax Tree) & executes the tree.
+ * 
+ * @section pipeline High level pipeline
+ * 
+ * !wip
+ * 
+ * @section entry Entry point
+ * 
+ * main() in src/main.c initialises t_shell, calls main_loop().\n
+ * main_loop() is a REPL that sets up signals, reads one line of input,
+ * passes it to handle_input(), frees it, and repeats until the shell exits.
+ * 
+ * @section nav Where to start
+ * 
+ * - [**File list**](files.html)
+ * - @ref signals "Signal handling strategy"
+ * - @ref execution_model "Execution model" 
+ * - @ref memory_ownership "Memory ownership rules"
+ * - @ref fd_lifecycle "File descriptors lifecycle"
+ * - @ref exit_statuses "Exit status rules"
+ * - @ref glossary "Glossary"
+ * 
+ * @section modules Module index
+ * 
+ * - @ref grp_lexer "Lexer (Tokenizer + expander)"
+ * - @ref grp_parser "Parser (AST construction)"
+ * - @ref grp_executor "Executor (commands, pipes & redirections)"
+ * - @ref grp_builtins "Builtin commands"
+ * - @ref grp_env "Environment management"
+ * - @ref grp_signals "Signal handling"
+ * - @ref grp_ui "UI Mode (optional)"
+ * 
+ * @section authors Authors
+ * 
+ * - [zotaj-di](https://profile.intra.42.fr/users/zotaj-di)
+ * (github [@L3awdman](https://github.com/L3awdMan))
+ * - [baelgadi](https://profile.intra.42.fr/users/baelgadi)
+ * (github [@baderelg](https://github.com/baderelg))
+ */

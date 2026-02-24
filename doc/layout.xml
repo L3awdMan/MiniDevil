@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doxygenlayout version="1.0">
+
+<!-- Nav tabs -->
+  <navindex>
+    <tab type="mainpage"    visible="yes" title="Home"/>
+    <tab type="pages"       visible="yes" title="Internals"/>
+    <tab type="modules"     visible="yes" title="Modules"/>
+    <tab type="files"       visible="yes" title="Files">
+      <tab type="filelist"    visible="yes" title="File List"/>
+      <tab type="globals"     visible="yes" title="Globals"/>
+    </tab>
+    <tab type="classes"     visible="yes" title="Structures">
+      <tab type="classlist"      visible="yes" title="Struct List"/>
+      <tab type="classmembers"   visible="yes" title="Struct Members"/>
+    </tab>
+  </navindex>
+
+<!-- C structs layout -->
+  <class>
+    <briefdescription    visible="yes"/>
+    <includes            visible="$SHOW_INCLUDE_FILES"/>
+    <detaileddescription visible="yes"/>
+    <memberdecl>
+      <publictypes       visible="yes" title=""/>
+      <publicslots       visible="yes" title="Fields"/>
+    </memberdecl>
+    <memberdef>
+      <publictypes       visible="yes" title=""/>
+      <publicslots       visible="yes" title="Field Documentation"/>
+    </memberdef>
+    <usedfiles           visible="$SHOW_USED_FILES"/>
+  </class>
+
+<!-- Documentation page (per file) -->
+  <file>
+    <briefdescription    visible="yes"/>
+    <includes            visible="$SHOW_INCLUDE_FILES"/>
+    <includegraph        visible="$INCLUDE_GRAPH"/>
+    <includedbygraph     visible="$INCLUDED_BY_GRAPH"/>
+    <detaileddescription visible="yes"/>
+    <memberdecl>
+      <defines           visible="yes" title="Macros"/>
+      <typedefs          visible="yes" title="Typedefs"/>
+      <enums             visible="yes" title="Enumerations"/>
+      <functions         visible="yes" title="Functions"/>
+      <variables         visible="yes" title="Variables"/>
+    </memberdecl>
+    <memberdef>
+      <defines           visible="yes" title="Macro Documentation"/>
+      <typedefs          visible="yes" title="Typedef Documentation"/>
+      <enums             visible="yes" title="Enumeration Documentation"/>
+      <functions         visible="yes" title="Function Documentation"/>
+      <variables         visible="yes" title="Variable Documentation"/>
+    </memberdef>
+    <sourcelink          visible="yes"/>
+  </file>
+
+<!-- Module (@defgroup) -->
+  <group>
+    <briefdescription    visible="yes"/>
+    <groupgraph          visible="$GROUP_GRAPHS"/>
+    <detaileddescription visible="yes"/>
+    <memberdecl>
+      <nestedgroups      visible="yes" title="Sub-modules"/>
+      <defines           visible="yes" title="Macros"/>
+      <typedefs          visible="yes" title="Typedefs"/>
+      <enums             visible="yes" title="Enumerations"/>
+      <functions         visible="yes" title="Functions"/>
+      <variables         visible="yes" title="Variables"/>
+      <files             visible="yes" title="Files"/>
+      <classes           visible="yes" title="Structures"/>
+    </memberdecl>
+    <memberdef>
+      <defines           visible="yes" title="Macro Documentation"/>
+      <typedefs          visible="yes" title="Typedef Documentation"/>
+      <enums             visible="yes" title="Enumeration Documentation"/>
+      <functions         visible="yes" title="Function Documentation"/>
+      <variables         visible="yes" title="Variable Documentation"/>
+    </memberdef>
+  </group>
+
+<!-- Directory page -->
+  <directory>
+    <briefdescription    visible="yes"/>
+    <directorygraph      visible="yes"/>
+    <memberdecl>
+      <dirs              visible="yes"/>
+      <files             visible="yes"/>
+    </memberdecl>
+    <detaileddescription visible="yes"/>
+  </directory>
+
+</doxygenlayout>

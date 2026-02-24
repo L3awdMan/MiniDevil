@@ -54,7 +54,7 @@ SRC = 		$(SRC_DIR)/main.c \
 UI_SRC = $(SRC_DIR)/ui/core/ui_main.c \
          $(SRC_DIR)/ui/core/terminal.c \
          $(SRC_DIR)/ui/core/terminal_init.c \
-         $(SRC_DIR)/ui/core/signals.c \
+         $(SRC_DIR)/ui/core/ui_signals.c \
          $(SRC_DIR)/ui/core/output.c \
          $(SRC_DIR)/ui/core/waifu.c \
          $(SRC_DIR)/ui/core/waifu_art.c \
