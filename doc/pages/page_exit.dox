@@ -4,7 +4,7 @@
  * @section exit_values Standard values
  *
  * | Status | Meaning | Where set |
- * |:------:|:-------:|-----------|
+ * |:------:|:-------:|:-----------:|
  * | 0 | Success | Default return from commands |
  * | 1 | General error | Builtin failures, fork errors |
  * | 2 | Misuse / syntax error | process_input() on parse fail or exit with non-numeric arg |
@@ -29,7 +29,7 @@
  * @section exit_builtin Builtin exit behavior
  * 
  * | Case | Behavior |
- * |:-----|:---------|
+ * |:-----:|:---------:|
  * | `exit` (no args) | returns `shell->exit_status` |
  * | `exit N` | returns `N` casted to unsigned char (wrapped to 0–255) |
  * | `exit abc` | prints error, returns 2, sets `running = 0` (exits) |

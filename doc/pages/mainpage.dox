@@ -1,15 +1,15 @@
 /**
- * @mainpage MiniDevil Documentation
+ * @mainpage MiniDevil documentation
  * 
  * @section intro What is MiniDevil?
  * 
- * MiniDevil is a POSIX inspired shell written in C as a 42 school project.
+ * MiniDevil is a POSIX inspired shell written in C as a 42 school project.\n
  * It reads a line from terminal then breaks it into tokens and parses them
- * into an AST (Abstract Syntax Tree) & executes the tree.
+ * into an AST (Abstract Syntax Tree) & executes the tree.\n 
  * 
- * @section pipeline High level pipeline
+ * @section diagram How does it work?
  * 
- * !wip
+ * \image html pipeline.svg
  * 
  * @section entry Entry point
  * 
