@@ -6,7 +6,7 @@
  * The shell switches between 4 signal configurations depending on context:
  * 
  * | Mode        | SIGINT                      | SIGQUIT   | Active while…                     | Setup                        |
- * |-------------|-----------------------------|-----------|-----------------------------------|------------------------------|
+ * |:-------------:|:-----------------------------:|:-----------:|:-----------------------------------:|:------------------------------:|
  * | interactive | `interactive_sigint_handler` | `SIG_IGN` | waiting on `readline()`           | `setup_interactive_signals()`|
  * | exec        | `SIG_IGN`                   | `SIG_IGN` | parent waiting for child          | `setup_execution_signals()`  |
  * | child       | `SIG_DFL`                   | `SIG_DFL` | after `fork()`, before `execve()` | `reset_child_signals()`      |

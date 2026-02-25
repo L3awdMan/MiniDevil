@@ -4,7 +4,7 @@
  * @section mem_table Who allocates & who frees
  *
  * | Resource | Allocation point | Freed by |
- * |---|---|---|
+ * |:---:|:---:|:---:|
  * | Input line (char *input) | readline() or get_next_line() | main_loop() |
  * | Token list (t_token *) | tokenize() | process_input() (free_token_list()) |
  * | Token value (token->value) | tokenize() (extraction) | free_token() |

@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:00:00 by Shawz             #+#    #+#             */
-/*   Updated: 2026/02/23 23:02:49 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/25 04:52:36 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,10 @@
 #  include "minishell_ui.h"
 # endif
 
-/*
-** ══════════════════════════════════════════════════════════════════════════
-**                    WELCOME SCREEN COLOR PALETTE
-**                     (Blood/Fire theme - Hell mode)
-** ══════════════════════════════════════════════════════════════════════════
-*/
+//──────────────────────────────────────────────────
+//───────── WELCOME SCREEN COLOR PALETTE ───────────
+//        (Fire & Blood theme - Hell mode)          
+//──────────────────────────────────────────────────
 
 /* Additional cursor controls for welcome screen */
 # define HIDE_CURSOR "\033[?25l"
@@ -48,54 +46,61 @@
 # define C_M4 "\033[38;5;214m"
 # define C_M5 "\033[38;5;220m"
 
-/*
-** ══════════════════════════════════════════════════════════════════════════
-**                          WELCOME-SPECIFIC STRUCTURES
-** ══════════════════════════════════════════════════════════════════════════
-*/
+//──────────────────────────────────────────────────
+//────────────────── STRUCTURE ─────────────────────
+//──────────────────────────────────────────────────
 
-/* Extended terminal structure for welcome screen */
+/**
+ * @brief Extended terminal info (for welcome screen pos)
+ */
 typedef struct s_welcome_term
 {
-	int		width;
-	int		height;
-	int		center_x;
-	int		center_y;
+	int		width;	/**< Terminal width */
+	int		height;	/**< Terminal height */
+	int		center_x;	/**< Horizontal center col */
+	int		center_y;	/**< Vertical center row */
 }			t_welcome_term;
 
-/*
-** ══════════════════════════════════════════════════════════════════════════
-**                           DEMON ART DIMENSIONS
-** ══════════════════════════════════════════════════════════════════════════
-*/
+//──────────────────────────────────────────────────
+//───────────── DEMON ART DIMENSIONS ───────────────
+//──────────────────────────────────────────────────
 
 # define DEMON_WIDTH 60
 # define DEMON_HEIGHT 16
 # define DEMON_LINES 16
 
-/*
-** ══════════════════════════════════════════════════════════════════════════
-**                          FUNCTION PROTOTYPES
-** ══════════════════════════════════════════════════════════════════════════
-*/
+//──────────────────────────────────────────────────
+//────────────────── FUNCTIONS ─────────────────────
+//──────────────────────────────────────────────────
 
-/* welcome.c - Main welcome screen */
+//────────────── welcome.c ────────────────
+
 void		draw_welcome(void);
 
-/* welcome_effects.c - Visual effects */
+//────────────── welcome_effects.c ────────────────
+
 void		animate_title(t_welcome_term *t);
+
 void		animate_quote(t_welcome_term *t);
+
 void		animate_credits(t_welcome_term *t);
+
 void		animate_loading(t_welcome_term *t);
 
-/* welcome_demon.c - Demon art and effects */
+//────────────── welcome_demon.c ────────────────
+
 void		animate_demon(t_welcome_term *t);
+
 void		flash_demon_eyes(t_welcome_term *t);
+
 const char	*get_demon_art_line(int line);
 
-/* welcome_utils.c - Utility functions */
+//────────────── welcome_utils.c ────────────────
+
 void		get_welcome_term_size(t_welcome_term *t);
+
 void		print_at_pos(int row, int col, const char *str);
+
 void		print_centered(t_welcome_term *t, int row, const char *str,
 				int len);
 

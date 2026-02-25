@@ -912,6 +912,15 @@ h2.groupheader::after {
 }
 
 /* Responsive polish */
+
+/* hide "More... */
+td.mdescRight a[href*="#"],
+td.mdescRight a[href*="#"]:hover,
+a[href*="#details"],
+a[href*="#details"]:hover {
+  display: none;
+}
+
 @media (max-width: 768px) {
   #side-nav { display: none !important; }
   div.contents, div.header { padding: 12px 14px !important; }
