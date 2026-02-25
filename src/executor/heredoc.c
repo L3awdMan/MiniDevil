@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:58:03 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/23 22:20:34 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/25 04:48:58 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	read_heredoc_lines(int fd, char *delim, t_shell *shell, int expand)
 				line[ft_strlen(line) - 1] = '\0';
 		}
 		if (g_signal == SIGINT)
-			return (1);
+			return (free(line), 1);
 		if (!line)
 			return (ft_putstr_fd("minishell: warning: heredoc delim by EOF\n",
 					2), 0);
