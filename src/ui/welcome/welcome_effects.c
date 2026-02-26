@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:50:02 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:35:58 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/26 04:04:27 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,17 @@ static void	print_quote_lines(t_welcome_term *t, int row)
 	q1 = "\"Unix is simple. It just takes a genius";
 	q2 = "to understand its simplicity.\"";
 	q3 = "- Dennis Ritchie";
-	print_centered(t, row + 1, C_AURA3 "║ " RESET, 2);
+	print_centered(t, row + 1, C_AURA3 "║ " RESET, 46);
 	print_at_pos(row + 1, (t->width + 44) / 2 - 1, C_AURA3 " ║" RESET);
 	print_at_pos(row + 1, (t->width - 40) / 2 + 1, DIM C_M4);
 	ft_printf("%s%s", q1, RESET);
 	ft_msleep(100);
-	print_centered(t, row + 2, C_AURA3 "║ " RESET, 2);
+	print_centered(t, row + 2, C_AURA3 "║ " RESET, 46);
 	print_at_pos(row + 2, (t->width + 44) / 2 - 1, C_AURA3 " ║" RESET);
 	print_at_pos(row + 2, (t->width - 32) / 2 + 1, DIM C_M4);
 	ft_printf("%s%s", q2, RESET);
 	ft_msleep(100);
-	print_centered(t, row + 3, C_AURA3 "║ " RESET, 2);
+	print_centered(t, row + 3, C_AURA3 "║ " RESET, 46);
 	print_at_pos(row + 3, (t->width + 44) / 2 - 1, C_AURA3 " ║" RESET);
 	print_at_pos(row + 3, (t->width - 18) / 2 + 1, BOLD C_M5);
 	ft_printf("%s%s", q3, RESET);

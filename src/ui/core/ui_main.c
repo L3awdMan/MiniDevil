@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:11:54 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/26 03:24:56 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/26 04:28:52 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,14 @@ void	run_ui_mode(t_shell *shell)
 {
 	struct winsize	ws;
 
+	if (!shell)
+		return ;
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+		return ;
 	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == 0
 		&& (ws.ws_col < MIN_WIDTH || ws.ws_row < MIN_HEIGHT))
 	{
-		ft_putstr_fd("Error: terminal too small for UI mode.\n", STDERR_FILENO);
+		ft_putstr_fd("Error: terminal too small for UI mode\n", STDERR_FILENO);
 		return ;
 	}
 	if (!shell)

@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:19 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/26 03:34:20 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/26 04:16:39 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,17 @@ static void	handle_fork_error(t_ui *ui, int *pipe_fd, int *saved_fds)
 static void	exec_child(int *pipe_fd, int *saved_fds, t_shell *shell)
 {
 	int	status;
+	int	dev_null;
 
 	close(pipe_fd[0]);
 	close(saved_fds[0]);
 	close(saved_fds[1]);
+	dev_null = open("/dev/null", O_RDONLY);
+	if (dev_null >= 0)
+	{
+		dup2(dev_null, STDIN_FILENO);
+		close(dev_null);
+	}
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	dup2(pipe_fd[1], STDERR_FILENO);
 	close(pipe_fd[1]);

@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:50:06 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:35:46 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/26 04:07:21 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void	animate_loading(t_welcome_term *t)
 	int	i;
 
 	row = t->center_y + 11;
-	print_centered(t, row, C_AURA2 "░░░░░░░░░░░░░░░░░░░░" RESET, 20);
+	print_centered(t, row, C_AURA2 "░░░░░░░░░░" RESET, 10);
 	i = -1;
-	while (++i < 20)
+	while (++i < 10)
 	{
-		print_at_pos(row, (t->width - 20) / 2 + i, C_M3 "▓" RESET);
-		ft_msleep(50);
+		print_at_pos(row, (t->width - 10) / 2 + i, C_M3 "▓" RESET);
+		ft_msleep(100);
 	}
 	ft_msleep(200);
 }
