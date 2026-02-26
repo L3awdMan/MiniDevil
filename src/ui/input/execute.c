@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:19 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:29:51 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/26 03:34:20 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ static void	exec_child(int *pipe_fd, int *saved_fds, t_shell *shell)
 	dup2(pipe_fd[1], STDERR_FILENO);
 	close(pipe_fd[1]);
 	status = process_ui_input(shell->ui->cmd.buf, shell);
+	out_free(&shell->ui->out);
+	free(shell->ui);
+	free_env_list(&shell->env);
+	get_next_line(-42);
 	exit(status);
 }
 

@@ -58,3 +58,6 @@ minishell
 # Doxygen output
 /doc/html/
 /doc/html/**
+
+# Supp
+*.supp
