@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zotaj-di <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:23 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/17 17:49:23 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/02/26 03:45:59 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,11 @@ int	process_ui_input(char *input, t_shell *shell)
 	free_token_list(tokens);
 	if (!ast)
 		return (2);
+	if (collect_heredocs(ast, shell) == -1)
+	{
+		free_ast(ast);
+		return (130);
+	}
 	status = executor(ast, shell);
 	free_ast(ast);
 	return (status);

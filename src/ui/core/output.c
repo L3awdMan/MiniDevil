@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:13:48 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:26:57 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/26 03:56:12 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	add_welcome_msg(t_ui *ui)
 {
 	out_add_line(&ui->out, "");
 	out_add_line(&ui->out, "  ╔══════════════════════════════════════════╗");
+	out_add_line(&ui->out, "  ║                                          ║");
 	out_add_line(&ui->out, "  ║  Welcome to Minishell UI!                ║");
 	out_add_line(&ui->out, "  ║                                          ║");
 	out_add_line(&ui->out, "  ║  • Type commands and press Enter         ║");

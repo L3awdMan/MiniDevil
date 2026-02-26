@@ -6,26 +6,11 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:05 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:29:19 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/26 03:57:23 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
-
-char	*truncate_line(const char *line, int max_width)
-{
-	static char	buf[1024];
-	int			len;
-
-	if (!line)
-		return ("");
-	len = ft_strlen(line);
-	if (len > max_width)
-		len = max_width;
-	ft_memset(buf, 0, sizeof(buf));
-	ft_memcpy(buf, line, len);
-	return (buf);
-}
 
 static int	utf8_byte_len(unsigned char c)
 {
@@ -36,6 +21,31 @@ static int	utf8_byte_len(unsigned char c)
 	if (c >= 0xC0)
 		return (2);
 	return (1);
+}
+
+char	*truncate_line(const char *line, int max_width)
+{
+	static char	buf[BUF_SIZE];
+	int			i;
+	int			visual_w;
+	int			char_len;
+
+	if (!line)
+		return ("");
+	ft_memset(buf, 0, sizeof(buf));
+	i = 0;
+	visual_w = 0;
+	while (line[i] && visual_w < max_width)
+	{
+		char_len = utf8_byte_len((unsigned char)line[i]);
+		if (i + char_len > BUF_SIZE - 1)
+			break ;
+		ft_memcpy(buf + i, line + i, char_len);
+		i += char_len;
+		visual_w++;
+	}
+	buf[i] = '\0';
+	return (buf);
 }
 
 int	visual_strlen(const char *s)
