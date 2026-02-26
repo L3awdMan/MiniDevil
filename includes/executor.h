@@ -57,7 +57,7 @@ char	*find_cmd_path(char *cmd, t_env *env);
 
 //────────────── exec_cmd.c ────────────────
 
-int		exec_external(char **args, t_env *env);
+int		exec_external(char **args, t_shell *shell);
 
 //────────────── heredoc.c ────────────────
 

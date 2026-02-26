@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 02:24:43 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/25 05:10:33 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/26 02:09:34 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ typedef struct s_shell
 	struct s_ui		*ui;	/**< UI state (NULL if off) */
 	struct s_ast	*current_ast;	/**< Currently executing AST */
 	char			*current_input;	/**< Current input line */
+	int				is_child;	/**< Child flag (to avoid leaks) */
 }					t_shell;
 
 //──────────────────────────────────────────────────

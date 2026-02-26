@@ -120,6 +120,10 @@ fclean: clean
 
 re: fclean all
 
+doc:
+	@cd doc && doxygen Doxyfile
+	@sh doc/theme/theme_graphs.sh doc/html
+
 -include $(DEP)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re doc

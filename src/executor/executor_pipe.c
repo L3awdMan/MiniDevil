@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:25:03 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:21:02 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/26 02:38:01 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	exec_left_pipe_child(t_ast *left, int pipe_fd[2], t_shell *shell)
 	close(pipe_fd[0]);
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(pipe_fd[1]);
+	shell->is_child = 1;
 	status = executor(left, shell);
 	free(shell->current_input);
 	free_ast(shell->current_ast);
@@ -36,6 +37,7 @@ void	exec_right_pipe_child(t_ast *right, int pipe_fd[2], t_shell *shell)
 	close(pipe_fd[1]);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
+	shell->is_child = 1;
 	status = executor(right, shell);
 	free(shell->current_input);
 	free_ast(shell->current_ast);
@@ -54,7 +56,13 @@ static int	wait_for_pipe_children(pid_t left_pid, pid_t right_pid)
 	if (WIFEXITED(status))
 		right_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+			ft_putchar_fd('\n', STDOUT_FILENO);
+		else if (WTERMSIG(status) == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
 		right_status = 128 + WTERMSIG(status);
+	}
 	else
 		right_status = 1;
 	return (right_status);

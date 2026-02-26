@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 23:16:35 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/23 22:20:11 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/26 02:16:24 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,29 @@ static void	handle_exec_error(char *path)
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
-		exit(126);
 	}
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(path, STDERR_FILENO);
-	ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
-	exit(126);
+	else
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(path, STDERR_FILENO);
+		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+	}
 }
 
-static void	child_execute(char *path, char **args, char **envp)
+static void	child_execute(char *path, char **args, char **envp, t_shell *shell)
 {
 	reset_child_signals();
 	if (execve(path, args, envp) == -1)
+	{
 		handle_exec_error(path);
+		free(path);
+		ft_free_strarray(envp);
+		free(shell->current_input);
+		free_ast(shell->current_ast);
+		free_env_list(&shell->env);
+		get_next_line(-42);
+		exit(126);
+	}
 }
 
 static int	wait_for_child(pid_t pid)
@@ -79,7 +89,7 @@ static int	prepare_exec(char **args, t_env *env, char **path, char ***envp)
 	return (0);
 }
 
-int	exec_external(char **args, t_env *env)
+int	exec_external(char **args, t_shell *shell)
 {
 	char	*path;
 	char	**envp;
@@ -88,9 +98,11 @@ int	exec_external(char **args, t_env *env)
 
 	if (!args || !args[0])
 		return (0);
-	status = prepare_exec(args, env, &path, &envp);
+	status = prepare_exec(args, shell->env, &path, &envp);
 	if (status != 0)
 		return (status);
+	if (shell->is_child)
+		child_execute(path, args, envp, shell);
 	pid = fork();
 	if (pid == -1)
 	{
@@ -98,7 +110,7 @@ int	exec_external(char **args, t_env *env)
 		return (free(path), ft_free_strarray(envp), 1);
 	}
 	if (pid == 0)
-		child_execute(path, args, envp);
+		child_execute(path, args, envp, shell);
 	status = wait_for_child(pid);
 	free(path);
 	ft_free_strarray(envp);

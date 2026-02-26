@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:36:13 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/26 02:10:29 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int	main(int ac, char **av, char **envp)
 	shell.exit_status = 0;
 	shell.interactive = (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO));
 	shell.ui_mode = 0;
+	shell.is_child = 0;
 	shell.ui = NULL;
 	if (ac > 1 && ft_strncasecmp(av[1], "--ui", 5) == 0)
 		run_ui_mode(&shell);

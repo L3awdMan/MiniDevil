@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 01:16:34 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/23 22:21:14 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/26 02:17:37 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	exec_simple_command(char **args, t_shell *shell)
 		return (0);
 	if (is_builtin(args[0]))
 		return (exec_builtin(args, shell));
-	return (exec_external(args, shell->env));
+	return (exec_external(args, shell));
 }
 
 int	pipe_fork_error(int pipe_fd[2], pid_t left_pid)
