@@ -6,12 +6,20 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 05:00:41 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/23 21:38:04 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/02 07:19:31 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Check if a given argument is a valid -n flag
+ * 
+ * A valid n flag starts with `-` followed by 1 or more `n` characters
+ * 
+ * @param arg Argument string to check
+ * @return 1 if valid and 0 if not
+ */
 static int	is_n_flag(char *arg)
 {
 	int	i;
@@ -30,6 +38,16 @@ static int	is_n_flag(char *arg)
 	return (1);
 }
 
+/**
+ * @brief Implement the `echo` command
+ * 
+ * This command prints arguments separated by spaces and supports:
+ * - the -n flag and variants like -nnn
+ * - multiple consecutive -n flags (consumed before print)
+ * 
+ * @param args NULL terminated arg array with arg[0] = "echo"
+ * @return always 0
+ */
 int	builtin_echo(char **args)
 {
 	int	i;

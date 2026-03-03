@@ -6,13 +6,18 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 21:02:54 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:25:50 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 07:36:50 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "structs.h"
 
+/**
+ * @brief Free a string array and its entries
+ * 
+ * @param args Array to free
+ */
 static void	free_args(char **args)
 {
 	int	i;
@@ -28,6 +33,16 @@ static void	free_args(char **args)
 	free(args);
 }
 
+/**
+ * @brief Recursively free an entire AST tree
+ * 
+ * - NODE_COMMAND: frees the args array
+ * - NODE_PIPE: recurses into left and right children
+ * - NODE_REDIR: closes heredoc_fd if >= 0, frees the filename and recurses into
+ * the command subtree
+ * 
+ * @param node Root of tree to free
+ */
 void	free_ast(t_ast *node)
 {
 	if (!node)

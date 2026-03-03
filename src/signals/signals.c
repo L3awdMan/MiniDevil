@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 23:44:56 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/23 22:26:44 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 08:08:59 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 
 volatile sig_atomic_t	g_signal = 0;
 
+/**
+ * @brief SIGINT handler for the interactive prompt
+ * 
+ * Prints a newline and resets the readline prompt to a fresh line
+ * 
+ * @param sig Signal number (SIGINT)
+ */
 void	interactive_sigint_handler(int sig)
 {
 	g_signal = sig;
@@ -23,6 +30,14 @@ void	interactive_sigint_handler(int sig)
 	rl_redisplay();
 }
 
+/**
+ * @brief Configure signals for the interactive prompt
+ * 
+ * - SIGINT calls interactive_sigint_handler() with SA_RESTART so readline isn't
+ * interrupted
+ * - SIGQUIT ignored
+ * 
+ */
 void	setup_interactive_signals(void)
 {
 	struct sigaction	sa_int;
@@ -40,6 +55,12 @@ void	setup_interactive_signals(void)
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
+/**
+ * @brief Reset signals to default behavior for the child processes
+ * 
+ * This is called after fork in child processes so that SIGINT and SIGQUIT
+ * terminate the child normally
+ */
 void	reset_child_signals(void)
 {
 	struct sigaction	sa;
@@ -51,6 +72,12 @@ void	reset_child_signals(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
+/**
+ * @brief Ignore signals during command execution in the parrent
+ * 
+ * While a child process is running, the parent ignores both SIGINT and SIGQUIT
+ * so only the child is affected
+ */
 void	setup_execution_signals(void)
 {
 	struct sigaction	sa;

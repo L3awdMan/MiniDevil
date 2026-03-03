@@ -630,13 +630,33 @@ span.mlabel {
   border: 1px solid var(--md-border) !important;
   box-shadow: none !important;
 }
-.memproto td {
+.memproto {
+  padding: 10px 16px !important;
+}
+.memproto table.memname,
+.memproto table.memname tbody,
+.memproto table.memname tr,
+.memproto table.memname td {
+  display: inline !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
   color: var(--md-text) !important;
   font-family: 'Fira Code', monospace !important;
-  border: none !important;
 }
-.memproto td.memname {
+.memproto td.paramkey {
+  display: none !important;
+}
+.memproto table.memname td.memname {
   color: var(--md-red-bright) !important;
+  font-weight: 600 !important;
+}
+.memproto table.memname td.paramtype {
+  color: var(--md-text-muted) !important;
+}
+.memproto table.memname td.paramname {
+  color: var(--md-amber) !important;
   font-weight: 600 !important;
 }
 .memdoc {

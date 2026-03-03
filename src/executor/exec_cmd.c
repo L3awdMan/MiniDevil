@@ -6,12 +6,17 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 23:16:35 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/26 02:16:24 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 05:18:26 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Print an error for when execve fails
+ * 
+ * @param path Path that failed to execute
+ */
 static void	handle_exec_error(char *path)
 {
 	struct stat	buf;
@@ -30,6 +35,17 @@ static void	handle_exec_error(char *path)
 	}
 }
 
+/**
+ * @brief Replace current process with the external command (execve)
+ * 
+ * - Resets signals to default and calls execve
+ * - On failure, prints an error, frees resources and exits with code 126
+ * 
+ * @param path Resolved path (free on failure)
+ * @param args Argument array for execve
+ * @param envp Environment array for execve (free on failure)
+ * @param shell Shell context (free on failure)
+ */
 static void	child_execute(char *path, char **args, char **envp, t_shell *shell)
 {
 	reset_child_signals();
@@ -46,6 +62,14 @@ static void	child_execute(char *path, char **args, char **envp, t_shell *shell)
 	}
 }
 
+/**
+ * @brief Wait for a child process and get the correct exit status
+ * 
+ * Handles normal exits (WEXITSTATUS) and signal deaths (128 + signal)
+ * 
+ * @param pid PID of the child to wait for
+ * @return Correct exit code (0-255)
+ */
 static int	wait_for_child(pid_t pid)
 {
 	int	status;
@@ -66,6 +90,17 @@ static int	wait_for_child(pid_t pid)
 	return (exit_code);
 }
 
+/**
+ * @brief Resolve the command's path and build envp array before forking
+ * 
+ * Handles special cases: `.` and `..`
+ * 
+ * @param args Argument array with arg[0] being the command name
+ * @param env Environment list (for PATH)
+ * @param path resolved path
+ * @param envp envp array
+ * @return 0 on success or an error exit code (1, 2 or 127)
+ */
 static int	prepare_exec(char **args, t_env *env, char **path, char ***envp)
 {
 	if (ft_strncmp(args[0], ".", 2) == 0)
@@ -89,6 +124,17 @@ static int	prepare_exec(char **args, t_env *env, char **path, char ***envp)
 	return (0);
 }
 
+/**
+ * @brief Fork and execute an external command
+ * 
+ * Resolves the path, builds envp and forks a child that calls execve
+ * - If already in a child process, executes directly without forking
+ * - The parent waits for the child and returns its exit status code
+ * 
+ * @param args Argument array with arg[0] being the command name
+ * @param shell Shell context
+ * @return exit status (0 success, 126 exec error or 127 not found)
+ */
 int	exec_external(char **args, t_shell *shell)
 {
 	char	*path;

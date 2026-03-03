@@ -6,23 +6,41 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 23:16:00 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 23:01:58 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 07:24:14 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "token.h"
 
+/**
+ * @brief Check if a character is a shell operator
+ * 
+ * @param c Character to test
+ * @return 1 if operator and 0 otherwise
+ */
 int	is_operator(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
 
+/**
+ * @brief Check if a character is whitespace
+ * 
+ * @param c Character to test
+ * @return 1 if whitespace and 0 otherwise
+ */
 int	is_whitespace(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n');
 }
 
+/**
+ * @brief Check if a character ends a word token
+ * 
+ * @param c Character to test
+ * @return 1 if word ending and 0 otherwise
+ */
 int	is_word_end(char c)
 {
 	if (c == '\0')
@@ -36,6 +54,13 @@ int	is_word_end(char c)
 	return (0);
 }
 
+/**
+ * @brief Determine operator token type and its length in characters
+ * 
+ * @param str Input at the operator position
+ * @param len Operator length (1 or 2)
+ * @return Type of token for the operator
+ */
 t_token_type	get_operator_token_type(char *str, int *len)
 {
 	*len = 1;

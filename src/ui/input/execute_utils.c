@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:23 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/26 04:15:47 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/26 06:03:31 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ int	process_ui_input(char *input, t_shell *shell)
 	if (!tokens)
 		return (2);
 	if (expand_all_tokens(tokens, shell) < 0)
-		return (free_token_list(tokens), 1);
+	{
+		free_token_list(tokens);
+		return (1);
+	}
 	ast = parse(tokens);
 	free_token_list(tokens);
 	if (!ast)

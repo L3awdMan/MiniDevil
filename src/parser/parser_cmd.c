@@ -6,13 +6,21 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:34:13 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:26:18 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 07:43:06 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "structs.h"
 
+/**
+ * @brief Count consecutive word token groups
+ * 
+ * Connected tokens count as 1 group
+ * 
+ * @param tokens Token list starting position
+ * @return Number of word groups
+ */
 int	count_word_tokens(t_token *tokens)
 {
 	int	count;
@@ -29,6 +37,16 @@ int	count_word_tokens(t_token *tokens)
 	return (count);
 }
 
+/**
+ * @brief Fill argument array from consecutive word tokens
+ * 
+ * Concatenates the connected tokens via ft_strjoin and advances the token
+ * pointer past all the consumed tokens
+ * 
+ * @param args Pre allocated array of size count + 1
+ * @param tokens Pointer to current token pointer
+ * @param count Number of word groups to collect
+ */
 static void	fill_args_array(char **args, t_token **tokens, int count)
 {
 	int		i;
@@ -55,6 +73,13 @@ static void	fill_args_array(char **args, t_token **tokens, int count)
 	args[count] = NULL;
 }
 
+/**
+ * @brief Collect consecutive word tokens into an arguments array
+ * 
+ * @param tokens Pointer to current token pointer
+ * @param argc Number of arguments collected
+ * @return NULL terminated arguments array or NULL if none
+ */
 char	**collect_args(t_token **tokens, int *argc)
 {
 	char	**args;
@@ -71,6 +96,15 @@ char	**collect_args(t_token **tokens, int *argc)
 	return (args);
 }
 
+/**
+ * @brief Parse a simple command from consecutive word tokens
+ * 
+ * Collects the arguments via collect_args() and wraps them in a NODE_COMMAND
+ * AST node
+ * 
+ * @param tokens Pointer to current token pointer
+ * @return NODE_COMMAND AST node or NULL if no words were found
+ */
 t_ast	*parse_simple_command(t_token **tokens)
 {
 	char	**args;

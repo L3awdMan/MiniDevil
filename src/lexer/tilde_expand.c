@@ -6,12 +6,22 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 16:48:52 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 23:06:14 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 07:21:28 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Expand leading ~ to $HOME
+ * 
+ * Handles `~` ($HOME) and `~/path` ($HOME/path)
+ * 
+ * @param str Input string
+ * @param env_list Environment list (for HOME lookup)
+ * @param quote_type Quote context
+ * @return Expanded string
+ */
 static char	*expand_tilde(char *str, t_env *env_list, t_quote_type quote_type)
 {
 	char	*home;
@@ -32,15 +42,28 @@ static char	*expand_tilde(char *str, t_env *env_list, t_quote_type quote_type)
 	return (result);
 }
 
+/**
+ * @brief Handles variable expansion and tilde expansion
+ * 
+ * Tilde expansions run first to conform with BASH and correctly handling:
+ * - `export TEST="~"`
+ * - `echo $TEST`
+ * 
+ * @param str Input string
+ * @param env Environment list
+ * @param qt Quote type
+ * @param exit_status Exit status for $?
+ * @return Fully expanded string or NULL on failure
+ */
 char	*expand_full(char *str, t_env *env, t_quote_type qt, int exit_status)
 {
-	char	*var_exp;
+	char	*tilde_exp;
 	char	*result;
 
-	var_exp = expand_variables(str, env, qt, exit_status);
-	if (!var_exp)
+	tilde_exp = expand_tilde(str, env, qt);
+	if (!tilde_exp)
 		return (NULL);
-	result = expand_tilde(var_exp, env, qt);
-	free(var_exp);
+	result = expand_variables(tilde_exp, env, qt, exit_status);
+	free(tilde_exp);
 	return (result);
 }

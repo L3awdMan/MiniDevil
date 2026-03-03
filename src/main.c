@@ -6,13 +6,23 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/26 02:10:29 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 06:52:41 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "minishell_ui.h"
 
+/**
+ * @brief tokenize -> expand -> parse -> execute
+ * 
+ * On any stage failure, cleans up and returns an error status
+ * 
+ * @param input Raw input string
+ * @param shell Shell context
+ * @return Exit status of the executed command or 2 on parse error
+ * @note Heredocs are collected before the execution begins
+ */
 static int	process_input(char *input, t_shell *shell)
 {
 	t_token	*tokens;
@@ -23,14 +33,17 @@ static int	process_input(char *input, t_shell *shell)
 	if (!tokens)
 		return (2);
 	if (expand_all_tokens(tokens, shell) < 0)
-		return (free_token_list(tokens), 1);
+	{
+		free_token_list(tokens);
+		return (1);
+	}
 	ast = parse(tokens);
 	free_token_list(tokens);
 	if (!ast)
 		return (2);
 	shell->current_ast = ast;
 	if (collect_heredocs(ast, shell) == -1)
-		status = 130;
+		status = 128 + SIGINT;
 	else
 		status = executor(ast, shell);
 	free_ast(ast);
@@ -38,6 +51,15 @@ static int	process_input(char *input, t_shell *shell)
 	return (status);
 }
 
+/**
+ * @brief Read 1 line of input from the user
+ * 
+ * Uses readline with a prompt in interactive mode and get_next_line() otherwise
+ * (strips the trailing `\n`)
+ * 
+ * @param shell Shell context
+ * @return Newly allocated input line or NULL on EOF
+ */
 static char	*read_input(t_shell *shell)
 {
 	char	*line;
@@ -55,6 +77,15 @@ static char	*read_input(t_shell *shell)
 	return (line);
 }
 
+/**
+ * @brief Filter and dispatch input to processing
+ * 
+ * - Skips empty and whitespace only inputs
+ * - Adds non empty input to readline history in interactive mode
+ * 
+ * @param input Raw input string
+ * @param shell Shell context
+ */
 static void	handle_input(char *input, t_shell *shell)
 {
 	int	i;
@@ -71,6 +102,15 @@ static void	handle_input(char *input, t_shell *shell)
 	shell->exit_status = process_input(input, shell);
 }
 
+/**
+ * @brief Main REPL (standard mode)
+ * 
+ * setup signals -> read input -> handle SIGINT -> process
+ * - On EOF (NULL input) it prints "exit" in interactive mode & breaks
+ * - It frees input after each iteration
+ * 
+ * @param shell Shell context (the running flag controls the loop)
+ */
 static void	main_loop(t_shell *shell)
 {
 	char	*input;
@@ -99,6 +139,18 @@ static void	main_loop(t_shell *shell)
 	}
 }
 
+/**
+ * @brief Entry point
+ * 
+ * Initializes the shell state and eithers enters UI mode (--ui flag)
+ * or the standard REPL.
+ * - Cleans up env and GNL on exit.
+ * 
+ * @param ac Argument count
+ * @param av Argument vector (--ui triggers UI mode)
+ * @param envp Environment passed by the OS
+ * @return The shell's final exit status
+ */
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;

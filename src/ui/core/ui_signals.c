@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:11:06 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/24 03:17:15 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/02 06:20:13 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@ static void	handle_ui_sigwinch(int sig)
 	g_signal = sig;
 }
 
-void	setup_ui_signals(t_shell *shell)
+void	setup_ui_signals(void)
 {
 	struct sigaction	sa_winch;
 	struct sigaction	sa_int;
 
-	(void)shell;
 	ft_memset(&sa_winch, 0, sizeof(sa_winch));
 	sa_winch.sa_handler = handle_ui_sigwinch;
 	sigemptyset(&sa_winch.sa_mask);

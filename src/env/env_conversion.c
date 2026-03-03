@@ -6,12 +6,21 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 01:43:28 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/23 22:17:22 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 04:54:20 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Convert an env node to a "KEY=value" string
+ * 
+ * Joins node->key + `=` + node->value. If value is NULL, the result is KEY=
+ * with no value
+ * 
+ * @param node Environment node to convert
+ * @return Newly allocated KEY=value string or NULL on failure
+ */
 static char	*create_env_string(t_env *node)
 {
 	char	*part;
@@ -30,6 +39,14 @@ static char	*create_env_string(t_env *node)
 	return (result);
 }
 
+/**
+ * @brief Free a partially filled array
+ * 
+ * Used for cleanup when fill_env_array() fails in the middle
+ * 
+ * @param arr Array to free
+ * @param count Number of entries to free
+ */
 static void	free_incomplete_array(char **arr, int count)
 {
 	int	i;
@@ -43,6 +60,18 @@ static void	free_incomplete_array(char **arr, int count)
 	free(arr);
 }
 
+/**
+ * @brief Fill an array with KEY=value strings
+ * 
+ * Iterate through the env list while converting each node to a string
+ * - On allocation failure free all previously created strings via
+ * free_incomplete_array() and return 0
+ * 
+ * @param arr Pre allocated array of size + 1 pointers
+ * @param env List head
+ * @param size Number of nodes to convert
+ * @return 1 on success and 0 on allocation failure
+ */
 static int	fill_env_array(char **arr, t_env *env, int size)
 {
 	t_env	*current;
@@ -65,6 +94,15 @@ static int	fill_env_array(char **arr, t_env *env, int size)
 	return (1);
 }
 
+/**
+ * @brief Convert the env linked list to a NULL terminated string array
+ * 
+ * Builds a char** destined to execve(). Each entry is in a KEY=value string
+ * - If the list is empty or NULL, it returns an array containing only NULL
+ * 
+ * @param env List head
+ * @return NULL terminated KEY=value array or NULL on allocation failure
+ */
 char	**env_to_array(t_env *env)
 {
 	char	**arr;

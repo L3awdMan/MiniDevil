@@ -6,12 +6,18 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 06:22:28 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/23 21:37:53 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/02 07:17:09 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Get the HOME value from environment
+ * 
+ * @param env Environment list
+ * @return HOME value or NULL with error message
+ */
 static char	*get_home_path(t_env *env)
 {
 	char	*path;
@@ -22,6 +28,17 @@ static char	*get_home_path(t_env *env)
 	return (path);
 }
 
+/**
+ * @brief Get the target path for cd
+ * 
+ * Handles no argument or "--" (HOME), "-" (OLDPWD and printed),
+ * "-- path" (path) and too many arguments (sets err = 1)
+ * 
+ * @param args Arguments array
+ * @param env Environment list for HOME and OLDPWD lookup
+ * @param err Set to 1 if too many arguments and 0 otherwise
+ * @return Target path or NULL on error
+ */
 static char	*get_cd_path(char **args, t_env *env, int *err)
 {
 	char	*path;
@@ -49,7 +66,13 @@ static char	*get_cd_path(char **args, t_env *env, int *err)
 	return (args[1]);
 }
 
-static int	update_pwd_vars(t_env **env, char *old_pwd)
+/**
+ * @brief Update OLDPWD and PWD environment variables after cd
+ * 
+ * @param env Pointer to env list head
+ * @param old_pwd Previous working directory (OLDPWD)
+ */
+static void	update_pwd_vars(t_env **env, char *old_pwd)
 {
 	char	cwd[PATH_MAX];
 
@@ -57,9 +80,21 @@ static int	update_pwd_vars(t_env **env, char *old_pwd)
 		set_env_value(env, "OLDPWD", old_pwd);
 	if (getcwd(cwd, PATH_MAX))
 		set_env_value(env, "PWD", cwd);
-	return (0);
 }
 
+/**
+ * @brief Implement the `cd` command
+ * 
+ * Changes the working directory and supports:
+ * - no args (HOME)
+ * - "-" (OLDPWD)
+ * - "--" separator
+ * - Error on too many arguments
+ * 
+ * @param args NULL terminated argument array with arg[0] = "cd"
+ * @param env Pointer to env list head
+ * @return 0 on success, 1 on error
+ */
 int	builtin_cd(char **args, t_env **env)
 {
 	char	*path;

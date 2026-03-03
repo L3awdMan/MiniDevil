@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:00:00 by L3awd             #+#    #+#             */
-/*   Updated: 2026/02/25 05:10:21 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/02 07:04:00 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@
 # include <termios.h>
 # include <unistd.h>
 
-//──────────────────────────────────────────────────
-//────────────── ANSI ESCAPE CODES ─────────────────
-//──────────────────────────────────────────────────
+// ──────────────────────────────────────────────────
+// ────────────── ANSI ESCAPE CODES ─────────────────
+// ──────────────────────────────────────────────────
 
 /* Cursor & Screen Control */
 # define ESC_SEQ "\033["
@@ -67,9 +67,9 @@
 # define C_BLOOD4 "\033[38;5;160m"
 # define C_BLOOD5 "\033[38;5;196m"
 
-//──────────────────────────────────────────────────
-//────────────── BOX DRAWING CHARS ─────────────────
-//──────────────────────────────────────────────────
+// ──────────────────────────────────────────────────
+// ────────────── BOX DRAWING CHARS ─────────────────
+// ──────────────────────────────────────────────────
 
 # define BOX_TL "╭"
 # define BOX_TR "╮"
@@ -78,9 +78,9 @@
 # define BOX_H "─"
 # define BOX_V "│"
 
-//──────────────────────────────────────────────────
-//────────────────── CONSTANTS ─────────────────────
-//──────────────────────────────────────────────────
+// ──────────────────────────────────────────────────
+// ────────────────── CONSTANTS ─────────────────────
+// ──────────────────────────────────────────────────
 
 # define CMD_BOX_HEIGHT 3
 # define WAIFU_BOX_W 24
@@ -110,9 +110,9 @@
 # define MOOD_UPSET 1
 # define MOOD_PROUD 2
 
-//──────────────────────────────────────────────────
-//────────────────── STRUCTURES ────────────────────
-//──────────────────────────────────────────────────
+// ──────────────────────────────────────────────────
+// ────────────────── STRUCTURES ────────────────────
+// ──────────────────────────────────────────────────
 
 /**
  * @brief Box position & style for drawing
@@ -178,21 +178,21 @@ typedef struct s_ui
 	int				running;	/**< Event loop flag */
 }					t_ui;
 
-//──────────────────────────────────────────────────
-//────────────────── FUNCTIONS ─────────────────────
-//──────────────────────────────────────────────────
+// ──────────────────────────────────────────────────
+// ────────────────── FUNCTIONS ─────────────────────
+// ──────────────────────────────────────────────────
 
-//────────────── ui_main.c ────────────────
+// ────────────── ui_main.c ────────────────
 
 void				run_ui_mode(t_shell *shell);
 
-//────────────── terminal_init.c ────────────────
+// ────────────── terminal_init.c ────────────────
 
 void				init_term(t_ui *ui);
 
 void				cleanup_term(t_ui *ui);
 
-//────────────── terminal.c ────────────────
+// ────────────── terminal.c ────────────────
 
 void				get_term_size(t_term *term);
 
@@ -202,11 +202,11 @@ void				restore_term_mode(t_term *term);
 
 void				print_goodbye(void);
 
-//────────────── ui_signals.c ────────────────
+// ────────────── ui_signals.c ────────────────
 
-void				setup_ui_signals(t_shell *shell);
+void				setup_ui_signals(void);
 
-//────────────── output.c ────────────────
+// ────────────── output.c ────────────────
 
 void				out_add_line(t_out *out, const char *line);
 
@@ -216,25 +216,25 @@ void				out_free(t_out *out);
 
 void				add_welcome_msg(t_ui *ui);
 
-//────────────── waifu.c ────────────────
+// ────────────── waifu.c ────────────────
 
 void				update_waifu_mood(t_ui *ui, int mood);
 
 void				draw_waifu_box(t_ui *ui);
 
-//────────────── drawing_utils.c ────────────────
+// ────────────── drawing_utils.c ────────────────
 
 void				print_at(int row, int col, const char *str);
 
 void				draw_hline(int width, const char *color);
 
-//────────────── drawing_text.c ────────────────
+// ────────────── drawing_text.c ────────────────
 
 char				*truncate_line(const char *line, int max_w);
 
 int					visual_strlen(const char *s);
 
-//────────────── drawing_box.c ────────────────
+// ────────────── drawing_box.c ────────────────
 
 void				draw_box(t_box *b);
 
@@ -244,7 +244,7 @@ void				draw_box_sides(t_box *b);
 
 void				draw_box_bottom(t_box *b);
 
-//────────────── drawing.c ────────────────
+// ────────────── drawing.c ────────────────
 
 void				draw_ui(t_ui *ui);
 
@@ -254,7 +254,7 @@ void				draw_exit_box(t_ui *ui);
 
 void				redraw_cmd_only(t_ui *ui);
 
-//────────────── drawing_output.c ────────────────
+// ────────────── drawing_output.c ────────────────
 
 void				draw_out_line(t_ui *ui, int y, int i, int w);
 
@@ -262,7 +262,7 @@ void				draw_out_box(t_ui *ui);
 
 void				redraw_output_only(t_ui *ui);
 
-//────────────── input.c ────────────────
+// ────────────── input.c ────────────────
 
 int					read_key(void);
 
@@ -272,25 +272,25 @@ void				cmd_del_char(t_cmd *cmd);
 
 void				handle_key(t_shell *shell, int key);
 
-//────────────── command.c ────────────────
+// ────────────── command.c ────────────────
 
 void				cmd_execute(t_shell *shell);
 
-//────────────── execute.c ────────────────
+// ────────────── execute.c ────────────────
 
 void				execute_minishell_cmd(t_shell *shell);
 
-//────────────── execute_utils.c ────────────────
+// ────────────── execute_utils.c ────────────────
 
 void				read_output_from_fd(t_ui *ui, int fd);
 
 int					process_ui_input(char *input, t_shell *shell);
 
-//────────────── welcome_utils.c ────────────────
+// ────────────── welcome_utils.c ────────────────
 
 void				ft_msleep(int ms);
 
-//────────────── welcome.c ────────────────
+// ────────────── welcome.c ────────────────
 
 void				draw_welcome(void);
 

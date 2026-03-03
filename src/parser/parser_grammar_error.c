@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 18:18:08 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/22 07:00:48 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 07:45:08 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 #include "parser.h"
 #include "structs.h"
 
+/**
+ * @brief Convert an error code to the corresponding message
+ * 
+ * @param err Error code
+ * @return Static error message string or NULL if none were found
+ */
 static const char	*get_error_msg(t_syntax_error err)
 {
 	if (err == ERR_EMPTY_INPUT)
@@ -30,6 +36,12 @@ static const char	*get_error_msg(t_syntax_error err)
 	return (NULL);
 }
 
+/**
+ * @brief Print an error message to STDERR
+ * 
+ * @param err Error code
+ * @return -1 always (value that will be return by callers)
+ */
 int	print_syntax_error(t_syntax_error err)
 {
 	const char	*msg;
@@ -42,6 +54,12 @@ int	print_syntax_error(t_syntax_error err)
 	return (-1);
 }
 
+/**
+ * @brief Check if a token type is a redirection operator
+ * 
+ * @param type Token type to check
+ * @return 1 if redirection and 0 if not
+ */
 int	is_redirection(t_token_type type)
 {
 	return (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT

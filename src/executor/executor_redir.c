@@ -6,13 +6,25 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 18:56:14 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:20:52 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 06:16:34 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	open_redir_file(char *file, t_node_type type, int quoted, t_shell *shell)
+/**
+ * @brief Open a file for redirection (based on the redirection type)
+ * 
+ * Opens the file with appropriate flags:
+ * - `<` O_RDONLY for input
+ * - `>` O_WRONLY | O_CREAT | O_TRUNC for output
+ * - `>>` O_WRONLY | O_CREAT | O_APPEND for append
+ * 
+ * @param file Filename to open
+ * @param type Redirection node type
+ * @return File descriptor on success or -1 on failure
+ */
+int	open_redir_file(char *file, t_node_type type)
 {
 	int	fd;
 
@@ -23,9 +35,7 @@ int	open_redir_file(char *file, t_node_type type, int quoted, t_shell *shell)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (type == NODE_REDIR_APPEND)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if (type == NODE_REDIR_HEREDOC)
-		fd = handle_heredoc(file, quoted, shell);
-	if (fd == -1 && type != NODE_REDIR_HEREDOC)
+	if (fd == -1)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		perror(file);
@@ -33,6 +43,16 @@ int	open_redir_file(char *file, t_node_type type, int quoted, t_shell *shell)
 	return (fd);
 }
 
+/**
+ * @brief Redirect STDIN or STDOUT to fd, saving the original
+ * 
+ * - Saves the original fd via dup and replaces it with dup2
+ * - Closes the source fd after duplication
+ * 
+ * @param fd File descriptor to redirect to
+ * @param type Redirection type (to determine STDIN or STDOUT target)
+ * @return Saved original fd or -1 on error
+ */
 int	setup_redirection(int fd, t_node_type type)
 {
 	int	saved_fd;
@@ -44,16 +64,26 @@ int	setup_redirection(int fd, t_node_type type)
 		target = STDOUT_FILENO;
 	saved_fd = dup(target);
 	if (saved_fd == -1)
-		return (perror("minishell: error on dup"), -1);
+	{
+		perror("minishell: error on dup");
+		return (-1);
+	}
 	if (dup2(fd, target) == -1)
 	{
 		close(saved_fd);
-		return (perror("minishell: error on dup2"), -1);
+		perror("minishell: error on dup2");
+		return (-1);
 	}
 	close(fd);
 	return (saved_fd);
 }
 
+/**
+ * @brief Restore a previously saved file descriptor
+ * 
+ * @param saved_fd Saved fd from setup_redirection()
+ * @param type Redirection type
+ */
 void	restore_fd(int saved_fd, t_node_type type)
 {
 	int	target;
@@ -68,6 +98,19 @@ void	restore_fd(int saved_fd, t_node_type type)
 	close(saved_fd);
 }
 
+/**
+ * @brief Execute a redirection node
+ * 
+ * - Opens the redirection target (file or heredoc)
+ * - Saves the original fd
+ * - Executes the child command with the redirected fd
+ * - Restores the original fd
+ * 
+ * @param node AST redirection node
+ * @param shell Shell context
+ * @return Exit status of the child command or 1 on error
+ * @note For precollected heredocs, uses the cached heredoc_fd
+ */
 int	handle_redir(t_ast *node, t_shell *shell)
 {
 	t_redir_node	*redir;
@@ -82,7 +125,7 @@ int	handle_redir(t_ast *node, t_shell *shell)
 		redir->heredoc_fd = -1;
 	}
 	else
-		fd = open_redir_file(redir->file, node->type, redir->quote, shell);
+		fd = open_redir_file(redir->file, node->type);
 	if (fd == -1)
 		return (1);
 	saved_fd = setup_redirection(fd, node->type);

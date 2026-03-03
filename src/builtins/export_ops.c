@@ -6,12 +6,21 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 05:43:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/23 21:38:32 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/02 07:40:19 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Export a variable with no value (export KEY)
+ * 
+ * - If the key already exists, do nothing
+ * - If it does not, create a new node with value=NULL
+ * 
+ * @param env Pointer to env list head
+ * @param key Variable name to export
+ */
 void	export_no_value(t_env **env, char *key)
 {
 	t_env	*new_node;
@@ -32,6 +41,15 @@ void	export_no_value(t_env **env, char *key)
 	add_env_node(env, new_node);
 }
 
+/**
+ * @brief Export a variable with a value (export KEY=value)
+ * 
+ * Split the argument at `=` to extract key and value then call set_env_value()
+ * to create or update the variable
+ * 
+ * @param env Pointer to env list head
+ * @param arg Full argument string containing `=` somewhere
+ */
 void	export_assign(t_env **env, char *arg)
 {
 	char	*key;
@@ -48,6 +66,17 @@ void	export_assign(t_env **env, char *arg)
 	free(value);
 }
 
+/**
+ * @brief Build the new value for an append operation
+ * 
+ * If the variable already exists, concatenates old value with append_str(),
+ * and if not then duplicates append_str as the new value
+ * 
+ * @param env Environment list for looking up existing value
+ * @param key Variable name
+ * @param append_str String to append
+ * @return Newly allocated value
+ */
 static char	*get_append_value(t_env *env, char *key, char *append_str)
 {
 	char	*old_value;
@@ -61,6 +90,15 @@ static char	*get_append_value(t_env *env, char *key, char *append_str)
 	return (new_value);
 }
 
+/**
+ * @brief Export a variable with append (export KEY+=value)
+ * 
+ * Splits at `+=` and builds the appended value using get_append_value()
+ * then calls set_env_value() to update the variable
+ * 
+ * @param env Pointer to env list head
+ * @param arg Full arg string containing "+="
+ */
 void	export_append(t_env **env, char *arg)
 {
 	char	*key;

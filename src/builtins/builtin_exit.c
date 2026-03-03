@@ -6,12 +6,25 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:53:47 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/23 22:16:56 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/02 07:23:23 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Implement the `exit` command
+ * 
+ * - Prints "exit" in interactive mode
+ * - With no args it exits with the current exit_status
+ * - With 1 numeric arg it exits with that code (casted to unsigned char)
+ * - With non numeric arcs it exits with 2
+ * - Too many args = error but does not exit (return 1)
+ * 
+ * @param args NULL terminated arg array with arg[0] = "exit"
+ * @param shell SHell context (running flag set to 0 in order to trigger exit)
+ * @return Exit code (0-255) or 1 if too many args (and shell keeps running)
+ */
 int	builtin_exit(char **args, t_shell *shell)
 {
 	long long	exit_code;

@@ -6,12 +6,18 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 21:48:21 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/22 07:01:55 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 07:50:16 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Check if an AST node is of redirection type
+ * 
+ * @param node Node to check
+ * @return 1 if redirection and 0 if not
+ */
 static int	is_redir(t_ast *node)
 {
 	if (!node)
@@ -19,6 +25,16 @@ static int	is_redir(t_ast *node)
 	return (node->type >= NODE_REDIR_IN && node->type <= NODE_REDIR_HEREDOC);
 }
 
+/**
+ * @brief Reverse a redirection chain for left to right execution order
+ * 
+ * The parser builds redirections with the outermost being last, so this
+ * reverses the chain so that the first parsed redirection is outermost,
+ * matching BASH's left to right behavior
+ * 
+ * @param node Outermost redirection
+ * @return New outermost node of the reverse chain
+ */
 t_ast	*reverse_redir_chain(t_ast *node)
 {
 	t_ast	*prev;

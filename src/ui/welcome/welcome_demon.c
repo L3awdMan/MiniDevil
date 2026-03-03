@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:04:37 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:30:12 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/02 05:36:08 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,14 @@ void	flash_demon_eyes(t_welcome_term *t)
 	int	row;
 	int	col;
 
-	row = t->center_y - 4 + 5;
-	col = (t->width - DEMON_WIDTH) / 2 + 26;
+	row = t->center_y - 4 + 8;
+	col = (t->width - DEMON_WIDTH) / 2 + 22;
 	print_at_pos(row, col, C_M1 BOLD "_" RESET);
-	print_at_pos(row, col + 8, C_M1 BOLD "_" RESET);
+	print_at_pos(row, col + 13, C_M1 BOLD "_" RESET);
 	ft_msleep(100);
 	print_at_pos(row, col, C_M5 BOLD "*" RESET);
-	print_at_pos(row, col + 8, C_M5 BOLD "*" RESET);
+	print_at_pos(row, col + 13, C_M5 BOLD "*" RESET);
 	ft_msleep(150);
 	print_at_pos(row, col, C_M1 BOLD "_" RESET);
-	print_at_pos(row, col + 8, C_M1 BOLD "_" RESET);
+	print_at_pos(row, col + 13, C_M1 BOLD "_" RESET);
 }

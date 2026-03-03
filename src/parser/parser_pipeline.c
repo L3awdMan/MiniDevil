@@ -6,13 +6,21 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:35:25 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:26:03 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 07:48:33 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "structs.h"
 
+/**
+ * @brief Parse a pipeline of commands connected by pipes
+ * 
+ * Left associative tree: "A | B | C" -> PIPE(PIPE(A, B), C)
+ * 
+ * @param tokens Pointer to current token pointer
+ * @return Pipeline AST or NULL on failure
+ */
 t_ast	*parse_pipeline(t_token **tokens)
 {
 	t_ast	*left;

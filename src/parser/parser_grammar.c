@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 18:11:17 by zotaj-di          #+#    #+#             */
-/*   Updated: 2025/12/11 23:43:13 by zotaj-di         ###   ########.fr       */
+/*   Updated: 2026/03/03 07:47:37 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 #include "parser.h"
 #include "structs.h"
 
+/**
+ * @brief Validate that the token list isn't empty
+ * 
+ * @param tokens Token list
+ * @return 0 if not empty and -1 on error
+ */
 static int	validate_empty(t_token *tokens)
 {
 	if (!tokens)
@@ -21,6 +27,12 @@ static int	validate_empty(t_token *tokens)
 	return (0);
 }
 
+/**
+ * @brief Validate pipe positions (not at start nor end and no consecutive pipe)
+ * 
+ * @param tokens Token list
+ * @return 0 if valid and -1 on error
+ */
 static int	validate_pipe_position(t_token *tokens)
 {
 	t_token	*current;
@@ -44,6 +56,12 @@ static int	validate_pipe_position(t_token *tokens)
 	return (0);
 }
 
+/**
+ * @brief Validate that pipes are not followed by any redirection
+ * 
+ * @param tokens Token list
+ * @return 0 if valid and -1 on error
+ */
 static int	validate_pipe_context(t_token *tokens)
 {
 	t_token	*current;
@@ -61,6 +79,12 @@ static int	validate_pipe_context(t_token *tokens)
 	return (0);
 }
 
+/**
+ * @brief Validate that every redirection is followed by a word token
+ * 
+ * @param tokens Token list
+ * @return 0 if valid and -1 on error
+ */
 static int	validate_redir_syntax(t_token *tokens)
 {
 	t_token	*current;
@@ -80,6 +104,12 @@ static int	validate_redir_syntax(t_token *tokens)
 	return (0);
 }
 
+/**
+ * @brief Run all validation checks on a token list
+ * 
+ * @param tokens Token list to validate
+ * @return 0 if valid and -1 on error (with message printed to STDERR)
+ */
 int	validate_syntax(t_token *tokens)
 {
 	if (validate_empty(tokens) < 0)

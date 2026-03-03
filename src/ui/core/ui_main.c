@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:11:54 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/26 04:28:52 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/02 06:20:17 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	init_ui(t_shell *shell)
 	shell->ui = ui;
 	ui->running = 1;
 	init_term(ui);
-	setup_ui_signals(shell);
+	setup_ui_signals();
 }
 
 static void	check_resize(t_shell *shell)
@@ -68,14 +68,16 @@ void	run_ui_mode(t_shell *shell)
 		return ;
 	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
 		return ;
-	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == 0
-		&& (ws.ws_col < MIN_WIDTH || ws.ws_row < MIN_HEIGHT))
+	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1)
+	{
+		ft_putstr_fd("Error: failed to get terminal size\n", STDERR_FILENO);
+		return ;
+	}
+	if (ws.ws_col < MIN_WIDTH || ws.ws_row < MIN_HEIGHT)
 	{
 		ft_putstr_fd("Error: terminal too small for UI mode\n", STDERR_FILENO);
 		return ;
 	}
-	if (!shell)
-		return ;
 	shell->ui_mode = 1;
 	init_ui(shell);
 	ui_loop(shell);

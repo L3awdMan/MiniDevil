@@ -6,17 +6,33 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:48:52 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:20:45 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 06:23:27 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Expand variables in a single arg string
+ * 
+ * @param arg Raw argument string
+ * @param shell Shell context (for env and exit status)
+ * @return Newly allocated expanded string or NULL if failed
+ */
 static char	*expand_arg(char *arg, t_shell *shell)
 {
 	return (expand_variables(arg, shell->env, QUOTE_NONE, shell->exit_status));
 }
 
+/**
+ * @brief Expand variables in all aguments of a command
+ * 
+ * Allocates a new array where elements are expanded
+ * 
+ * @param args Argument array (NULL terminated)
+ * @param shell Shell context (for env and exit status)
+ * @return Newly allocated expanded string or NULL if failed
+ */
 char	**expand_args(char **args, t_shell *shell)
 {
 	char	**expanded;
@@ -42,6 +58,13 @@ char	**expand_args(char **args, t_shell *shell)
 	return (expanded);
 }
 
+/**
+ * @brief Execute a NODE_COMMAND AST node
+ * 
+ * @param node AST node of type NODE_COMMAND
+ * @param shell Shell context
+ * @return Exit status of the executed command
+ */
 static int	exec_command_node(t_ast *node, t_shell *shell)
 {
 	char	**args;
@@ -50,6 +73,16 @@ static int	exec_command_node(t_ast *node, t_shell *shell)
 	return (exec_simple_command(args, shell));
 }
 
+/**
+ * @brief Main AST executor that dispatches by node type
+ * 
+ * - Recursively walks the AST and dispatches NODE_COMMAND, NODE_PIPE and
+ * NODE_REDIR to exec_command_node(), handle_pipe() and handle_redir()
+ * 
+ * @param node Root of the AST subtree to execute
+ * @param shell Shell context
+ * @return Exit status of the executed pipe/command and 0 for NULL nodes
+ */
 int	executor(t_ast *node, t_shell *shell)
 {
 	if (!node)

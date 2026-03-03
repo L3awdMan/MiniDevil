@@ -6,12 +6,21 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 22:35:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/23 21:39:00 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/02 07:28:44 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Validate an export identifier (KEY or KEY= or KEY+=)
+ * 
+ * - Must start with alpha or `_`, followed by alnum or `_`
+ * - A `+` is allowed only immediately right before `=`
+ * 
+ * @param str String to validate
+ * @return 1 if valid and 0 otherwise
+ */
 static int	is_valid_identifier(char *str)
 {
 	int	i;
@@ -37,6 +46,11 @@ static int	is_valid_identifier(char *str)
 	return (1);
 }
 
+/**
+ * @brief Print export error
+ * 
+ * @param arg The invalid argument string
+ */
 static void	print_export_error(char *arg)
 {
 	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
@@ -44,6 +58,13 @@ static void	print_export_error(char *arg)
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 }
 
+/**
+ * @brief Process an export argument
+ * 
+ * @param arg Argument string (KEY=value, KEY+=value or KEY)
+ * @param env Pointer to env list head
+ * @return 0 on success and 1 or 2 on error
+ */
 static int	export_one(char *arg, t_env **env)
 {
 	if (!is_valid_identifier(arg))
@@ -62,6 +83,17 @@ static int	export_one(char *arg, t_env **env)
 	return (0);
 }
 
+/**
+ * @brief Implement the `export` command
+ * 
+ * - With no arguments it prints all env vars sorted by alphabetical order in
+ * "declare -x" format
+ * - With arguments it exports each 1 (support for =, += and no value formats)
+ * 
+ * @param args NULL terminated arg array with arg[0] = "export"
+ * @param env Pointer to env list head (modified on export)
+ * @return 0 on success or highest error code from the processed args
+ */
 int	builtin_export(char **args, t_env **env)
 {
 	int	i;

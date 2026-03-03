@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 19:31:46 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:19:45 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 05:09:24 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 #include "structs.h"
 #include <limits.h>
 
+/**
+ * @brief Increment the SHLVL environment variable
+ * 
+ * - Reads the current SHLVL, increments it by 1 and writes back
+ * - If SHLVL doesn't exist, it initializes it to 1
+ * 
+ * @param env_list Pointer to list head pointer
+ */
 void	handle_shlvl(t_env **env_list)
 {
 	char	*shlvl_str;
@@ -34,6 +42,14 @@ void	handle_shlvl(t_env **env_list)
 	free(new_shlvl);
 }
 
+/**
+ * @brief Ensure PWD exists in the environment
+ * 
+ * If it's not already set, it reads the current working directory via getcwd()
+ * and creates the variable
+ * 
+ * @param env_list Pointer to list head pointer
+ */
 void	ensure_pwd(t_env **env_list)
 {
 	char	*pwd;
@@ -47,6 +63,11 @@ void	ensure_pwd(t_env **env_list)
 	}
 }
 
+/**
+ * @brief Free all nodes in the env linked list
+ * 
+ * @param env_list Pointer to list head pointer
+ */
 void	free_env_list(t_env **env_list)
 {
 	t_env	*current;
@@ -63,6 +84,12 @@ void	free_env_list(t_env **env_list)
 	}
 }
 
+/**
+ * @brief Count the number of nodes in the environment list
+ * 
+ * @param env_list List head
+ * @return Number of nodes
+ */
 int	env_list_size(t_env *env_list)
 {
 	int		count;

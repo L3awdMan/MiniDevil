@@ -6,12 +6,18 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:32:43 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/23 22:20:23 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 06:46:46 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Check if a command contains a slash (= direct path)
+ * 
+ * @param cmd Command to check
+ * @return 1 if cmd contains `/` and 0 if not
+ */
 static int	is_direct_path(char *cmd)
 {
 	if (!cmd || !*cmd)
@@ -21,6 +27,13 @@ static int	is_direct_path(char *cmd)
 	return (0);
 }
 
+/**
+ * @brief Join a directory and command name with a `/` in between
+ * 
+ * @param dir Direcotry path
+ * @param cmd Command name
+ * @return Newly allocated "dir/cmd" string or NULL
+ */
 static char	*join_path(char *dir, char *cmd)
 {
 	char	*path_with_slash;
@@ -34,6 +47,15 @@ static char	*join_path(char *dir, char *cmd)
 	return (full_path);
 }
 
+/**
+ * @brief Search an executable command in a directory
+ * 
+ * Joins dir and cmd then checks if their result is executable via access(X_OK)
+ * 
+ * @param dir Directory to search in
+ * @param cmd Command name to look for
+ * @return Full path if found AND executable or NULL
+ */
 static char	*search_in_dir(char *dir, char *cmd)
 {
 	char	*full_path;
@@ -49,6 +71,15 @@ static char	*search_in_dir(char *dir, char *cmd)
 	return (NULL);
 }
 
+/**
+ * @brief Search for a command in all PATH directories
+ * 
+ * Splits the PATH variable (by `:`) and tries each directory
+ * 
+ * @param cmd Command name to search for
+ * @param path_var Value of the PATH environment variable
+ * @return Full path to the executable or NULL if not found
+ */
 static char	*search_in_path(char *cmd, char *path_var)
 {
 	char	**dirs;
@@ -69,6 +100,16 @@ static char	*search_in_path(char *cmd, char *path_var)
 	return (result);
 }
 
+/**
+ * @brief Resolve a command name into its full executable path
+ * 
+ * If the command contains `/` it's treated as a direct path. Otherwise it looks
+ * up PATH in env and searches each directory until an executable match is found
+ * 
+ * @param cmd Command name or path to resolve
+ * @param env Environment list
+ * @return Full path or NULL if not found
+ */
 char	*find_cmd_path(char *cmd, t_env *env)
 {
 	char	*path_var;

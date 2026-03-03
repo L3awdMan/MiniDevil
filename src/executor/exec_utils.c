@@ -6,12 +6,18 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 01:16:34 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/26 02:17:37 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 05:21:57 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Print "command not found" to STDERR
+ * 
+ * @param cmd Command name that wasn't found
+ * @return always 127 (standard bash) 
+ */
 int	exec_cmd_not_found(char *cmd)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -20,6 +26,12 @@ int	exec_cmd_not_found(char *cmd)
 	return (127);
 }
 
+/**
+ * @brief Check if a command is a shell builtin
+ * 
+ * @param cmd Command name to check
+ * @return 1 if builtin or 0 if external
+ */
 int	is_builtin(char *cmd)
 {
 	if (!cmd)
@@ -41,6 +53,13 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
+/**
+ * @brief Dispatch a builtin command to its function
+ * 
+ * @param args Argument array with arg[0] being the command name
+ * @param shell Shell context
+ * @return Exit status from the builtin function
+ */
 int	exec_builtin(char **args, t_shell *shell)
 {
 	if (!args || !args[0])
@@ -62,6 +81,13 @@ int	exec_builtin(char **args, t_shell *shell)
 	return (0);
 }
 
+/**
+ * @brief Execute a simple command (builtin or external)
+ * 
+ * @param args NULL terminated argument array
+ * @param shell Shell context
+ * @return Exit status of the command
+ */
 int	exec_simple_command(char **args, t_shell *shell)
 {
 	if (!args || !args[0])
@@ -71,6 +97,13 @@ int	exec_simple_command(char **args, t_shell *shell)
 	return (exec_external(args, shell));
 }
 
+/**
+ * @brief Clean up pipe fds and wait for left child on fork failure
+ * 
+ * @param pipe_fd Pipe file descriptors to close
+ * @param left_pid PID of left child (0 if wasn't yet forked)
+ * @return always 1 (exit code = error)
+ */
 int	pipe_fork_error(int pipe_fd[2], pid_t left_pid)
 {
 	close(pipe_fd[0]);

@@ -6,12 +6,22 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:25:03 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/26 02:38:01 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/03 05:26:40 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Execute the left side of a pipe in a child process
+ * 
+ * Closes the read end of the pipe and redirects STDOUT to the write end
+ * 
+ * @param left Left AST subtree to execute
+ * @param pipe_fd Pipe file descriptors: [read----write]
+ * @param shell Shell context
+ * @note Never returns (calls exit)
+ */
 void	exec_left_pipe_child(t_ast *left, int pipe_fd[2], t_shell *shell)
 {
 	int	status;
@@ -29,6 +39,16 @@ void	exec_left_pipe_child(t_ast *left, int pipe_fd[2], t_shell *shell)
 	exit(status);
 }
 
+/**
+ * @brief Execute the right side of a pipe in a child process
+ * 
+ * Closes the write end of the pipe and redirects STDIN to the read end
+ * 
+ * @param right Right AST subtree to execute
+ * @param pipe_fd Pipe file descriptors: [read----write]
+ * @param shell Shell context
+ * @note Never returns (calls exit)
+ */
 void	exec_right_pipe_child(t_ast *right, int pipe_fd[2], t_shell *shell)
 {
 	int	status;
@@ -46,6 +66,15 @@ void	exec_right_pipe_child(t_ast *right, int pipe_fd[2], t_shell *shell)
 	exit(status);
 }
 
+/**
+ * @brief Wait for both pipe children and return the right one's status
+ * 
+ * Handles signal deaths (SIGINT = newline, SIGQUIT = core dump message)
+ * 
+ * @param left_pid PID of the left pipe child
+ * @param right_pid PID of the right pipe child
+ * @return Exit status of the right child (0-255)
+ */
 static int	wait_for_pipe_children(pid_t left_pid, pid_t right_pid)
 {
 	int	status;
@@ -68,6 +97,17 @@ static int	wait_for_pipe_children(pid_t left_pid, pid_t right_pid)
 	return (right_status);
 }
 
+/**
+ * @brief Execute a pipe node by forking left and right children
+ * 
+ * Creates a pipe, forks 2 children:
+ * - Left child writes to pipe and right reads from it
+ * - Parent closes both pipe ends & waits for both children
+ * 
+ * @param node AST pipe node with binary.left and binary.right subtrees
+ * @param shell Shell context
+ * @return Exit status of the rightmost command in the pipe
+ */
 int	handle_pipe(t_ast *node, t_shell *shell)
 {
 	int		pipe_fd[2];

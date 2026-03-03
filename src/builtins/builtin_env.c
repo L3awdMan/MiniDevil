@@ -6,12 +6,22 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 22:53:19 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/23 22:17:01 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/02 07:21:10 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Implement the `env` command
+ * 
+ * Print all environment vasriables which have a value in "KEY=VALUE" format,
+ * one per line and rejecting extra arguments.
+ * 
+ * @param args NULL terminated arguments array with arg[0] = "env"
+ * @param env Environment list to print
+ * @return 0 on success and 1 if extra arguments were given
+ */
 int	builtin_env(char **args, t_env *env)
 {
 	t_env	*current;
