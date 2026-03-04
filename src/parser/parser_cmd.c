@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:34:13 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/04 04:46:29 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 06:49:09 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	count_word_tokens(t_token *tokens)
  * @param tokens Pointer to current token pointer
  * @param count Number of word groups to collect
  */
-static void	fill_args_array(char **args, t_token **tokens, int count)
+static int	fill_args_array(char **args, t_token **tokens, int count)
 {
 	int		i;
 	char	*word;
@@ -58,20 +58,22 @@ static void	fill_args_array(char **args, t_token **tokens, int count)
 	while (i < count)
 	{
 		word = ft_strdup((*tokens)->value);
+		if (!word)
+			return (0);
 		while ((*tokens)->connected && (*tokens)->next)
 		{
 			*tokens = (*tokens)->next;
 			temp = ft_strjoin(word, (*tokens)->value);
 			free(word);
 			if (!temp)
-				return ;
+				return (0);
 			word = temp;
 		}
 		args[i] = word;
 		*tokens = (*tokens)->next;
 		i++;
 	}
-	args[count] = NULL;
+	return (1);
 }
 
 /**
@@ -89,10 +91,14 @@ char	**collect_args(t_token **tokens, int *argc)
 	count = count_word_tokens(*tokens);
 	if (count == 0)
 		return (NULL);
-	args = malloc(sizeof(char *) * (count + 1));
+	args = ft_calloc(count + 1, sizeof(char *));
 	if (!args)
 		return (NULL);
-	fill_args_array(args, tokens, count);
+	if (!fill_args_array(args, tokens, count))
+	{
+		ft_free_strarray(args);
+		return (NULL);
+	}
 	*argc = count;
 	return (args);
 }
