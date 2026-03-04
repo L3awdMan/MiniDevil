@@ -6,15 +6,11 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:48:29 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/04 03:20:33 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 06:40:16 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
-
-void		draw_happy(int y, int x);
-void		draw_upset(int y, int x);
-void		draw_proud(int y, int x);
 
 /**
  * @brief Set the waifu mood

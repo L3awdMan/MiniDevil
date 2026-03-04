@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:00:00 by L3awd             #+#    #+#             */
-/*   Updated: 2026/03/04 04:28:55 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 06:40:43 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,5 +287,13 @@ void				ft_msleep(int ms);
 // ────────────── welcome.c ────────────────
 
 void				draw_welcome(void);
+
+// ────────────── waifu.c ────────────────
+
+void				draw_happy(int y, int x);
+
+void				draw_upset(int y, int x);
+
+void				draw_proud(int y, int x);
 
 #endif

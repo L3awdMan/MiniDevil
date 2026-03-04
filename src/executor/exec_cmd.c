@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 23:16:35 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/04 04:48:51 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 06:39:16 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <stdio.h>
+#include <errno.h>
 #include "executor.h"
 #include "libft.h"
 #include "env.h"
@@ -24,24 +25,26 @@
 /**
  * @brief Print an error for when execve fails
  * 
+ * Fallback is EACCES (Permission denied) because it's the most likely otherwise
+ * 
  * @param path Path that failed to execute
  */
 static void	handle_exec_error(char *path)
 {
 	struct stat	buf;
+	char		*msg;
 
 	if (stat(path, &buf) == 0 && S_ISDIR(buf.st_mode))
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(path, STDERR_FILENO);
-		ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
-	}
+		msg = ": Is a directory\n";
+	else if (errno == ENOENT)
+		msg = ": No such file or directory\n";
+	else if (errno == ENOEXEC)
+		msg = ": Exec format error\n";
 	else
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(path, STDERR_FILENO);
-		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
-	}
+		msg = ": Permission denied\n";
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(path, STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
 }
 
 /**
@@ -91,9 +94,9 @@ static int	wait_for_child(pid_t pid)
 	else if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGINT)
-			ft_putchar_fd('\n', STDOUT_FILENO);
+			ft_putchar_fd('\n', STDERR_FILENO);
 		else if (WTERMSIG(status) == SIGQUIT)
-			ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
+			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 		exit_code = 128 + WTERMSIG(status);
 	}
 	return (exit_code);
