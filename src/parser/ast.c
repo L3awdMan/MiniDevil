@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:42:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/04 04:46:02 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 06:59:20 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,11 @@ t_ast	*create_pipe_node(t_ast *left, t_ast *right)
 
 	node = ft_calloc(sizeof(t_ast), 1);
 	if (!node)
+	{
+		free_ast(left);
+		free_ast(right);
 		return (NULL);
+	}
 	node->type = NODE_PIPE;
 	node->data.binary.left = left;
 	node->data.binary.right = right;

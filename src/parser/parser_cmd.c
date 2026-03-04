@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:34:13 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/04 06:49:09 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 06:50:27 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	count_word_tokens(t_token *tokens)
  * @param args Pre allocated array of size count + 1
  * @param tokens Pointer to current token pointer
  * @param count Number of word groups to collect
+ * @return 1 on success and 0 if failed midway (so that we can free what was
+ * partially allocated)
  */
 static int	fill_args_array(char **args, t_token **tokens, int count)
 {

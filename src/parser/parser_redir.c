@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:11:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/04 04:47:29 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 06:59:19 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static t_ast	*parse_one_redirection(t_token **tokens, t_ast *cmd)
 	t_node_type	type;
 	char		*file;
 	int			quoted;
+	t_ast		*node;
 
 	type = get_redir_node_type((*tokens)->type);
 	*tokens = (*tokens)->next;
@@ -62,7 +63,10 @@ static t_ast	*parse_one_redirection(t_token **tokens, t_ast *cmd)
 	}
 	quoted = ((*tokens)->quote_type != QUOTE_NONE);
 	*tokens = (*tokens)->next;
-	return (create_redir_node(type, file, cmd, quoted));
+	node = create_redir_node(type, file, cmd, quoted);
+	if (!node)
+		free(file);
+	return (node);
 }
 
 /**
