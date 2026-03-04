@@ -6,12 +6,17 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:48:56 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:28:54 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 03:25:20 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
+/**
+ * @brief Draw the top border of a box
+ * 
+ * @param b Box descriptor (with position, width and colors)
+ */
 static void	draw_box_top(t_box *b)
 {
 	print_at(b->y, b->x, b->color);
@@ -21,6 +26,11 @@ static void	draw_box_top(t_box *b)
 	ft_printf("%s", RESET);
 }
 
+/**
+ * @brief Draw the bottom border of a box
+ * 
+ * @param b Box descriptor (with position, width and colors)
+ */
 void	draw_box_bottom(t_box *b)
 {
 	print_at(b->y + b->h - 1, b->x, b->color);
@@ -30,6 +40,11 @@ void	draw_box_bottom(t_box *b)
 	ft_printf("%s", RESET);
 }
 
+/**
+ * @brief Draw the left and right borders of a box
+ * 
+ * @param b Box descriptor (with position, width and colors)
+ */
 void	draw_box_sides(t_box *b)
 {
 	int	i;
@@ -47,6 +62,11 @@ void	draw_box_sides(t_box *b)
 	}
 }
 
+/**
+ * @brief Draw a complete box
+ * 
+ * @param b Box descriptor (with position, width and colors)
+ */
 void	draw_box(t_box *b)
 {
 	draw_box_top(b);
@@ -54,6 +74,12 @@ void	draw_box(t_box *b)
 	draw_box_bottom(b);
 }
 
+/**
+ * @brief Draw the top border of a box with title in the center
+ * 
+ * @param b Box descriptor (with position, width and colors)
+ * @param title Label string to embed in the border
+ */
 void	draw_box_title(t_box *b, const char *title)
 {
 	int	title_len;

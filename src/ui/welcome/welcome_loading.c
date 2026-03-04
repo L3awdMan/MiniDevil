@@ -6,12 +6,17 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:50:06 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/26 04:07:21 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 03:59:50 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "welcome_ui.h"
 
+/**
+ * @brief Print the credits line centered on the screen
+ * 
+ * @param t Terminal dimensions
+ */
 void	animate_credits(t_welcome_term *t)
 {
 	int			row;
@@ -24,6 +29,11 @@ void	animate_credits(t_welcome_term *t)
 	ft_printf("%s%s%s%s", DIM, C_M3, credits, RESET);
 }
 
+/**
+ * @brief Animate a progress bar
+ * 
+ * @param t Terminal dimensions
+ */
 void	animate_loading(t_welcome_term *t)
 {
 	int	row;

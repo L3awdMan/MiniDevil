@@ -6,11 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 05:00:41 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/02 07:19:31 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:40:33 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "builtins.h"
+#include "libft.h"
 
 /**
  * @brief Check if a given argument is a valid -n flag

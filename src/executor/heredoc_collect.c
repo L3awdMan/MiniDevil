@@ -6,11 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 07:43:01 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/03 06:29:32 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:51:24 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "executor.h"
+#include "libft.h"
 
 /**
  * @brief Collect a single heredoc content into a pipe fd

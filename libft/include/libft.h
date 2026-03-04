@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:54:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/20 07:37:30 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:37:21 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
+
+# if defined(__linux__)
+#  include <linux/limits.h>
+# endif
 
 typedef struct s_list
 {

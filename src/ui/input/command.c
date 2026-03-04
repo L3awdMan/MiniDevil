@@ -6,12 +6,21 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:16 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:29:38 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 03:37:19 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
+/**
+ * @brief Handle "exit" and "clear" commands directly
+ * 
+ * - `exit` sets ui->running = 0
+ * - `clear` calls out_clear()
+ * 
+ * @param shell Shell state
+ * @return 1 if the command was handled as UI builtin and 0 otherwise
+ */
 static int	exec_ui_builtin(t_shell *shell)
 {
 	t_ui	*ui;
@@ -32,6 +41,14 @@ static int	exec_ui_builtin(t_shell *shell)
 	return (0);
 }
 
+/**
+ * @brief Execute the current command buffer & reset it
+ * 
+ * - Return silently if shell/ui is NULL or if the buffer was empty
+ * - Try exec_ui_builtin() first, then try execute_minishell_cmd()
+ * 
+ * @param shell Shell state
+ */
 void	cmd_execute(t_shell *shell)
 {
 	t_ui	*ui;

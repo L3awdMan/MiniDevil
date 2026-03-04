@@ -6,14 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:19:21 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/02 07:04:00 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:24:53 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
-# include "minishell.h"
 # include "structs.h"
 
 // ────────────── ast.c ────────────────

@@ -6,11 +6,14 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 18:56:14 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 06:16:34 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:50:27 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <fcntl.h>
+#include <stdio.h>
+#include "executor.h"
+#include "libft.h"
 
 /**
  * @brief Open a file for redirection (based on the redirection type)

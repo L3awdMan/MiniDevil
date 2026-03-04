@@ -6,11 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:32:43 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/03 06:46:46 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:50:45 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "executor.h"
+#include "env.h"
+#include "libft.h"
 
 /**
  * @brief Check if a command contains a slash (= direct path)

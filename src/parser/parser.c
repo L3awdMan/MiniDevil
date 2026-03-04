@@ -6,12 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:19:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 08:00:48 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:45:24 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "structs.h"
+#include <stddef.h>
 
 /**
  * @brief Parse a token list into an AST

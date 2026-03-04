@@ -6,12 +6,17 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:28 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/02 06:29:00 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 03:52:58 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
+/**
+ * @brief Read 1 keypress or escape sequence from STDIN
+ * 
+ * @return int Key code as defined by the KEY_ constants or -1 on error
+ */
 int	read_key(void)
 {
 	char	c;
@@ -41,6 +46,14 @@ int	read_key(void)
 	return (c);
 }
 
+/**
+ * @brief Append a printable character to the command buffer
+ * 
+ * Does nothing if the buffer could cause an overflow on MAX_CMD_LEN
+ * 
+ * @param cmd Command buffer
+ * @param c Character to append
+ */
 void	cmd_add_char(t_cmd *cmd, char c)
 {
 	if (cmd->len < MAX_CMD_LEN - 1)
@@ -51,6 +64,13 @@ void	cmd_add_char(t_cmd *cmd, char c)
 	}
 }
 
+/**
+ * @brief Remove the last character from the command buffer
+ * 
+ * Does nothing if the buffer is empty
+ * 
+ * @param cmd Command buffer
+ */
 void	cmd_del_char(t_cmd *cmd)
 {
 	if (cmd->len > 0)
@@ -60,6 +80,15 @@ void	cmd_del_char(t_cmd *cmd)
 	}
 }
 
+/**
+ * @brief Adjust the scroll offset and refresh the output panel
+ * 
+ * - KEY_UP decrements scroll (starting from 0)
+ * - KEY_DOWN increments scrolls (up to count - 10)
+ * 
+ * @param ui UI state
+ * @param key KEY_UP or KEY_DOWN
+ */
 static void	handle_scroll(t_ui *ui, int key)
 {
 	if (key == KEY_UP && ui->out.scroll > 0)
@@ -74,6 +103,19 @@ static void	handle_scroll(t_ui *ui, int key)
 	}
 }
 
+/**
+ * @brief Dispatch key code to the appropriate UI action
+ * 
+ * - `KEY_ENTER`: cmd_execute()
+ * - `KEY_BACKSPACE`: cmd_del_char()
+ * - `KEY_CTRL_D`: stop loop
+ * - `KEY_CTRL_C`: clear the command buffer
+ * - `KEY_UP` / `KEY_DOWN`: handle_scroll()
+ * - And for printable ASCII, cmd_add_char()
+ * 
+ * @param shell 
+ * @param key 
+ */
 void	handle_key(t_shell *shell, int key)
 {
 	t_ui	*ui;

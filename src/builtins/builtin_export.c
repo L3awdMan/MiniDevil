@@ -6,11 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 22:35:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/02 07:28:44 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:41:09 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "builtins.h"
+#include "libft.h"
+#include "env.h"
 
 /**
  * @brief Validate an export identifier (KEY or KEY= or KEY+=)

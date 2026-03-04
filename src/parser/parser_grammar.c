@@ -6,13 +6,11 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 18:11:17 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 07:47:37 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:47:01 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "parser.h"
-#include "structs.h"
 
 /**
  * @brief Validate that the token list isn't empty

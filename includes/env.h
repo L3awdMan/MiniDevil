@@ -6,14 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 22:44:42 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/02 07:04:00 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:24:41 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
 
-# include "minishell.h"
 # include "structs.h"
 
 // ────────────── env_init.c ────────────────

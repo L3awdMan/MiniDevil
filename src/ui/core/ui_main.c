@@ -6,13 +6,20 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:11:54 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/02 06:20:17 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:55:18 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
-#include "minishell.h"
 
+/**
+ * @brief Allocate and initialize the t_ui struct and attach it to shell
+ * 
+ * Calls init_term and setup_ui_signals after allocation
+ * 
+ * @param shell Shell state (receives the new UI pointer)
+ * @warning On allocation failure it calls exit(1)
+ */
 static void	init_ui(t_shell *shell)
 {
 	t_ui	*ui;
@@ -29,6 +36,11 @@ static void	init_ui(t_shell *shell)
 	setup_ui_signals();
 }
 
+/**
+ * @brief Handle a SIGWINCH signal (get new terminal dimensions and redraw)
+ * 
+ * @param shell Shell state
+ */
 static void	check_resize(t_shell *shell)
 {
 	if (g_signal == SIGWINCH)
@@ -39,6 +51,15 @@ static void	check_resize(t_shell *shell)
 	}
 }
 
+/**
+ * @brief Run the main loop
+ * 
+ * - Show the welcome animation, wait ~2s and enter the event loop
+ * - Read keys, dispatche handle_key() and redraw
+ * - Exit when shell->ui->running is set to 0
+ * 
+ * @param shell Shell state
+ */
 static void	ui_loop(t_shell *shell)
 {
 	int	key;
@@ -60,6 +81,13 @@ static void	ui_loop(t_shell *shell)
 	}
 }
 
+/**
+ * @brief Entry point for UI mode
+ * 
+ * Return silently if shell is NULL, not a tty or terminal is too small
+ * 
+ * @param shell Shell state
+ */
 void	run_ui_mode(t_shell *shell)
 {
 	struct winsize	ws;

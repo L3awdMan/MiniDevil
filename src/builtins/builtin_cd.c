@@ -6,11 +6,14 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 06:22:28 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/02 07:17:09 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:40:30 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdio.h>
+#include "builtins.h"
+#include "libft.h"
+#include "env.h"
 
 /**
  * @brief Get the HOME value from environment

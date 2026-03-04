@@ -6,13 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 17:04:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 05:06:26 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:42:06 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "libft.h"
-#include "structs.h"
 
 /**
  * @brief Look up an environment variable's value by its key

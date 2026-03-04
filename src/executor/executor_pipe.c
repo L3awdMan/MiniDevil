@@ -6,11 +6,19 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:25:03 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 05:26:40 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:50:06 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <sys/wait.h>
+#include <signal.h>
+#include <stdio.h>
+#include "executor.h"
+#include "libft.h"
+#include "ast.h"
+#include "env.h"
+#include "signals.h"
+#include "get_next_line.h"
 
 /**
  * @brief Execute the left side of a pipe in a child process

@@ -6,12 +6,18 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:04:37 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/02 05:36:08 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 03:56:35 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "welcome_ui.h"
 
+/**
+ * @brief Return 1 line of the ASCII Demon art by index
+ * 
+ * @param line Line index (0 to DEMON_LINES - 1)
+ * @return Pointer to the art string or NULL if out of range
+ */
 const char	*get_demon_art_line(int line)
 {
 	static const char	*demon_art[] = {
@@ -38,6 +44,14 @@ const char	*get_demon_art_line(int line)
 	return (demon_art[line]);
 }
 
+/**
+ * @brief Map a Demon art row to its gradient color string
+ * 
+ * C_AURA 5 = brightest and C_AURA 1 = darkest
+ * 
+ * @param line Art line index
+ * @return ANSI color escape string for that row
+ */
 static const char	*get_demon_color(int line)
 {
 	if (line < 3)
@@ -51,6 +65,15 @@ static const char	*get_demon_color(int line)
 	return (C_AURA1);
 }
 
+/**
+ * @brief Print 1 demon art line at the correct terminal position, with color
+ * 
+ * Centers the line by using DEMON_WIDTH
+ * 
+ * @param t Terminal dimensions (for centering)
+ * @param line Art line index
+ * @param row Terminal row to print on
+ */
 static void	print_demon_line(t_welcome_term *t, int line, int row)
 {
 	int			col;
@@ -68,6 +91,11 @@ static void	print_demon_line(t_welcome_term *t, int line, int row)
 	ft_printf("%s%s", art_line, RESET);
 }
 
+/**
+ * @brief Animate the Demon art with 100ms delay
+ * 
+ * @param t Terminal dimensions for centering and row calculations
+ */
 void	animate_demon(t_welcome_term *t)
 {
 	int	start_row;
@@ -82,6 +110,11 @@ void	animate_demon(t_welcome_term *t)
 	}
 }
 
+/**
+ * @brief Animate the demon's eyes blinking
+ * 
+ * @param t Terminal dimensions to calculate the eye positions
+ */
 void	flash_demon_eyes(t_welcome_term *t)
 {
 	int	row;

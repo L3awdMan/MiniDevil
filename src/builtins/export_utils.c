@@ -6,11 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 01:41:07 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/02 07:45:04 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:41:36 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "builtins.h"
+#include "libft.h"
 
 /**
  * @brief Count the number of nodes in an env list

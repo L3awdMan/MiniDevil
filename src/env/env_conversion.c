@@ -6,11 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 01:43:28 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/03 04:54:20 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:42:28 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "env.h"
+#include "libft.h"
 
 /**
  * @brief Convert an env node to a "KEY=value" string

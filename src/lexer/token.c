@@ -6,13 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:28:33 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 07:22:35 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:42:54 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "structs.h"
 #include "token.h"
+#include "libft.h"
 
 /**
  * @brief Allocate and initialize a new token

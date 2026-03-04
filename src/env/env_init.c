@@ -6,13 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 22:35:48 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 05:01:03 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:41:49 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "libft.h"
-#include "structs.h"
 
 /**
  * @brief Initialize the environment linked list from main()'s envp

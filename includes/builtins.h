@@ -6,12 +6,14 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 05:03:44 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/02 07:04:00 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:25:27 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
+
+# include "structs.h"
 
 // ────────────── builtin_echo.c ────────────────
 

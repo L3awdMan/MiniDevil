@@ -6,11 +6,15 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 01:16:34 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/03 05:21:57 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:49:22 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <sys/wait.h>
+#include <stdio.h>
+#include "executor.h"
+#include "builtins.h"
+#include "libft.h"
 
 /**
  * @brief Print "command not found" to STDERR

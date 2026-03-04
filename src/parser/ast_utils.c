@@ -6,12 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 21:02:54 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 07:36:50 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:46:13 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
-#include "structs.h"
+#include "libft.h"
 
 /**
  * @brief Free a string array and its entries

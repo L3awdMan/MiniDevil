@@ -6,12 +6,22 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:01 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/26 03:28:50 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 03:28:23 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
+/**
+ * @brief Write a single scrolled output line's content to STDOUT
+ * 
+ * - Truncate to w - 4 visible chars if line_idx is within the buffer
+ * - Fill remaining width with spaces
+ * 
+ * @param ui UI state
+ * @param line_idx Line index
+ * @param w Width of the output box in cols
+ */
 static void	draw_line_content(t_ui *ui, int line_idx, int w)
 {
 	char	*line;
@@ -36,6 +46,14 @@ static void	draw_line_content(t_ui *ui, int line_idx, int w)
 	}
 }
 
+/**
+ * @brief Draw one raw inside the output box (including the side borders)
+ * 
+ * @param ui UI state
+ * @param y Top row of the output box
+ * @param i Row index within the box (0 based)
+ * @param w Width of the output box
+ */
 void	draw_out_line(t_ui *ui, int y, int i, int w)
 {
 	int	line_idx;
@@ -51,6 +69,13 @@ void	draw_out_line(t_ui *ui, int y, int i, int w)
 	write(STDOUT_FILENO, RESET, ft_strlen(RESET));
 }
 
+/**
+ * @brief Draw the full output box with title and borders
+ * 
+ * THe box grows to fill the terminal from row 5 to the last 2 rows
+ * 
+ * @param ui UI state
+ */
 void	draw_out_box(t_ui *ui)
 {
 	t_box	b;
@@ -71,6 +96,13 @@ void	draw_out_box(t_ui *ui)
 	draw_box_bottom(&b);
 }
 
+/**
+ * @brief Redraw only the output box interior rows without borders nor title
+ * 
+ * Used after scroll events in order to refresh content without full redraw
+ * 
+ * @param ui UI state
+ */
 void	redraw_output_only(t_ui *ui)
 {
 	int	y;

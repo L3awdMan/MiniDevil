@@ -6,11 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 16:47:17 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 07:10:34 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:43:45 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "token.h"
+#include "env.h"
+#include "libft.h"
 
 /**
  * @brief Handle $? expansion (last exit status)

@@ -6,11 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 23:44:56 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/03 08:08:59 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:53:55 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <readline/readline.h>
+#include "signals.h"
+#include "libft.h"
 
 volatile sig_atomic_t	g_signal = 0;
 

@@ -6,11 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:48:52 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 06:23:27 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:51:45 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "executor.h"
+#include "token.h"
+#include "libft.h"
 
 /**
  * @brief Expand variables in a single arg string

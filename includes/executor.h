@@ -6,14 +6,14 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 03:16:21 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/02 07:04:00 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:27:09 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-# include "minishell.h"
+# include <sys/types.h>
 # include "structs.h"
 
 // ────────────── executor.c ────────────────

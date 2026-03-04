@@ -6,13 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 18:18:08 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 07:45:08 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:47:13 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "parser.h"
-#include "structs.h"
+#include "libft.h"
 
 /**
  * @brief Convert an error code to the corresponding message

@@ -6,11 +6,11 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 21:48:21 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/03 07:50:16 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:47:36 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parser.h"
 
 /**
  * @brief Check if an AST node is of redirection type

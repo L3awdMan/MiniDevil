@@ -6,11 +6,18 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:58:03 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/03 06:35:13 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 05:01:56 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <readline/readline.h>
+#include <stdio.h>
+#include "executor.h"
+#include "token.h"
+#include "env.h"
+#include "signals.h"
+#include "libft.h"
+#include "get_next_line.h"
 
 /**
  * @brief Write one heredoc line (optionally expanding variables)

@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:48:29 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:27:09 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 03:20:33 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,24 @@ void		draw_happy(int y, int x);
 void		draw_upset(int y, int x);
 void		draw_proud(int y, int x);
 
+/**
+ * @brief Set the waifu mood
+ * 
+ * @param ui UI state
+ * @param mood New mood value
+ */
 void	update_waifu_mood(t_ui *ui, int mood)
 {
 	ui->waifu.mood = mood;
 }
 
+/**
+ * @brief Dispatch to correct drawing function for the current mood
+ * 
+ * @param ui UI state
+ * @param y Top row
+ * @param x Left col
+ */
 static void	render_waifu_mood(t_ui *ui, int y, int x)
 {
 	if (ui->waifu.mood == MOOD_UPSET)
@@ -31,6 +44,11 @@ static void	render_waifu_mood(t_ui *ui, int y, int x)
 		draw_happy(y, x);
 }
 
+/**
+ * @brief Draw the waifu panel in the right sidebar
+ * 
+ * @param ui UI state
+ */
 void	draw_waifu_box(t_ui *ui)
 {
 	t_box	b;

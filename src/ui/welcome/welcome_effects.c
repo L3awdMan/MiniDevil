@@ -6,12 +6,18 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:50:02 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/26 04:04:27 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 03:58:55 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "welcome_ui.h"
 
+/**
+ * @brief Print a single title character in mystic fire color
+ * 
+ * @param c Character to print
+ * @param idx Position index (used to select the color)
+ */
 static void	print_mystic_char(char c, int idx)
 {
 	const char	*mystic[] = {C_M1, C_M2, C_M3, C_M4, C_M5};
@@ -19,6 +25,11 @@ static void	print_mystic_char(char c, int idx)
 	ft_printf("%s%s%c", BOLD, mystic[idx % 5], c);
 }
 
+/**
+ * @brief Animate the title appearing character by character
+ * 
+ * @param t Terminal dimensions
+ */
 void	animate_title(t_welcome_term *t)
 {
 	const char	*title = ">>> MINIHELL <<<";
@@ -42,6 +53,12 @@ void	animate_title(t_welcome_term *t)
 	ft_printf("%s", RESET);
 }
 
+/**
+ * @brief Print the quote and its box borders
+ * 
+ * @param t Terminal dimensions
+ * @param row Top row of the quote box interior
+ */
 static void	print_quote_lines(t_welcome_term *t, int row)
 {
 	const char	*q1;
@@ -67,6 +84,11 @@ static void	print_quote_lines(t_welcome_term *t, int row)
 	ft_printf("%s%s", q3, RESET);
 }
 
+/**
+ * @brief Draw the quote inside a decorative box
+ * 
+ * @param t Terminal dimensions (to center the box)
+ */
 void	animate_quote(t_welcome_term *t)
 {
 	int	row;

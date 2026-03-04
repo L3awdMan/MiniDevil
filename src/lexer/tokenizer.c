@@ -6,11 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 22:33:43 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 07:35:25 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:43:17 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "token.h"
+#include "libft.h"
 
 /**
  * @brief Extract an unquoted text part until any delimiter is reached

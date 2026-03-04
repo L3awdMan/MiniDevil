@@ -6,11 +6,20 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 23:16:35 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/03 05:18:26 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:48:51 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <signal.h>
+#include <stdio.h>
+#include "executor.h"
+#include "libft.h"
+#include "env.h"
+#include "ast.h"
+#include "signals.h"
+#include "get_next_line.h"
 
 /**
  * @brief Print an error for when execve fails

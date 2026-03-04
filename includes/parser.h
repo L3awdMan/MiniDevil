@@ -6,14 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:17:12 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/25 05:10:24 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:24:58 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "minishell.h"
 # include "structs.h"
 
 t_ast	*parse(t_token *tokens);

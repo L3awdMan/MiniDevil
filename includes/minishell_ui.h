@@ -6,25 +6,19 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:00:00 by L3awd             #+#    #+#             */
-/*   Updated: 2026/03/02 07:04:00 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:28:55 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_UI_H
 # define MINISHELL_UI_H
 
-# include "ft_printf.h"
-# include "get_next_line.h"
-# include "libft.h"
-# include "minishell.h"
-# include <fcntl.h>
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
 # include <sys/ioctl.h>
-# include <sys/wait.h>
 # include <termios.h>
-# include <unistd.h>
+# include "structs.h"
+# include "libft.h"
+# include "ft_printf.h"
+# include "signals.h"
 
 // ──────────────────────────────────────────────────
 // ────────────── ANSI ESCAPE CODES ─────────────────

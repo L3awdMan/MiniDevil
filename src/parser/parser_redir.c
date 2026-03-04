@@ -6,12 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:11:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 07:59:28 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:47:29 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "structs.h"
+#include "ast.h"
+#include "libft.h"
 
 /**
  * @brief Convert a token type to the corresponding AST redirection node type

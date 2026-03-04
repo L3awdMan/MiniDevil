@@ -6,11 +6,10 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 23:16:00 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 07:24:14 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:43:07 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structs.h"
 #include "token.h"
 
 /**

@@ -6,12 +6,18 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:05 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/26 03:57:23 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 03:31:20 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
+/**
+ * @brief Return the length in bytes of an UTF-8 character
+ * 
+ * @param c First byte of the UTF-8 sequence
+ * @return 4, 3, 2 or 1 for ASCII
+ */
 static int	utf8_byte_len(unsigned char c)
 {
 	if (c >= 0xF0)
@@ -23,6 +29,16 @@ static int	utf8_byte_len(unsigned char c)
 	return (1);
 }
 
+/**
+ * @brief Copy up to max_width visible characters into a static buffer
+ * 
+ * Handles UTF-8 sequences
+ * 
+ * @param line Source string to truncate (could be NULL)
+ * @param max_width Maximum number to include
+ * @return Pointer to static buffer holding the truncated result
+ * @note The static buffer gets overwritten on every call
+ */
 char	*truncate_line(const char *line, int max_width)
 {
 	static char	buf[BUF_SIZE];
@@ -48,6 +64,14 @@ char	*truncate_line(const char *line, int max_width)
 	return (buf);
 }
 
+/**
+ * @brief Calculate the visual display width of a UTF-8 string in terminal cols
+ * 
+ * 4 byte (emoji range) are counted as 2 columns, the others as 1
+ * 
+ * @param s UTF-8 string (NULL terminated)
+ * @return Visual column width of the string
+ */
 int	visual_strlen(const char *s)
 {
 	int	len;

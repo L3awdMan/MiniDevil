@@ -6,22 +6,14 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 00:00:00 by Shawz             #+#    #+#             */
-/*   Updated: 2026/03/02 07:04:00 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:28:48 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WELCOME_UI_H
 # define WELCOME_UI_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/ioctl.h>
-# include <unistd.h>
-
-/* Include main UI header for shared definitions */
-# ifndef MINISHELL_UI_H
-#  include "minishell_ui.h"
-# endif
+# include "minishell_ui.h"
 
 // ──────────────────────────────────────────────────
 // ───────── WELCOME SCREEN COLOR PALETTE ───────────

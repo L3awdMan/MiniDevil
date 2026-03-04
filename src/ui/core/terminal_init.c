@@ -6,12 +6,21 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:48:21 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/26 03:39:46 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 02:08:56 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
+/**
+ * @brief Intializes the command buffer, output state and waifu mood
+ * 
+ * - Allocate the lines pointer array (MAX_LINES)
+ * - Sets running to 0 and prints to STDERR on allocation failure
+ * - Default waifu mood is MOOD_PROUD
+ * 
+ * @param ui UI state
+ */
 static void	init_ui_state(t_ui *ui)
 {
 	ft_memset(ui->cmd.buf, 0, MAX_CMD_LEN);
@@ -31,6 +40,14 @@ static void	init_ui_state(t_ui *ui)
 	ui->running = 1;
 }
 
+/**
+ * @brief Prepare the terminal and UI state for the main event
+ * 
+ * - Get terminal size, enable raw mode, hide cursor and clean screen
+ * - Call init_ui_state() to inialize the rest of the UI struct to 0
+ * 
+ * @param ui 
+ */
 void	init_term(t_ui *ui)
 {
 	get_term_size(&ui->term);
@@ -40,6 +57,14 @@ void	init_term(t_ui *ui)
 	init_ui_state(ui);
 }
 
+/**
+ * @brief Clean up the UI terminal state and free output memory
+ * 
+ * - Clear the screen, restore cursor and restore original terminal mode
+ * - Free output lines array via out_free
+ * 
+ * @param ui 
+ */
 void	cleanup_term(t_ui *ui)
 {
 	write(STDOUT_FILENO, CLEAR_SCREEN, ft_strlen(CLEAR_SCREEN));

@@ -6,12 +6,19 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:48:52 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/26 03:28:46 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 03:35:43 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_ui.h"
 
+/**
+ * @brief Draw the command input box (top left of the UI)
+ * 
+ * Render a titled box with a block cursor
+ * 
+ * @param ui UI state
+ */
 void	draw_cmd_box(t_ui *ui)
 {
 	t_box	b;
@@ -33,6 +40,13 @@ void	draw_cmd_box(t_ui *ui)
 		write(STDOUT_FILENO, " ", 1);
 }
 
+/**
+ * @brief Draw the exit code status box (right sidebare, below waifu)
+ * 
+ * Colours the exit code green on success and red on failure
+ * 
+ * @param ui UI state
+ */
 void	draw_exit_box(t_ui *ui)
 {
 	t_box	b;
@@ -52,6 +66,13 @@ void	draw_exit_box(t_ui *ui)
 	ft_printf("%s Exit: %d %s", BOLD, ui->out.exit_code, RESET);
 }
 
+/**
+ * @brief Clear the screen and redraw the UI from scratch
+ * 
+ * Draw all 4 panels: command box, waifu, exit box and output box
+ * 
+ * @param ui UI state
+ */
 void	draw_ui(t_ui *ui)
 {
 	write(STDOUT_FILENO, CLEAR_SCREEN, ft_strlen(CLEAR_SCREEN));
@@ -61,6 +82,11 @@ void	draw_ui(t_ui *ui)
 	draw_out_box(ui);
 }
 
+/**
+ * @brief Redraws only the command input line
+ * 
+ * @param ui UI state
+ */
 void	redraw_cmd_only(t_ui *ui)
 {
 	int	width;

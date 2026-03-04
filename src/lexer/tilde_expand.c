@@ -6,11 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 16:48:52 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 07:21:28 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:44:03 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "token.h"
+#include "env.h"
+#include "libft.h"
 
 /**
  * @brief Expand leading ~ to $HOME

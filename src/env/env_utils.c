@@ -6,14 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 19:31:46 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 05:09:24 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:42:13 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "libft.h"
-#include "structs.h"
-#include <limits.h>
 
 /**
  * @brief Increment the SHLVL environment variable

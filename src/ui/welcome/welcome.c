@@ -6,17 +6,25 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:34 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/23 22:35:31 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:10:54 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "welcome_ui.h"
 
+/**
+ * @brief Clear the screen and hide the cursor
+ */
 static void	init_screen(void)
 {
 	ft_printf("%s%s", CLEAR_SCREEN, HIDE_CURSOR);
 }
 
+/**
+ * @brief Wait a bit, show the cursor and clear the screen to exit welcome
+ * 
+ * @param t Terminal info (used to position the cursor before showing it)
+ */
 static void	cleanup_screen(t_welcome_term *t)
 {
 	ft_msleep(800);
@@ -24,6 +32,13 @@ static void	cleanup_screen(t_welcome_term *t)
 	ft_printf("%s", CLEAR_SCREEN);
 }
 
+/**
+ * @brief Animate top and bottom border sweep across the screen
+ * 
+ * @param t Terminal dimensions and centre position
+ * @warning Since usleep() isn't allowed and ft_msleep() can't handle values 
+ * below 100ms, the animation isn't working here
+ */
 static void	draw_border_effect(t_welcome_term *t)
 {
 	int	i;
@@ -47,6 +62,9 @@ static void	draw_border_effect(t_welcome_term *t)
 	}
 }
 
+/**
+ * @brief Draw complete welcome animation sequence and clean up
+ */
 void	draw_welcome(void)
 {
 	t_welcome_term	t;

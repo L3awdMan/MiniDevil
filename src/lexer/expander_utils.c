@@ -6,13 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 17:35:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 07:02:28 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:43:53 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "structs.h"
 #include "token.h"
+#include "libft.h"
 
 /**
  * @brief Check if a token is a `$` connected to a quoted token

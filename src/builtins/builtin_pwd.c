@@ -6,11 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 06:07:41 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/02 07:29:21 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:37:24 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdio.h>
+#include "builtins.h"
+#include "libft.h"
 
 /**
  * @brief Implement the `pwd` command

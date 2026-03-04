@@ -6,15 +6,27 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:23 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/02/26 06:03:31 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:58:07 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
 #include "minishell_ui.h"
-#include "parser.h"
 #include "token.h"
+#include "parser.h"
+#include "ast.h"
+#include "executor.h"
 
+/**
+ * @brief PRocess 1 output character from the child pipe into line buffers
+ * 
+ * - On `\n` it flushes the current line to out_add_line() & resets len
+ * - Otherwise it appends c to line if below BUF_SIZE - 2
+ * 
+ * @param ui UI state
+ * @param c Character read from the pipe
+ * @param line Working buffer (accumulates the current line)
+ * @param line_len Pointer to the current position in the line
+ */
 static void	process_output_char(t_ui *ui, char c, char *line, int *line_len)
 {
 	if (c == '\n')
@@ -30,6 +42,14 @@ static void	process_output_char(t_ui *ui, char c, char *line, int *line_len)
 	}
 }
 
+/**
+ * @brief Read all available bytes from fd and split into output lines
+ * 
+ * Reads in chunks of BUF_SIZE and any unterminated line is flushed after EOF
+ * 
+ * @param ui UI states
+ * @param fd File descriptor to read from (pipe read end)
+ */
 void	read_output_from_fd(t_ui *ui, int fd)
 {
 	char	buf[BUF_SIZE];
@@ -55,6 +75,16 @@ void	read_output_from_fd(t_ui *ui, int fd)
 	}
 }
 
+/**
+ * @brief Full pipeline inside the UI
+ * 
+ * tokenize -> expand_all_tokens -> parse -> collect_heredocs -> executor
+ * 
+ * @param input Command string to execute
+ * @param shell Shell state (provides environment and execution context)
+ * @return Exit status of the command, 1 on expand error, 2 on failure and
+ * 130 on heredoc interruption
+ */
 int	process_ui_input(char *input, t_shell *shell)
 {
 	t_token	*tokens;

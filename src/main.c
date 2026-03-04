@@ -6,11 +6,20 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:01:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 06:52:41 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:32:33 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <readline/readline.h>
+#include <readline/history.h>
+#include "libft.h"
+#include "get_next_line.h"
+#include "signals.h"
+#include "token.h"
+#include "parser.h"
+#include "ast.h"
+#include "executor.h"
+#include "env.h"
 #include "minishell_ui.h"
 
 /**

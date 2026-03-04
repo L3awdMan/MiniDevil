@@ -6,11 +6,12 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 08:25:52 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/02 07:34:26 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:41:16 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "builtins.h"
+#include "libft.h"
 
 /**
  * @brief Validate an identifier for unset

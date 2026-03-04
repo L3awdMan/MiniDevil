@@ -6,12 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 22:34:13 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/03 07:43:06 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:46:29 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "structs.h"
+#include "ast.h"
+#include "libft.h"
 
 /**
  * @brief Count consecutive word token groups

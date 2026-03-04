@@ -6,11 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 22:35:52 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/03 08:07:32 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 04:54:14 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <fcntl.h>
+#include "signals.h"
+#include "libft.h"
 
 /**
  * @brief SIGINT handler for heredoc
