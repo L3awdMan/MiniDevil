@@ -6,10 +6,11 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 21:48:21 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/04 04:47:36 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 09:03:31 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "parser.h"
 
 /**
@@ -53,4 +54,38 @@ t_ast	*reverse_redir_chain(t_ast *node)
 		node = next;
 	}
 	return (prev);
+}
+
+/**
+ * @brief Join connected tokens in a single string
+ * 
+ * - Walks the connected tokens, accumulating their values
+ * - Sets quoted to 1 if any token in the chain was quoted
+ * 
+ * @param tokens Pointer to current token pointer
+ * @param quoted Set to 1 if any was quoted
+ * @return Joined string or NULL on allocation failure
+ */
+char	*join_connected_delim(t_token **tokens, int *quoted)
+{
+	char	*file;
+	char	*tmp;
+
+	file = ft_strdup((*tokens)->value);
+	if (!file)
+		return (NULL);
+	*quoted = ((*tokens)->quote_type != QUOTE_NONE);
+	while ((*tokens)->connected && (*tokens)->next)
+	{
+		*tokens = (*tokens)->next;
+		if ((*tokens)->quote_type != QUOTE_NONE)
+			*quoted = 1;
+		tmp = ft_strjoin(file, (*tokens)->value);
+		free(file);
+		if (!tmp)
+			return (NULL);
+		file = tmp;
+	}
+	*tokens = (*tokens)->next;
+	return (file);
 }

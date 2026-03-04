@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 20:11:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/04 06:59:19 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 09:00:07 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,12 @@ static t_ast	*parse_one_redirection(t_token **tokens, t_ast *cmd)
 		free_ast(cmd);
 		return (NULL);
 	}
-	file = ft_strdup((*tokens)->value);
+	file = join_connected_delim(tokens, &quoted);
 	if (!file)
 	{
 		free_ast(cmd);
 		return (NULL);
 	}
-	quoted = ((*tokens)->quote_type != QUOTE_NONE);
-	*tokens = (*tokens)->next;
 	node = create_redir_node(type, file, cmd, quoted);
 	if (!node)
 		free(file);

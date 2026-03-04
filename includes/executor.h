@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 03:16:21 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/04 04:27:09 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 08:41:31 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int		exec_simple_command(char **args, t_shell *shell);
 int		pipe_fork_error(int pipe_fd[2], pid_t left_pid);
 
 // ────────────── path.c ────────────────
+
+char	*search_in_dir(char *dir, char *cmd);
 
 char	*find_cmd_path(char *cmd, t_env *env);
 

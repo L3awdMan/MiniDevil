@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 22:53:19 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/04 07:21:06 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 08:51:20 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	builtin_env(char **args, t_env *env)
 	if (args && args[1])
 	{
 		ft_putstr_fd("minishell: env: too many arguments\n", STDERR_FILENO);
-		return (1);
+		return (127);
 	}
 	current = env;
 	while (current)

@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:32:43 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/04 07:22:46 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 08:50:41 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*join_path(char *dir, char *cmd)
  * @param cmd Command name to look for
  * @return Full path if found AND executable or NULL
  */
-static char	*search_in_dir(char *dir, char *cmd)
+char	*search_in_dir(char *dir, char *cmd)
 {
 	char	*full_path;
 
@@ -110,7 +110,7 @@ static char	*search_in_path(char *cmd, char *path_var)
  * 
  * @param cmd Command name or path to resolve
  * @param env Environment list
- * @return Full path or NULL if not found
+ * @return Full path, CWD match if PATH is unset or NULL if not found
  */
 char	*find_cmd_path(char *cmd, t_env *env)
 {
@@ -126,6 +126,6 @@ char	*find_cmd_path(char *cmd, t_env *env)
 	}
 	path_var = get_env_value(env, "PATH");
 	if (!path_var)
-		return (NULL);
+		return (search_in_dir(".", cmd));
 	return (search_in_path(cmd, path_var));
 }

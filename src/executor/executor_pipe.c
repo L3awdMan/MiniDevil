@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:25:03 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/04 04:50:06 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 07:49:49 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ static int	wait_for_pipe_children(pid_t left_pid, pid_t right_pid)
 	else if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGINT)
-			ft_putchar_fd('\n', STDOUT_FILENO);
+			ft_putchar_fd('\n', STDERR_FILENO);
 		else if (WTERMSIG(status) == SIGQUIT)
-			ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
+			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 		right_status = 128 + WTERMSIG(status);
 	}
 	else
