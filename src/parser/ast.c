@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 20:42:39 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/04 06:59:20 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 07:22:37 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_ast	*create_pipe_node(t_ast *left, t_ast *right)
  * 
  * @param type Redirection type
  * @param file Filename or heredoc delimiter
- * @param cmd COmmand subtree that this redirection wraps
+ * @param cmd Command subtree that this redirection wraps
  * @param quoted 1 if heredoc delimiter was quoted
  * @return New redirection node or NULL on failure
  */

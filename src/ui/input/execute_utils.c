@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:49:23 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/04 04:58:07 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 07:23:01 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "executor.h"
 
 /**
- * @brief PRocess 1 output character from the child pipe into line buffers
+ * @brief Process 1 output character from the child pipe into line buffers
  * 
  * - On `\n` it flushes the current line to out_add_line() & resets len
  * - Otherwise it appends c to line if below BUF_SIZE - 2

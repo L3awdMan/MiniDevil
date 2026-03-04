@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 23:44:56 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/04 04:53:55 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 07:22:26 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	reset_child_signals(void)
 }
 
 /**
- * @brief Ignore signals during command execution in the parrent
+ * @brief Ignore signals during command execution in the parent
  * 
  * While a child process is running, the parent ignores both SIGINT and SIGQUIT
  * so only the child is affected

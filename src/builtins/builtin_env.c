@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 22:53:19 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/04 04:40:38 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 07:21:06 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /**
  * @brief Implement the `env` command
  * 
- * Print all environment vasriables which have a value in "KEY=VALUE" format,
+ * Print all environment variables which have a value in "KEY=VALUE" format,
  * one per line and rejecting extra arguments.
  * 
  * @param args NULL terminated arguments array with arg[0] = "env"
@@ -29,7 +29,7 @@ int	builtin_env(char **args, t_env *env)
 
 	if (args && args[1])
 	{
-		ft_putstr_fd("env: too many arguments\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: env: too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
 	current = env;

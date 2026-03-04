@@ -6,59 +6,13 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:48:52 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/04 04:51:45 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 07:00:50 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 #include "token.h"
 #include "libft.h"
-
-/**
- * @brief Expand variables in a single arg string
- * 
- * @param arg Raw argument string
- * @param shell Shell context (for env and exit status)
- * @return Newly allocated expanded string or NULL if failed
- */
-static char	*expand_arg(char *arg, t_shell *shell)
-{
-	return (expand_variables(arg, shell->env, QUOTE_NONE, shell->exit_status));
-}
-
-/**
- * @brief Expand variables in all aguments of a command
- * 
- * Allocates a new array where elements are expanded
- * 
- * @param args Argument array (NULL terminated)
- * @param shell Shell context (for env and exit status)
- * @return Newly allocated expanded string or NULL if failed
- */
-char	**expand_args(char **args, t_shell *shell)
-{
-	char	**expanded;
-	int		i;
-
-	if (!args)
-		return (NULL);
-	expanded = malloc(sizeof(char *) * (ft_arrlen(args) + 1));
-	if (!expanded)
-		return (NULL);
-	i = 0;
-	while (args[i])
-	{
-		expanded[i] = expand_arg(args[i], shell);
-		if (!expanded[i])
-		{
-			ft_free_strarray(expanded);
-			return (NULL);
-		}
-		i++;
-	}
-	expanded[i] = NULL;
-	return (expanded);
-}
 
 /**
  * @brief Execute a NODE_COMMAND AST node

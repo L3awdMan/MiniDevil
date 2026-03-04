@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 07:43:01 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/04 04:51:24 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 07:22:52 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @brief Collect a single heredoc content into a pipe fd
  * 
  * Calls handle_heredoc() to read the input and stores the result in the
- * node's heredoc_fd varaible for later use during execution
+ * node's heredoc_fd variable for later use during execution
  * 
  * @param node Heredoc redirection node (heredoc_fd is set on success)
  * @param shell Shell context

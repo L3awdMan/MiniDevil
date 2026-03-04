@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:32:43 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/04 04:50:45 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/04 07:22:46 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	is_direct_path(char *cmd)
 /**
  * @brief Join a directory and command name with a `/` in between
  * 
- * @param dir Direcotry path
+ * @param dir Directory path
  * @param cmd Command name
  * @return Newly allocated "dir/cmd" string or NULL
  */
