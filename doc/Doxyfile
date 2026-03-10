@@ -117,7 +117,7 @@ HTML_INDEX_NUM_ENTRIES = 100
 # Custom Theme
 HTML_EXTRA_STYLESHEET  = ./theme/minidevil.css
 HTML_HEADER            = ./theme/header.html
-HTML_EXTRA_FILES       = theme/logo.svg
+HTML_EXTRA_FILES       = theme/logo.png
 HTML_FOOTER            = ./theme/footer.html
 
 # Treeview sidebar
@@ -168,7 +168,7 @@ SORT_BY_SCOPE_NAME     = NO
 # ─────────────────────────────────
 
 BRIEF_MEMBER_DESC      = YES
-REPEAT_BRIEF           = NO
+REPEAT_BRIEF           = YES
 ALWAYS_DETAILED_SEC    = NO
 FULL_PATH_NAMES        = YES
 STRIP_FROM_PATH        = ../

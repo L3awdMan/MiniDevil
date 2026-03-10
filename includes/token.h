@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:14:10 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/09 07:37:51 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/10 07:36:39 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ char			*expand_full(char *str, t_env *env, t_quote_type qt,
 
 // ────────────── B O N U S ────────────────
 
+/** @cond BONUS */
+
 int				defer_expand_tokens(t_token *tokens, t_shell *shell);
 
 void			expand_wildcards(t_token **head);
@@ -93,5 +95,7 @@ t_token			*build_match_list(char **m, int cnt, t_token **last);
 void			free_chain(t_token *start, t_token *end);
 
 int				check_ambig(t_token *prev, int cnt, t_token *cur);
+
+/** @endcond */
 
 #endif

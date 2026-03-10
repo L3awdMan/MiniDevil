@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 18:19:21 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/10 00:58:13 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/10 07:35:49 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,12 @@ void	free_ast(t_ast *node);
 
 // ────────────── B O N U S ────────────────
 
+/** @cond BONUS */
+
 t_ast	*create_and_or_node(t_node_type type, t_ast *left, t_ast *right);
 
 t_ast	*create_subshell_node(t_ast *child);
+
+/** @endcond */
 
 #endif

@@ -94,6 +94,7 @@ html, body {
   font-family: 'Crimson Pro', Georgia, serif;
 }
 #minidevil-bar .minidevil-icon {
+  height: 36px;
   flex-shrink: 0;
   filter: drop-shadow(0 0 4px rgba(196,30,58,.4));
 }

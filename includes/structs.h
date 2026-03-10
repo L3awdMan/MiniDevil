@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 02:24:43 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/10 00:57:48 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/10 07:32:57 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,9 @@ typedef enum e_syntax_error
 // ──────────── WILDCARD CONTEXT (BONUS) ────────────
 // ──────────────────────────────────────────────────
 
+/**
+ * @brief (BONUS) Wildcard context
+ */
 typedef struct s_wild_ctx
 {
 	t_token	**prev; /**< pointer to the previous token */
