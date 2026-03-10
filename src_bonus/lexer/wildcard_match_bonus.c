@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 07:52:54 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/09 23:21:46 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/10 06:58:03 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	sort_matches(char **arr, int count)
 	int		i;
 	int		j;
 	char	*tmp;
-	int		k;
 
 	i = 0;
 	while (i < count - 1)
@@ -80,10 +79,7 @@ void	sort_matches(char **arr, int count)
 		j = 0;
 		while (j < count - 1 - i)
 		{
-			k = 0;
-			while (arr[j][k] && arr[j][k] == arr[j + 1][k])
-				k++;
-			if ((unsigned char)arr[j][k] > (unsigned char)arr[j + 1][k])
+			if (ft_strncasecmp(arr[j], arr[j + 1], -1) > 0)
 			{
 				tmp = arr[j];
 				arr[j] = arr[j + 1];
