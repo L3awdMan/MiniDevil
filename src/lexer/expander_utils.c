@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 17:35:44 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/04 04:43:53 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/09 07:26:26 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 /**
  * @brief Check if a token is a `$` connected to a quoted token
  * 
- * Detects the pattern: TOKEN_WORD("$") + connected + next has quotes
+ * Detects the pattern:
+ * $"TOKEN_WORD" or $'TOKEN_WORD' + connected + next has quotes
  * 
  * @param token Token to inspect
  * @return 1 if the pattern is valid and 0 if not

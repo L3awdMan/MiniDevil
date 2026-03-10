@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 03:16:21 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/04 08:41:31 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/09 07:15:45 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,11 @@ int		handle_heredoc(char *delimiter, int quoted, t_shell *shell);
 int		walk_heredocs(t_ast *node, t_shell *shell);
 
 int		collect_heredocs(t_ast *node, t_shell *shell);
+
+// ────────────── B O N U S ────────────────
+
+int		handle_and_or(t_ast *node, t_shell *shell);
+
+int		handle_subshell(t_ast *node, t_shell *shell);
 
 #endif

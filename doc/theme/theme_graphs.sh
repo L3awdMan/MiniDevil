@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 #───────────────────────────────────────────────
 #  Usage: sh doc/theme/theme_graphs.sh doc/html
 

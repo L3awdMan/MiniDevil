@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 21:58:03 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/04 05:01:56 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/09 23:26:19 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,19 @@ static char	*read_heredoc_line(void)
 }
 
 /**
+ * @brief Print an EOF warning for an unterminated heredoc (bash style)
+ * 
+ * @param delim Delimiter that was expected for the heredoc
+ */
+static void	print_heredoc_eof_error(char *delim)
+{
+	ft_putstr_fd("minishell: warning: here_document delimited by", 2);
+	ft_putstr_fd(" end-of-file (wanted `", 2);
+	ft_putstr_fd(delim, 2);
+	ft_putstr_fd("')\n", 2);
+}
+
+/**
  * @brief Read the lines until the delimiter or EOF/SIGINT
  * 
  * Each line is written to fd via write_heredoc_line()
@@ -90,7 +103,7 @@ static int	read_heredoc_lines(int fd, char *delim, t_shell *shell, int expand)
 		}
 		if (!line)
 		{
-			ft_putstr_fd("minishell: warning: heredoc delim by EOF\n", 2);
+			print_heredoc_eof_error(delim);
 			return (0);
 		}
 		if (!ft_strncmp(line, delim, -1))

@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 23:14:10 by zotaj-di          #+#    #+#             */
-/*   Updated: 2026/03/04 04:24:28 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/09 07:37:51 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 # define TOKEN_H
 
 # include "structs.h"
+
+# ifdef BONUS
+#  define MASK_DOLLAR '\x02'
+#  define MASK_STAR '\x01'
+# endif
 
 // ────────────── token.c ────────────────
 
@@ -66,5 +71,27 @@ int				expand_all_tokens(t_token *tokens, t_shell *shell);
 
 char			*expand_full(char *str, t_env *env, t_quote_type qt,
 					int exit_status);
+
+// ────────────── B O N U S ────────────────
+
+int				defer_expand_tokens(t_token *tokens, t_shell *shell);
+
+void			expand_wildcards(t_token **head);
+
+int				wildcard_match(char *pattern, char *str);
+
+void			print_ambig(char *name);
+
+void			sort_matches(char **arr, int count);
+
+char			*build_chain_pattern(t_token *start, int *has_wildcard);
+
+void			replace_chain(char **m, int cnt, t_wild_ctx *ctx);
+
+t_token			*build_match_list(char **m, int cnt, t_token **last);
+
+void			free_chain(t_token *start, t_token *end);
+
+int				check_ambig(t_token *prev, int cnt, t_token *cur);
 
 #endif

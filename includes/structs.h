@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 02:24:43 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/02 07:04:00 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/10 00:57:48 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ typedef enum e_token_type
 	TOKEN_REDIR_IN,
 	TOKEN_REDIR_OUT,
 	TOKEN_APPEND,
-	TOKEN_HEREDOC
+	TOKEN_HEREDOC,
+	TOKEN_AND,
+	TOKEN_OR,
+	TOKEN_LPAREN,
+	TOKEN_RPAREN,
 }					t_token_type;
 
 /**
@@ -50,7 +54,10 @@ typedef enum e_node_type
 	NODE_REDIR_IN,
 	NODE_REDIR_OUT,
 	NODE_REDIR_APPEND,
-	NODE_REDIR_HEREDOC
+	NODE_REDIR_HEREDOC,
+	NODE_AND,
+	NODE_OR,
+	NODE_SUBSHELL
 }					t_node_type;
 
 // ──────────────────────────────────────────────────
@@ -119,6 +126,14 @@ typedef struct s_binary_node
 }					t_binary_node;
 
 /**
+ * @brief Subshell data inside of the AST node
+ */
+typedef struct s_subshell_node
+{
+	struct s_ast	*child;
+}					t_subshell_node;
+
+/**
  * @brief Only one will be valid depending on node's type
  */
 typedef union u_ast_data
@@ -126,6 +141,7 @@ typedef union u_ast_data
 	t_cmd_node		cmd;
 	t_redir_node	redir;
 	t_binary_node	binary;
+	t_subshell_node	subshell;
 }					t_ast_data;
 
 /**
@@ -173,7 +189,25 @@ typedef enum e_syntax_error
 	ERR_PIPE_DOUBLE,
 	ERR_PIPE_NO_CMD,
 	ERR_REDIR_NO_FILE,
-	ERR_REDIR_AFTER_PIPE
+	ERR_REDIR_AFTER_PIPE,
+	ERR_AND_UNEXPECTED,
+	ERR_OR_UNEXPECTED,
+	ERR_PAREN_OPEN,
+	ERR_PAREN_CLOSE,
+	ERR_PAREN_EMPTY,
+	ERR_UNEXPECTED_LPAREN
 }					t_syntax_error;
+
+// ──────────────────────────────────────────────────
+// ──────────── WILDCARD CONTEXT (BONUS) ────────────
+// ──────────────────────────────────────────────────
+
+typedef struct s_wild_ctx
+{
+	t_token	**prev; /**< pointer to the previous token */
+	t_token	**head; /**< pointer to the list head pointer */
+	t_token	*cur; /**< first token of the current chain */
+	t_token	*end; /**< last token of the current chain */
+}				t_wild_ctx;
 
 #endif
