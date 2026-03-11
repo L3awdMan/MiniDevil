@@ -11,7 +11,7 @@
  * 
  *          YES -> exec_builtin(args, shell)
  * 
- *          NO  -> exec_external(args, shell->env)
+ *          NO  -> exec_external(args, shell)
  * ⠀
  * @endcode
  * 

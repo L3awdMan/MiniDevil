@@ -18,14 +18,14 @@
  * 
  * @code {.c}
  * ⠀
- * volatile sig_Atomic_t g_signal = 0;
+ * volatile sig_atomic_t g_signal = 0;
  * ⠀
  * @endcode
  * 
  * - Set inside signal handlers
  * - Checked in main_loop() after readline() returns\n
  * If `g_signal == SIGINT` set exit_status = 130 and clear
- * - Checked in read_heredoc_lines() after eache readline() call\n
+ * - Checked in read_heredoc_lines() after each readline() call\n
  * If `g_signal == SIGINT` return immediately (interrupted)
  * 
  * @section sig_flow Signal flow for CTRL C

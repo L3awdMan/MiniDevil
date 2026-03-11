@@ -56,7 +56,7 @@
  * 5. During execution, handle_redir() consumes it by passing it to setup_redirection()
  * which dup2's it into STDIN and closes it
  * 
- * 6. On CTRL C, both pipe ends are closed and restore_stdin() repons /dev/tty on fd 0
+ * 6. On CTRL C, both pipe ends are closed and restore_stdin() reopens /dev/tty on fd 0
  * 
  * 7. On AST cleanup, free_ast() closes any strictly positive heredoc_fd that was not consumed
  * 
