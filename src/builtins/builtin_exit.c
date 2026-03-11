@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:53:47 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/03/04 07:21:04 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/03/11 03:02:15 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	builtin_exit(char **args, t_shell *shell)
 	int			overflow;
 
 	if (shell->interactive)
-		ft_putstr_fd("exit\n", 1);
+		ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (!args[1])
 	{
 		shell->running = 0;

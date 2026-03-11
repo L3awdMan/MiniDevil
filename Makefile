@@ -22,7 +22,7 @@ UNDERLINE = \033[4m
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -lreadline
 
 SRC_DIR = src
