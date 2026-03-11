@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/29 20:54:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/20 06:53:48 by baelgadi         ###   ########.fr       */
+/*   Created: 2026/02/20 06:46:57 by baelgadi          #+#    #+#             */
+/*   Updated: 2026/02/20 07:37:17 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+static int	check_overflow(long long result, int digit, int sign)
 {
-	int	sign;
-	int	number;
+	if (sign == 1 && (result > (LLONG_MAX - digit) / 10))
+		return (1);
+	if (sign == -1 && (-result < (LLONG_MIN + digit) / 10))
+		return (1);
+	return (0);
+}
 
+long long	ft_atoll(const char *str, int *is_overflow)
+{
+	long long	result;
+	int			sign;
+
+	result = 0;
 	sign = 1;
-	number = 0;
+	*is_overflow = 0;
 	while (ft_isspace(*str))
 		str++;
 	if (*str == '-' || *str == '+')
@@ -29,8 +39,13 @@ int	ft_atoi(const char *str)
 	}
 	while (ft_isdigit(*str))
 	{
-		number = number * 10 + *str - '0';
+		if (check_overflow(result, *str - '0', sign))
+		{
+			*is_overflow = 1;
+			return (0);
+		}
+		result = result * 10 + (*str - '0');
 		str++;
 	}
-	return (number * sign);
+	return (result * sign);
 }

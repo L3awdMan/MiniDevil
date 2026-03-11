@@ -53,3 +53,11 @@ dkms.conf
 
 # debug information files
 *.dwo
+minishell
+
+# Doxygen output
+/doc/html/
+/doc/html/**
+
+# Supp
+*.supp

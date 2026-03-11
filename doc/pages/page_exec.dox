@@ -1,0 +1,83 @@
+/**
+ * @page execution_model Execution model
+ * 
+ * @section exec_simple Simple command (no pipe / no redir)
+ * 
+ * @code {.txt}
+ * ⠀
+ *   exec_simple_command(args, shell)
+ * 
+ *   ---> is_builtin(args[0]) ?
+ * 
+ *          YES -> exec_builtin(args, shell)
+ * 
+ *          NO  -> exec_external(args, shell)
+ * ⠀
+ * @endcode
+ * 
+ * - Builtins run in the parent process (so cd, export, unset and exit can modify shell state).
+ * - External commands fork a child, call reset_child_signals() and then execve().
+ * 
+ * @section exec_redir Redirections
+ * 
+ * handle_redir() in executor_redir.c implements the SRER pattern: Save-Redirect-Execute-Restore
+ * 
+ * @code {.c}
+ * ⠀
+ *   fd = open_redir_file(file, type)
+ * 
+ *   saved_fd = dup(target)           // save original STDIN or STDOUT
+ * 
+ *   dup2(fd, target)                 // redirect
+ * 
+ *   close(fd)
+ * 
+ *   status = executor(redir->cmd)    // recurse into child node
+ * 
+ *   dup2(saved_fd, target)           // restore
+ * 
+ *   close(saved_fd)
+ * 
+ *   return(status)
+ * ⠀
+ * @endcode
+ * 
+ * For heredocs, the pipe read end fd is stored in redir->heredoc_fd,
+ * consumed once and set to -1 after use.
+ * 
+ * @section exec_pipe Pipelines
+ * 
+ * handle_pipe() in executor_pipe.c:
+ * 
+ * @code {.c}
+ * ⠀
+ *   pipe(pipe_fd)
+ *   -------------
+ * 
+ *   fork() -> left child: close(pipe_fd[0]), dup2(pipe_fd[1], STDOUT), executor(left)
+ * 
+ *   fork() -> right child: close(pipe_fd[1]), dup2(pipe_fd[0], STDIN), executor(right)
+ * 
+ *   parent: close both pipe ends, waitpid(left), waitpid(right)
+ * 
+ *   return right child status
+ * ⠀
+ * @endcode
+ * 
+ * Children call reset_child_signals() and clean up inherited memory before exit.\n 
+ * @note Inherited memory: current_input, current_ast, env list and GNL stash
+ * 
+ * - Pipeline exit status = rightmost command's status
+ * - WIFSIGNALED is handled with 128 + WTERMSIG(status)
+ * 
+ * @section exec_heredoc Heredoc pre-collection
+ * 
+ * Before execution, collect_heredocs() walks through the AST in left to right order
+ * and calls handle_heredoc() for every NODE_REDIR_HEREDOC node.
+ * 
+ * Each heredoc creates a pipe, reads lines until the delimiter (or CTRL C) & stores the pipe read end in redir->heredoc_fd.
+ * 
+ * If CTRL C interrupts any heredoc, collect_heredocs() calls close_heredoc_fds() to close the already collected pipe fds and returns -1.
+ * 
+ * The caller sets exit_status = 130.
+ */

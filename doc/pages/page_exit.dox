@@ -1,0 +1,37 @@
+/**
+ * @page exit_statuses Exit status rules
+ *
+ * @section exit_values Standard values
+ *
+ * | Status | Meaning | Where set |
+ * |:------:|:-------:|:-----------:|
+ * | 0 | Success | Default return from commands |
+ * | 1 | General error | Builtin failures, fork errors |
+ * | 2 | Misuse / syntax error | process_input() on parse fail or exit with non-numeric arg |
+ * | 126 | Permission denied / is directory | handle_exec_error() |
+ * | 127 | Command not found | exec_cmd_not_found() |
+ * | 128+N | Killed by signal N | wait_for_child() and wait_for_pipe_children() |
+ * | 130 | SIGINT (128+2) | main_loop() after Ctrl-C |
+ * | 131 | SIGQUIT (128+3) | wait_for_child() via WIFSIGNALED |
+ * 
+ * @section exit_where Where $? is updated
+ * 
+ * `shell->exit_status` is set in exactly 1 place in the main flow, in handle_input():
+ * 
+ * @code {.c}
+ * ⠀
+ *   shell->exit_status = process_input(input, shell);
+ * ⠀
+ * @endcode
+ * 
+ * main_loop() overrides it to 130 when `g_signal == SIGINT` after readline()
+ * 
+ * @section exit_builtin Builtin exit behavior
+ * 
+ * | Case | Behavior |
+ * |:-----:|:---------:|
+ * | `exit` (no args) | returns `shell->exit_status` |
+ * | `exit N` | returns `N` casted to unsigned char (wrapped to 0–255) |
+ * | `exit abc` | prints error, returns 2, sets `running = 0` (exits) |
+ * | `exit 1 2` | prints "too many arguments" and returns 1 (does NOT exit) |
+ */

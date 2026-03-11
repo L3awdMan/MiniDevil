@@ -1,0 +1,146 @@
+/**
+ * @defgroup grp_lexer Lexer
+ * @brief Tokenizer, quote handling, variable expansion & tilde expansion
+ * 
+ * The lexer transforms the input into a linked list of t_token nodes.\n
+ * Each token carries a type, a value string and a quote context.\n
+ * After tokenization, expand_all_tokens() replaces $VARIABLE references
+ * in place (while respecting quote rules) and expand_tilde() handles ~ expansion.
+ * 
+ * ### Files
+ * - tokenizer.c 
+ * - tokenizer_utils.c
+ * - token.c
+ * - expander.c
+ * - expander_utils.c
+ * - tilde_expand.c
+ * 
+ */
+
+ /**
+  * @defgroup grp_parser Parser
+  * @brief Recursive descent parser producing an AST from tokens
+  * 
+  * The parser validates syntax (grammar checks) and builds a tree of t_ast nodes
+  * via recursive descent.\n 
+  * - Pipelines are left associative: `(cmd1 | cmd2) | cmd3`\n
+  * - Redirections wrap commands from outermost to innermost and are reversed
+  * after construction for left-to-right execution order
+  * 
+  * ### Files
+  * - parser.c
+  * - parser_pipeline.c
+  * - parser_cmd.c
+  * - parser_redir.c
+  * - parser_redir_utils.c
+  * - parser_grammar.c
+  * - parser_grammar_error.c
+  * - ast.c
+  * - ast_utils.c
+  */
+
+ /**
+  * @defgroup grp_executor Executor
+  * @brief AST traversal, command dispatch, pipes, redirections & heredoc
+  * 
+  * The executor walks the AST recursively.\n 
+  * NODE_COMMAND dispatches to builtins (parent process) or external commands (fork + execve).\n
+  * NODE_PIPE creates 2 children connected by a pipe.\n
+  * NODE_REDIR_... implement save-redirect-execute-restore with dup2().
+  * 
+  * ### Files
+  * - executor.c
+  * - exec_cmd.c
+  * - exec_utils.c
+  * - executor_pipe.c
+  * - executor_redir.c
+  * - heredoc.c
+  * - heredoc_collect.c
+  * - path.c
+  */
+
+ /**
+  * @defgroup grp_builtins Builtin commands
+  * @brief Shell builtins: echo, cd, pwd, export, unset, env & exit 
+  * 
+  * Builtins run in the parent process so that they can modify the shell state
+  * (environment, working directory, ...)
+  * 
+  * ### Files
+  * - builtin_echo.c
+  * - builtin_cd.c
+  * - builtin_pwd.c
+  * - builtin_export.c
+  * - export_ops.c
+  * - export_utils.c
+  * - builtin_unset.c
+  * - builtin_env.c 
+  * - builtin_exit.c
+  */
+
+ /**
+  * @defgroup grp_env Environment management
+  * @brief Doubly linked list of KEY=value env variables
+  * 
+  * The environment is stored as a t_env doubly linked list.\n
+  * It's created from envp in main(), modified by export/unset/cd,
+  * converted to char ** for execve() & freed on shell exit.
+  * 
+  * ### Files
+  * - env_init.c
+  * - env_operations.c
+  * - env_conversion.c
+  * - env_utils.c
+  */
+
+ /**
+  * @defgroup grp_signals Signal handling
+  * @brief 4 signal modes (interactive, execution, child and heredoc)
+  * 
+  * See @ref signals for the full strategy.
+  * 
+  * ### Files
+  * - signals.c
+  * - heredoc_signals.c
+  */
+
+ /**
+  * @defgroup grp_ui UI Mode (optional)
+  * @brief Terminal UI
+  * 
+  * Activated with `--ui` flag. Not part of the minishell requirements.\n
+  * Uses raw terminal mode with custom box drawing and a welcome screen.
+  * 
+  * ### Files
+  * 
+  * - main.c
+  * 
+  * #### /ui/core/
+  * - output.c
+  * - terminal_init.c
+  * - terminal.c
+  * - ui_main.c
+  * - ui_signals.c
+  * - waifu_art.c
+  * - waifu.c
+  * 
+  * #### /ui/draw/
+  * - drawing_box.c
+  * - drawing_output.c
+  * - drawing_text.c
+  * - drawing_utils.c
+  * - drawing.c
+  * 
+  * #### /ui/input/
+  * - command.c
+  * - execute_utils.c
+  * - execute.c
+  * - input.c
+  * 
+  * #### /ui/welcome/
+  * - welcome_demon.c
+  * - welcome_effects.c
+  * - welcome_loading.c
+  * - welcome_utils.c
+  * - welcome.c
+  */

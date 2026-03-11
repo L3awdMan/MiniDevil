@@ -1,0 +1,36 @@
+/**
+ * @page memory_ownership Memory ownership rules
+ *
+ * @section mem_table Who allocates & who frees
+ *
+ * | Resource | Allocation point | Freed by |
+ * |:---:|:---:|:---:|
+ * | Input line (char *input) | readline() or get_next_line() | main_loop() |
+ * | Token list (t_token *) | tokenize() | process_input() (free_token_list()) |
+ * | Token value (token->value) | tokenize() (extraction) | free_token() |
+ * | Expanded value | expand_variables(), expand_full() | expand_all_tokens() (frees old, stores new) |
+ * | AST tree (t_ast *) | parse_pipeline() functions | process_input() (free_ast()) |
+ * | AST cmd.args | collect_args() (malloc + ft_strdup) | free_ast() -> free_args() |
+ * | AST redir.file | Parser (ft_strdup(token->value)) | free_ast() -> free(file) |
+ * | Env list (t_env *) | init_env() | main() (free_env_list()) |
+ * | Env node key/value | create_env_node() (ft_substr/ft_strdup) | free_env_list() or remove_env_node() |
+ * | Command path (char *path) | find_cmd_path() | exec_external() (free(path)) |
+ * | Env array (char **envp) | env_to_array() | exec_external() (ft_free_strarray()) |
+ * | GNL internal stash | get_next_line() | get_next_line(-42) |
+ * 
+ * @section mem_pipe Pipe children memory cleanup
+ * 
+ * Forked children in exec_left_pipe_child() / exec_right_pipe_child() inherit all parent memory.\n
+ * Before calling exit() they free:
+ * - shell->current_input
+ * - shell->current_ast
+ * - shell->env
+ * - GNL stash
+ * 
+ * This prevents some of the valgrind "still reachable" reports
+ * 
+ * @section mem_tracked Tracked pointers in t_shell
+ * 
+ * `shell->current_ast` and `shell->current_input` are set during execution and cleared after.\n
+ * They exist only so that forked pipe children can free inherited memory before exit.
+ */

@@ -1,36 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_str_is_numeric.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/29 20:54:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/20 06:53:48 by baelgadi         ###   ########.fr       */
+/*   Created: 2025/12/13 06:32:16 by baelgadi          #+#    #+#             */
+/*   Updated: 2025/12/13 06:32:54 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+int	ft_str_is_numeric(char *str)
 {
-	int	sign;
-	int	number;
+	int	i;
 
-	sign = 1;
-	number = 0;
-	while (ft_isspace(*str))
-		str++;
-	if (*str == '-' || *str == '+')
+	if (!str || !*str)
+		return (0);
+	i = 0;
+	if (str[i] == '+' || str[i] == '-')
 	{
-		if (*str == '-')
-			sign = -1;
-		str++;
+		i++;
+		if (str[i] == '+' || str[i] == '-')
+			return (0);
 	}
-	while (ft_isdigit(*str))
+	if (!str[i])
+		return (0);
+	while (str[i])
 	{
-		number = number * 10 + *str - '0';
-		str++;
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
 	}
-	return (number * sign);
+	return (1);
 }

@@ -1,0 +1,50 @@
+/**
+ * @mainpage MiniDevil documentation
+ * 
+ * @section intro What is MiniDevil?
+ * 
+ * MiniDevil is a POSIX inspired shell written in C as a 42 school project.\n
+ * It reads a line from terminal then breaks it into tokens and parses them
+ * into an AST (Abstract Syntax Tree) & executes the tree.\n 
+ * 
+ * @section diagram How does it work?
+ * 
+ * \image html pipeline.svg
+ * 
+ * @section entry Entry point
+ * 
+ * main() in src/main.c initialises t_shell, calls main_loop().\n
+ * main_loop() is a REPL that sets up signals, reads one line of input,
+ * passes it to handle_input(), frees it, and repeats until the shell exits.
+ * 
+ * @section nav Where to start
+ * 
+ * - [**File list**](files.html)
+ * - @ref signals "Signal handling strategy"
+ * - @ref execution_model "Execution model" 
+ * - @ref memory_ownership "Memory ownership rules"
+ * - @ref fd_lifecycle "File descriptors lifecycle"
+ * - @ref exit_statuses "Exit status rules"
+ * 
+ * @section modules Module index
+ * 
+ * - @ref grp_lexer "Lexer (Tokenizer + expander)"
+ * - @ref grp_parser "Parser (AST construction)"
+ * - @ref grp_executor "Executor (commands, pipes & redirections)"
+ * - @ref grp_builtins "Builtin commands"
+ * - @ref grp_env "Environment management"
+ * - @ref grp_signals "Signal handling"
+ * - @ref grp_ui "UI Mode (optional)"
+ * 
+ * @section links External links
+ * 
+ * - [Allowed external functions explained](https://www.notion.so/External-functions-explained-2b5adb744e96801d8e9efbc09126560a)
+ * - [Bonus part explained w/ examples](https://www.notion.so/Bonus-explanation-31eadb744e9680498e2bd7db28c22969)
+ * 
+ * @section authors Authors
+ * 
+ * - [zotaj-di](https://profile.intra.42.fr/users/zotaj-di)
+ * (github [@L3awdman](https://github.com/L3awdMan))
+ * - [baelgadi](https://profile.intra.42.fr/users/baelgadi)
+ * (github [@baderelg](https://github.com/baderelg))
+ */

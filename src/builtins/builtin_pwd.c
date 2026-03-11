@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/29 20:54:14 by baelgadi          #+#    #+#             */
-/*   Updated: 2026/02/20 06:53:48 by baelgadi         ###   ########.fr       */
+/*   Created: 2025/12/11 06:07:41 by baelgadi          #+#    #+#             */
+/*   Updated: 2026/03/04 04:37:24 by baelgadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include "builtins.h"
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+/**
+ * @brief Implement the `pwd` command
+ * 
+ * Prints the current working directory to STDOUT
+ * 
+ * @return 0 on success and 1 otherwise
+ */
+int	builtin_pwd(void)
 {
-	int	sign;
-	int	number;
+	char	cwd[PATH_MAX];
 
-	sign = 1;
-	number = 0;
-	while (ft_isspace(*str))
-		str++;
-	if (*str == '-' || *str == '+')
+	if (!getcwd(cwd, PATH_MAX))
 	{
-		if (*str == '-')
-			sign = -1;
-		str++;
+		perror("minishell: pwd");
+		return (1);
 	}
-	while (ft_isdigit(*str))
-	{
-		number = number * 10 + *str - '0';
-		str++;
-	}
-	return (number * sign);
+	ft_putendl_fd(cwd, STDOUT_FILENO);
+	return (0);
 }

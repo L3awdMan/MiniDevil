@@ -1,0 +1,73 @@
+/**
+ * @page fd_lifecycle File descriptors lifecycle
+ * 
+ * @section fd_redir Redirection Save-Restore pattern
+ * 
+ * Example: redirecting STDOUT (target = 1) to an opened file (fd = 3):
+ * 
+ * @code {.c}
+ * ⠀
+ *   saved_fd = dup(target)    // dup(STDOUT) -> returns fd 5
+ * 
+ *   dup2(fd, target)         // fd 3 -> STDOUT
+ * 
+ *   close(fd)                // fd 3 no longer needed
+ * 
+ *   // ...
+ *   // execute command (writes go to file via STDOUT)
+ *   // ...
+ * 
+ *   dup2(saved_fd, target)   // restore STDOUT from fd 5
+ * 
+ *   close(saved_fd)          // fd 5 no longer needed
+ * ⠀
+ * @endcode
+ * 
+ * If dup() or dup2() fail, the function returns -1.\n
+ * If setup_redirection() fails, the caller closes the original fd, thus preventing leaks.
+ * 
+ * @section fd_pipe Pipe file descriptors
+ * 
+ * @code {.c}
+ * ⠀
+ *   pipe(pipe_fd)             // pipe_fd[0] = read & pipe_fd[1] = write
+ * 
+ *   fork() left:      close(pipe_fd[0]), dup2(pipe_fd[1], STDOUT), close(pipe_fd[1])
+ * 
+ *   fork() right:     close(pipe_fd[1]), dup2(pipe_fd[0], STDIN),  close(pipe_fd[0])
+ * 
+ *   parent:           close(pipe_fd[0]), close(pipe_fd[1])
+ * ⠀
+ * @endcode
+ * 
+ * Each process closes the ends that it won't use.\n
+ * The parent closes both ends after forking both children.
+ * 
+ * @section fd_heredoc Heredoc pipe lifecycle
+ * 
+ * 1. handle_heredoc() calls pipe(pipe_fd)
+ * 
+ * 2. Lines are written to pipe_fd[1]
+ * 
+ * 3. pipe_fd[1] is closed after reading completes
+ * 
+ * 4. pipe_fd[0] is returned and stored in `redir->heredoc_fd`
+ * 
+ * 5. During execution, handle_redir() consumes it by passing it to setup_redirection()
+ * which dup2's it into STDIN and closes it
+ * 
+ * 6. On CTRL C, both pipe ends are closed and restore_stdin() reopens /dev/tty on fd 0
+ * 
+ * 7. On AST cleanup, free_ast() closes any strictly positive heredoc_fd that was not consumed
+ * 
+ * @section fd_restore Heredoc CTRL C (fd 0 restore)
+ * 
+ * heredoc_sigint_handler() closes STDIN_FILENO to break readline().
+ * 
+ * After pipe fds are closed, restore_stdin() opens /dev/tty.
+ * 
+ * If open() returns 0 (fd 0 was the lowest available) then STDIN is already correctly pointing to the tty,
+ * so no dup2/close needed.
+ * 
+ * The condition `if (tty_fd != STDIN_FILENO)` prevents the scenario of the destructive close(0).
+ */

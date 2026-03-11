@@ -6,7 +6,7 @@
 /*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 21:12:00 by baelgadi          #+#    #+#             */
-/*   Updated: 2025/07/29 21:27:13 by baelgadi         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:51:52 by zotaj-di         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,13 @@ char	*get_next_line(int fd)
 	static t_fdnode	*fd_list = NULL;
 	t_fdnode		*node;
 	char			*line;
-	char			*tmp;
 
+	if (fd == -42)
+	{
+		while (fd_list)
+			free_fdnode(&fd_list, fd_list->fd);
+		return (NULL);
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	node = get_fdnode(&fd_list, fd);
@@ -117,9 +122,8 @@ char	*get_next_line(int fd)
 	line = extract_line(node->stash);
 	if (!line)
 		return (free_fdnode(&fd_list, fd), NULL);
-	tmp = update_stash(node->stash);
-	node->stash = tmp;
-	if (!tmp)
+	node->stash = update_stash(node->stash);
+	if (!node->stash)
 		free_fdnode(&fd_list, fd);
 	return (line);
 }

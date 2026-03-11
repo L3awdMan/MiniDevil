@@ -1,0 +1,141 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/17 17:49:28 by zotaj-di          #+#    #+#             */
+/*   Updated: 2026/03/04 03:52:58 by baelgadi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell_ui.h"
+
+/**
+ * @brief Read 1 keypress or escape sequence from STDIN
+ * 
+ * @return int Key code as defined by the KEY_ constants or -1 on error
+ */
+int	read_key(void)
+{
+	char	c;
+	char	seq[3];
+
+	if (read(STDIN_FILENO, &c, 1) != 1)
+		return (-1);
+	if (c == KEY_ESC)
+	{
+		if (read(STDIN_FILENO, &seq[0], 1) != 1)
+			return (KEY_ESC);
+		if (read(STDIN_FILENO, &seq[1], 1) != 1)
+			return (KEY_ESC);
+		if (seq[0] == '[')
+		{
+			if (seq[1] == 'A')
+				return (KEY_UP);
+			else if (seq[1] == 'B')
+				return (KEY_DOWN);
+			else if (seq[1] == 'C')
+				return (KEY_RIGHT);
+			else if (seq[1] == 'D')
+				return (KEY_LEFT);
+		}
+		return (KEY_ESC);
+	}
+	return (c);
+}
+
+/**
+ * @brief Append a printable character to the command buffer
+ * 
+ * Does nothing if the buffer could cause an overflow on MAX_CMD_LEN
+ * 
+ * @param cmd Command buffer
+ * @param c Character to append
+ */
+void	cmd_add_char(t_cmd *cmd, char c)
+{
+	if (cmd->len < MAX_CMD_LEN - 1)
+	{
+		cmd->buf[cmd->len] = c;
+		cmd->len++;
+		cmd->buf[cmd->len] = '\0';
+	}
+}
+
+/**
+ * @brief Remove the last character from the command buffer
+ * 
+ * Does nothing if the buffer is empty
+ * 
+ * @param cmd Command buffer
+ */
+void	cmd_del_char(t_cmd *cmd)
+{
+	if (cmd->len > 0)
+	{
+		cmd->len--;
+		cmd->buf[cmd->len] = '\0';
+	}
+}
+
+/**
+ * @brief Adjust the scroll offset and refresh the output panel
+ * 
+ * - KEY_UP decrements scroll (starting from 0)
+ * - KEY_DOWN increments scrolls (up to count - 10)
+ * 
+ * @param ui UI state
+ * @param key KEY_UP or KEY_DOWN
+ */
+static void	handle_scroll(t_ui *ui, int key)
+{
+	if (key == KEY_UP && ui->out.scroll > 0)
+	{
+		ui->out.scroll--;
+		redraw_output_only(ui);
+	}
+	else if (key == KEY_DOWN && ui->out.scroll < ui->out.count - 10)
+	{
+		ui->out.scroll++;
+		redraw_output_only(ui);
+	}
+}
+
+/**
+ * @brief Dispatch key code to the appropriate UI action
+ * 
+ * - `KEY_ENTER`: cmd_execute()
+ * - `KEY_BACKSPACE`: cmd_del_char()
+ * - `KEY_CTRL_D`: stop loop
+ * - `KEY_CTRL_C`: clear the command buffer
+ * - `KEY_UP` / `KEY_DOWN`: handle_scroll()
+ * - And for printable ASCII, cmd_add_char()
+ * 
+ * @param shell 
+ * @param key 
+ */
+void	handle_key(t_shell *shell, int key)
+{
+	t_ui	*ui;
+
+	if (!shell || !shell->ui)
+		return ;
+	ui = shell->ui;
+	if (key == KEY_ENTER)
+		cmd_execute(shell);
+	else if (key == KEY_BACKSPACE)
+		cmd_del_char(&ui->cmd);
+	else if (key == KEY_CTRL_D)
+		ui->running = 0;
+	else if (key == KEY_CTRL_C)
+	{
+		ft_memset(ui->cmd.buf, 0, MAX_CMD_LEN);
+		ui->cmd.len = 0;
+	}
+	else if (key == KEY_UP || key == KEY_DOWN)
+		handle_scroll(ui, key);
+	else if (key >= 32 && key <= 126)
+		cmd_add_char(&ui->cmd, (char)key);
+}

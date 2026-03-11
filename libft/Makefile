@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marv <marv@student.42.fr>                  +#+  +:+       +#+         #
+#    By: baelgadi <baelgadi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/29 21:03:44 by baelgadi          #+#    #+#              #
-#    Updated: 2025/11/21 02:15:36 by marv             ###   ########.fr        #
+#    Updated: 2026/02/20 06:49:29 by baelgadi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,9 +30,10 @@ UNDERLINE = \033[4m
 
 NAME = libft.a
 
-CONVERT = ft_atoi	\
-		ft_itoa		\
-		ft_atof
+CONVERT =	ft_atoi	\
+			ft_itoa	\
+			ft_atof	\
+			ft_atoll
 
 CTYPE =	ft_isalnum	\
 		ft_isalpha	\
@@ -40,7 +41,8 @@ CTYPE =	ft_isalnum	\
 		ft_isdigit	\
 		ft_isprint	\
 		ft_tolower	\
-		ft_toupper
+		ft_toupper	\
+		ft_isspace
 
 IO =	ft_putchar_fd	\
 		ft_putendl_fd	\
@@ -56,22 +58,25 @@ MEMORY = ft_bzero	\
 		ft_memmove	\
 		ft_memset
 
-STRING = ft_split		\
-		ft_strchr		\
-		ft_strdup		\
-		ft_striteri		\
-		ft_strjoin		\
-		ft_strlcat		\
-		ft_strlcpy		\
-		ft_strlen		\
-		ft_strmapi		\
-		ft_strncmp		\
-		ft_strncasecmp	\
-		ft_strnstr		\
-		ft_strrchr		\
-		ft_strtrim		\
-		ft_substr		\
-		ft_free_strarray
+STRING = ft_split			\
+		ft_strchr			\
+		ft_strdup			\
+		ft_striteri			\
+		ft_strjoin			\
+		ft_strlcat			\
+		ft_strlcpy			\
+		ft_strlen			\
+		ft_strmapi			\
+		ft_strncmp			\
+		ft_strncasecmp		\
+		ft_strnstr			\
+		ft_strrchr			\
+		ft_strtrim			\
+		ft_substr			\
+		ft_free_strarray	\
+		ft_strjoin_and_free \
+		ft_str_is_numeric	\
+		ft_arrlen
 
 LISTS =	ft_lstadd_back	\
 		ft_lstadd_front	\
@@ -84,11 +89,11 @@ LISTS =	ft_lstadd_back	\
 		ft_lstsize
 
 FT_PRINTF =	ft_printf	\
-		ft_printf_utils	\
-		ft_printf_hex
+			ft_printf_utils	\
+			ft_printf_hex
 
-GNL = get_next_line	\
-	get_next_line_utils
+GNL =	get_next_line	\
+		get_next_line_utils
 
 # ─────────────────────────────────
 #      🚧 SETUP & DEPENDENCIES

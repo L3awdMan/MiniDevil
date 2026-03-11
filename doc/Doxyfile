@@ -1,0 +1,182 @@
+#  Doxygen Configuration  (doxygen 1.9.1)
+
+# ─────────────────────────────────
+#              PROJECT             
+# ─────────────────────────────────
+
+PROJECT_NAME           = "MiniDevil"
+PROJECT_BRIEF          = "As beautiful as a shell"
+PROJECT_NUMBER         = "1.0"
+PROJECT_LOGO           =
+
+# ─────────────────────────────────
+#            BUILD PATHS           
+# ─────────────────────────────────
+
+OUTPUT_DIRECTORY       = .
+CREATE_SUBDIRS         = NO
+
+# ─────────────────────────────────
+#           INPUT SOURCES          
+# ─────────────────────────────────
+
+INPUT                  = ../src \
+						../includes \
+						.
+FILE_PATTERNS          = *.c *.h *.dox
+RECURSIVE              = YES
+
+EXCLUDE                = html
+EXCLUDE_PATTERNS       = */html/*
+
+IMAGE_PATH             = theme/
+
+# ─────────────────────────────────
+#       EXTRACTION BEHAVIOR        
+# ─────────────────────────────────
+
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+EXTRACT_ANON_NSPACES   = NO
+
+# ─────────────────────────────────
+#          SRC BROWSING            
+# ─────────────────────────────────
+
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = NO
+STRIP_CODE_COMMENTS    = YES
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+HIDE_UNDOC_RELATIONS   = NO
+
+# ─────────────────────────────────
+#             DOCU STYLE           
+# ─────────────────────────────────
+
+JAVADOC_AUTOBRIEF      = YES
+QT_AUTOBRIEF           = YES
+MULTILINE_CPP_IS_BRIEF = NO
+TAB_SIZE               = 4
+ALIASES                =
+
+INTERNAL_DOCS          = YES
+
+OPTIMIZE_OUTPUT_FOR_C  = YES
+TYPEDEF_HIDES_STRUCT   = YES
+
+# ─────────────────────────────────
+#             GROUPING             
+# ─────────────────────────────────
+GROUP_GRAPHS           = YES
+
+# ─────────────────────────────────
+#            PREPROCESSOR          
+# ─────────────────────────────────
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = NO
+EXPAND_ONLY_PREDEF     = NO
+SEARCH_INCLUDES        = YES
+INCLUDE_PATH           = ../includes
+INCLUDE_FILE_PATTERNS  = *.h
+PREDEFINED             =
+
+# ─────────────────────────────────
+#   DIAGRAMS (requires graphviz)   
+# ─────────────────────────────────
+
+HAVE_DOT               = YES
+DOT_NUM_THREADS        = 0
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+
+CLASS_GRAPH            = YES
+COLLABORATION_GRAPH    = YES
+INCLUDE_GRAPH          = YES
+INCLUDED_BY_GRAPH      = YES
+
+DOT_GRAPH_MAX_NODES    = 80
+MAX_DOT_GRAPH_DEPTH    = 5
+DOT_IMAGE_FORMAT       = svg
+INTERACTIVE_SVG        = YES
+DOT_TRANSPARENT        = YES
+DIRECTORY_GRAPH        = YES
+
+# ─────────────────────────────────
+#           HTML OUTPUT            
+# ─────────────────────────────────
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+HTML_FILE_EXTENSION    = .html
+HTML_DYNAMIC_SECTIONS  = YES
+HTML_INDEX_NUM_ENTRIES = 100
+
+# Custom Theme
+HTML_EXTRA_STYLESHEET  = ./theme/minidevil.css
+HTML_HEADER            = ./theme/header.html
+HTML_EXTRA_FILES       = theme/logo.png
+HTML_FOOTER            = ./theme/footer.html
+
+# Treeview sidebar
+GENERATE_TREEVIEW      = YES
+TREEVIEW_WIDTH         = 260
+
+# Search
+SEARCHENGINE           = YES
+SERVER_BASED_SEARCH    = NO
+
+# Custom layout
+LAYOUT_FILE            = theme/layout.xml
+
+# ─────────────────────────────────
+#      OTHER OUTPUTS (!disabled)   
+# ─────────────────────────────────
+
+GENERATE_LATEX         = NO
+GENERATE_MAN           = NO
+GENERATE_XML           = NO
+GENERATE_RTF           = NO
+GENERATE_DOCBOOK       = NO
+
+# ─────────────────────────────────
+#             WARNINGS             
+# ─────────────────────────────────
+
+QUIET                  = NO
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
+WARN_IF_DOC_ERROR      = YES
+WARN_NO_PARAMDOC       = YES
+WARN_AS_ERROR          = NO
+WARN_FORMAT            = "$file:$line: $text"
+
+# ─────────────────────────────────
+#              SORTING             
+# ─────────────────────────────────
+
+SORT_MEMBER_DOCS       = NO
+SORT_BRIEF_DOCS        = NO
+SORT_MEMBERS_CTORS_1ST = NO
+SORT_GROUP_NAMES       = NO
+SORT_BY_SCOPE_NAME     = NO
+
+# ─────────────────────────────────
+#                MISC              
+# ─────────────────────────────────
+
+BRIEF_MEMBER_DESC      = YES
+REPEAT_BRIEF           = YES
+ALWAYS_DETAILED_SEC    = NO
+FULL_PATH_NAMES        = YES
+STRIP_FROM_PATH        = ../
+STRIP_FROM_INC_PATH    = ../includes
+SHOW_INCLUDE_FILES     = YES
+SHOW_GROUPED_MEMB_INC  = YES
+SHOW_USED_FILES        = YES
+SHOW_FILES             = YES
+SHOW_NAMESPACES        = NO
+ENABLED_SECTIONS       =
+MAX_INITIALIZER_LINES  = 30

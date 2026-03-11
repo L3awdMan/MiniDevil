@@ -1,0 +1,394 @@
+// ──────────────────────────────────────────────────
+// ──────────────────── HEADERS ─────────────────────
+// ──────────────────────────────────────────────────
+
+/**
+ * @file structs.h
+ * @brief Central type definitions for mandatory part
+ *
+ * Defines tokens, AST nodes, environment list & shell state.
+ */
+
+/**
+ * @file minishell.h
+ * @brief Central header
+ */
+
+/**
+ * @file token.h
+ * @brief Lexer, tokenizer, expander, and quote handling prototypes
+ */
+
+/**
+ * @file parser.h
+ * @brief Parser entry point & sub parser prototypes
+ */
+
+/**
+ * @file ast.h
+ * @brief AST node creation and destruction prototypes
+ */
+
+/**
+ * @file executor.h
+ * @brief Executor prototypes for commands, pipes, redirections & heredocs
+ */
+
+/**
+ * @file env.h
+ * @brief Environment variable management prototypes
+ */
+
+/**
+ * @file builtins.h
+ * @brief Shell builtin commands prototypes
+ */
+
+/**
+ * @file signals.h
+ * @brief Signal handler prototypes
+ */
+
+/**
+ * @file minishell_ui.h
+ * @brief UI mode structures, macros & function prototypes
+ */
+
+/**
+ * @file welcome_ui.h
+ * @brief Welcome screen structures & prototypes
+ */
+
+// ──────────────────────────────────────────────────
+// ───────────────────── MAIN ───────────────────────
+// ──────────────────────────────────────────────────
+
+/**
+ * @file main.c
+ * @brief Shell entry point
+ */
+
+// ──────────────────────────────────────────────────
+// ─────────────────── BUILTINS ─────────────────────
+// ──────────────────────────────────────────────────
+/**
+ * @file builtin_cd.c
+ * @brief Implements `cd`: changes directory and updates OLDPWD/PWD
+ */
+
+/**
+ * @file builtin_echo.c
+ * @brief Implements `echo`: prints arguments with optional -n flag
+ */
+
+/**
+ * @file builtin_pwd.c
+ * @brief Implements `pwd`: prints current working directory
+ */
+
+/**
+ * @file builtin_export.c
+ * @brief Implements `export`: sets and displays env variables
+ */
+
+/**
+ * @file builtin_unset.c
+ * @brief Implements `unset`: removes env variables
+ */
+
+/**
+ * @file builtin_env.c
+ * @brief Implements `env`: displays all env variables
+ */
+
+/**
+ * @file builtin_exit.c
+ * @brief Implements `exit`: shell exit with optional status
+ */
+
+/**
+ * @file export_ops.c
+ * @brief Export helpers
+ */
+
+/**
+ * @file export_utils.c
+ * @brief Export utilities
+ */
+
+// ──────────────────────────────────────────────────
+// ────────────────── ENVIRONMENT ───────────────────
+// ──────────────────────────────────────────────────
+/**
+ * @file env_init.c
+ * @brief Initializes env list from envp array
+ */
+
+/**
+ * @file env_operations.c
+ * @brief Environment queries: searches, gets, and sets variables
+ */
+
+/**
+ * @file env_utils.c
+ * @brief Environment utilities: handles SHLVL increment & PWD validation
+ */
+
+/**
+ * @file env_conversion.c
+ * @brief Converts env linked list to envp array
+ */
+
+// ──────────────────────────────────────────────────
+// ───────────────────── LEXER ──────────────────────
+// ──────────────────────────────────────────────────
+
+/**
+ * @file tokenizer.c
+ * @brief Tokenizes input string: extracts quoted or unquoted text & operators
+ */
+
+/**
+ * @file token.c
+ * @brief Token allocation and management: creates & frees token nodes
+ */
+
+/**
+ * @file tokenizer_utils.c
+ * @brief Tokenizer helpers: detects operators, whitespace or word boundaries
+ */
+
+/**
+ * @file expander.c
+ * @brief Variable expansion: replaces $VARIABLES and $?
+ */
+
+/**
+ * @file expander_utils.c
+ * @brief Expansion utilities: identifies variables & handles special patterns
+ */
+
+/**
+ * @file tilde_expand.c
+ * @brief Tilde expansion: converts ~ to $HOME in unquoted words
+ */
+
+// ──────────────────────────────────────────────────
+// ──────────────────── PARSER ──────────────────────
+// ──────────────────────────────────────────────────
+/**
+ * @file parser.c
+ * @brief Entry point to parser (validates syntax & builds parse tree)
+ */
+
+/**
+ * @file parser_cmd.c
+ * @brief Command parsing: builds command nodes from argument tokens
+ */
+
+/**
+ * @file parser_pipeline.c
+ * @brief Pipeline parsing: builds left associative pipe tree
+ */
+
+/**
+ * @file parser_grammar.c
+ * @brief Syntax validation: validates pipe / redirection positions
+ */
+
+/**
+ * @file parser_grammar_error.c
+ * @brief Error reporting (maps syntax errors to user messages)
+ */
+
+/**
+ * @file parser_redir.c
+ * @brief Redirection parsing: parses `<`, `>`, `>>`, `<<` tokens & files
+ */
+
+/**
+ * @file parser_redir_utils.c
+ * @brief Redirection utilities
+ */
+
+/**
+ * @file ast.c
+ * @brief AST node creation: allocates command, pipe & redirection nodes
+ */
+
+/**
+ * @file ast_utils.c
+ * @brief AST utilities: frees entire AST tree recursively
+ */
+
+// ──────────────────────────────────────────────────
+// ─────────────────── EXECUTOR ─────────────────────
+// ──────────────────────────────────────────────────
+/**
+ * @file executor.c
+ * @brief Main executor (dispatches to pipe/redir/command handlers)
+ */
+
+/**
+ * @file exec_cmd.c
+ * @brief Command execution: forks and execs external commands
+ */
+
+/**
+ * @file exec_utils.c
+ * @brief Execution utilities
+ */
+
+/**
+ * @file executor_pipe.c
+ * @brief Pipe execution: forks and handles left / right sides of pipes
+ */
+
+/**
+ * @file executor_redir.c
+ * @brief Redirection execution (opens files & applies redirections)
+ */
+
+/**
+ * @file heredoc.c
+ * @brief Heredoc processing: reads lines and applies variable expansion
+ */
+
+/**
+ * @file heredoc_collect.c
+ * @brief Heredoc collection (pre processes all heredocs in AST)
+ */
+
+/**
+ * @file path.c
+ * @brief Command path resolution: searches PATH & validates permissions
+ */
+
+// ──────────────────────────────────────────────────
+// ──────────────────── SIGNALS ─────────────────────
+// ──────────────────────────────────────────────────
+/**
+ * @file signals.c
+ * @brief Signal handlers: SIGINT / SIGQUIT for interactive & exec modes
+ */
+
+/**
+ * @file heredoc_signals.c
+ * @brief Heredoc signal handling: SIGINT handler for heredoc input
+ */
+
+// ──────────────────────────────────────────────────
+// ─────────────────── UI - CORE ────────────────────
+// ──────────────────────────────────────────────────
+
+/**
+ * @file ui_main.c
+ * @brief UI main loop: draws interface, reads input, handles resize
+ */
+
+/**
+ * @file terminal.c
+ * @brief Terminal control: dimensions, raw mode, cursor management
+ */
+
+/**
+ * @file terminal_init.c
+ * @brief Terminal initialization: sets up UI state and terminal mode
+ */
+
+/**
+ * @file output.c
+ * @brief Output buffer management: adds / clears command output lines
+ */
+
+/**
+ * @file waifu.c
+ * @brief Waifu character management
+ */
+
+/**
+ * @file waifu_art.c
+ * @brief Waifu ASCII art (defines happy, upset or proud neko character designs)
+ */
+
+// ──────────────────────────────────────────────────
+// ───────────────── UI - DRAWING ───────────────────
+// ──────────────────────────────────────────────────
+
+/**
+ * @file drawing.c
+ * @brief Main drawing (renders command box, output & waifu)
+ */
+
+/**
+ * @file drawing_box.c
+ * @brief Box drawing (renders bordered containers with titles)
+ */
+
+/**
+ * @file drawing_output.c
+ * @brief Output rendering (draws command output in scrollable box)
+ */
+
+/**
+ * @file drawing_text.c
+ * @brief Text utilities: truncates lines & handles UTF-8 display width
+ */
+
+/**
+ * @file drawing_utils.c
+ * @brief Drawing primitives: prints at coordinates & draws lines
+ */
+
+// ──────────────────────────────────────────────────
+// ────────────────── UI - INPUT ────────────────────
+// ──────────────────────────────────────────────────
+
+/**
+ * @file input.c
+ * @brief Key input reading (decodes escape sequences & arrow keys)
+ */
+
+/**
+ * @file command.c
+ * @brief Command input handling
+ */
+
+/**
+ * @file execute.c
+ * @brief Command execution from UI (forks, captures output, updates mood)
+ */
+
+/**
+ * @file execute_utils.c
+ * @brief Execution output capture
+ */
+
+// ──────────────────────────────────────────────────
+// ───────────────── UI - WELCOME ───────────────────
+// ──────────────────────────────────────────────────
+
+/**
+ * @file welcome.c
+ * @brief Welcome animation
+ */
+
+/**
+ * @file welcome_demon.c
+ * @brief Demon ASCII art
+ */
+
+/**
+ * @file welcome_effects.c
+ * @brief Welcome effects
+ */
+
+/**
+ * @file welcome_loading.c
+ * @brief Loading animation
+ */
+
+/**
+ * @file welcome_utils.c
+ * @brief Welcome utilities
+ */
