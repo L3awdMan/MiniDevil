@@ -44,6 +44,9 @@ Want the extra UI mode (not in subject)?
 ./minishell --ui
 ```
 
+
+> [!NOTE]
+> The `cd` builtin command is not supported through the UI.
 ## Features
 
 ### ➤ Mandatory
