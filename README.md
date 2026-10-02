@@ -7,7 +7,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/42-School_Project-000000?style=flat-square&logo=42&logoColor=white" alt="42"/>
   <img src="https://img.shields.io/badge/Language-C-00599C?style=flat-square&logo=c&logoColor=white" alt="C"/>
-  <img src="https://img.shields.io/badge/Library-Readline-purple?style=flat-square" alt="Readline"/>
 </p>
 
 <p align="center">
