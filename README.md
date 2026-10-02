@@ -1,13 +1,48 @@
 *This project has been created as part of the 42 curriculum by zotaj-di, baelgadi.*
 
 <p align="center">
-  <img src="doc/theme/logoFull.png" height="200" alt="Logo">
+  <img src="doc/theme/minishellm.png" width="150" alt="Minishell Badge">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/42-School_Project-000000?style=flat-square&logo=42&logoColor=white" alt="42"/>
+  <img src="https://img.shields.io/badge/Language-C-00599C?style=flat-square&logo=c&logoColor=white" alt="C"/>
+  <img src="https://img.shields.io/badge/Library-Readline-purple?style=flat-square" alt="Readline"/>
+</p>
+
+<p align="center">
+  <img src="doc/theme/Minidevil_banner.gif" alt="MiniDevil Banner">
 </p>
 
 # Description
 
 MiniDevil is a POSIX inspired shell written in C as part of the 42 school minishell project.\
 It reads commands from the terminal, tokenizes & parses them into an AST (Abstract Syntax Tree) then executes the tree: handling pipes, redirections, environment variables and more, just like bash.
+
+# Showcase
+
+<p align="center">
+  <img src="doc/theme/Minidevil_Showcase.gif" alt="MiniDevil Showcase">
+</p>
+
+<p align="center">
+  <em>MiniDevil in action: pipes, redirections, heredoc and the UI mode</em>
+</p>
+
+# Quick start
+
+```bash
+git clone https://github.com/L3awdMan/MiniDevil.git
+cd MiniDevil
+make
+./minishell
+```
+
+Want the extra UI mode (not in subject)?
+
+```bash
+./minishell --ui
+```
 
 ## Features
 
@@ -41,6 +76,9 @@ It reads commands from the terminal, tokenizes & parses them into an AST (Abstra
 
 ### ➤ Requirements
 
+> [!NOTE]
+> `libft` is vendored under `./libft/` and builds automatically as part of `make` — no manual setup needed.
+
 - GCC or CC compiler
 - GNU Make
 - readline library (`libreadline-dev` on Debian/Ubuntu)
@@ -48,11 +86,8 @@ It reads commands from the terminal, tokenizes & parses them into an AST (Abstra
 ### ➤ Build
 
 ```sh
-# Mandatory part
-make
-
-# Bonus part
-make bonus
+make          # builds the mandatory part
+make bonus    # builds the bonus part
 ```
 
 ### ➤ Run
@@ -90,22 +125,11 @@ Further information is provided in the documentation.
 
 ## Documentation
 
-### ➤ Doxygen
+> [!CAUTION]
+> The explanations in this repository are not intended to encourage cheating or any behavior that goes against 42's rules. Their purpose is to support the peer-to-peer learning system. Bader and I do not encourage, support, or take responsibility for any form of cheating related to this repository.
 
-The mandatory part is fully documented with Doxygen.
-
-You can generate it directly:
-```sh
-make doc
-open doc/html/index.html
-```
-
-Or [follow this link](https://baderelg.github.io/42docs/Minishell/)
-
-### ➤ More documentation
-
-- [(Notion) Bonus part explained w/ examples](https://www.notion.so/Bonus-explanation-31eadb744e9680498e2bd7db28c22969)
-- [(Notion) External functions explained](https://www.notion.so/External-functions-explained-2b5adb744e96801d8e9efbc09126560a) (breakdown of every allowed external function)
+> [!IMPORTANT]
+> If you have read our explanations carefully, you will understand that they are not enough on their own .. you still need to do your own research.
 
 ## Resources
 
@@ -116,6 +140,7 @@ Or [follow this link](https://baderelg.github.io/42docs/Minishell/)
 ### ➤ AI usage
 
 AI tools (Claude) were used during this project for:
+
 - Debugging assistance and code review
 - Better understand core concepts and some edge cases
 - Acting as a rubber duck colleague (making sure the Doxygen comments and pages were understandable and accurate)
